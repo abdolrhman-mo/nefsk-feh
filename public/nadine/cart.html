@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - ChefMeals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">ChefMeals</h1>
+            <a href="meal-details.html" class="back-link">← Back to Menu</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 class="page-title">Your Cart</h2>
+        
+        <div id="cartContainer">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
+
+        <div id="emptyCart" class="empty-cart hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <h3>Your cart is empty</h3>
+            <p>Add some delicious meals to get started!</p>
+            <a href="meal-details.html" class="shop-btn">Browse Meals</a>
+        </div>
+
+        <div id="cartSummary" class="cart-summary hidden">
+            <div class="summary-content">
+                <div class="total-section">
+                    <span class="total-label">Total:</span>
+                    <span id="totalPrice" class="total-price">₹0</span>
+                </div>
+                <button id="checkoutBtn" class="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="cart.js"></script>
+</body>
+</html>

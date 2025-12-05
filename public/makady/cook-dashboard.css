@@ -1,0 +1,369 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    /* background-color: #f5f5f5; */
+    padding: 15px;
+    line-height: 1.6;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #F01D59;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    color: #F01D59;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+#profile {
+    margin-bottom: 20px;
+}
+
+section h3 {
+    color: #333;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0;
+}
+
+.profile-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    margin-right: 5px;
+}
+
+.profile-icon {
+    flex-shrink: 0;
+}
+
+.profile-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.profile-label {
+    color: #666;
+    font-weight: 500;
+    min-width: 70px;
+    font-size: 14px;
+}
+
+.profile-value {
+    color: #333;
+    font-size: 14px;
+}
+
+.profile-update-btn {
+    padding: 8px 16px;
+    background-color: #F01D59;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: fit-content;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 0;
+}
+
+.profile-update-btn:hover {
+    background-color: #d01a4d;
+}
+
+.profile-update-btn:active {
+    background-color: #b01741;
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #F01D59;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button[type="submit"] {
+    padding: 12px 24px;
+    background-color: #F01D59;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #d01a4d;
+}
+
+button[type="submit"]:active {
+    background-color: #b01741;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+thead {
+    background-color: #F01D59;
+    color: white;
+}
+
+th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.item {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.item:hover {
+    border-color: #F01D59;
+    box-shadow: 0 2px 8px rgba(240, 29, 89, 0.2);
+}
+
+.item-id {
+    display: inline-block;
+    background-color: #F01D59;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.item-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    transition: border-color 0.3s;
+}
+
+.item:hover .item-image {
+    border-color: #F01D59;
+}
+
+.item h3 {
+    color: #333;
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.item p {
+    color: #666;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.add-item-form h3 {
+    color: #F01D59;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.add-item-form form {
+    margin: 0;
+}
+
+.add-item-form form div {
+    margin-bottom: 12px;
+}
+
+.add-item-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.add-item-form input[type="text"],
+.add-item-form input[type="number"],
+.add-item-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    transition: border-color 0.3s;
+}
+
+.add-item-form input[type="text"]:focus,
+.add-item-form input[type="number"]:focus,
+.add-item-form textarea:focus {
+    outline: none;
+    border-color: #F01D59;
+}
+
+.add-item-form textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.add-item-form button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #F01D59;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 5px;
+}
+
+.add-item-form button[type="submit"]:hover {
+    background-color: #d01a4d;
+}
+
+.add-item-form button[type="submit"]:active {
+    background-color: #b01741;
+}
+
+.order-id {
+    font-weight: 600;
+    color: #F01D59;
+    background-color: #fff5f7;
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.id-input {
+    background-color: #fff5f7;
+    border-color: #F01D59 !important;
+    font-weight: 500;
+    color: #F01D59;
+}
+
+.id-input::placeholder {
+    color: #F01D59;
+    opacity: 0.6;
+}
+
+.id-input:focus {
+    background-color: #fff;
+    border-color: #F01D59 !important;
+    box-shadow: 0 0 0 3px rgba(240, 29, 89, 0.1);
+}
+
+.status-select {
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: white;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    min-width: 120px;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: #F01D59;
+    box-shadow: 0 0 0 3px rgba(240, 29, 89, 0.1);
+}
+
+.status-select:hover {
+    border-color: #F01D59;
+}
+

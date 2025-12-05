@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form>
+            <div>
+                <label for="username">Username/Email:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <button type="submit">Login</button>
+            </div>
+            <div class="link-container">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Save user in localStorage
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    alert('Login successful!');
+                    window.location.href = 'cook-dashboard.html';
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                alert('Error connecting to server');
+            }
+        });
+    </script>
+</body>
+</html>
+

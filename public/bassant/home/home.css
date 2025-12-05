@@ -1,0 +1,254 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    direction: ltr;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d01a4d;
+    padding: 10px 20px;
+    color: white;
+    position: relative;
+}
+
+/* Nav Left: Logo + Welcome + Hamburger + Menu */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Logo */
+.nav-left img.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+/* Welcome message */
+.welcome-msg {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Hamburger icon */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.hamburger div {
+    width: 100%;
+    height: 3px;
+    background-color: white;
+}
+
+/* Hidden Menu Links */
+.menu {
+    list-style: none;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 60px; /* below Navbar */
+    left: 20px;
+    background-color: #d01a4d;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.menu li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu li a.btn-become-chef {
+    background-color: #d01a4d;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.menu li a.btn-become-chef:hover {
+    background-color:#d01a4d;
+}
+
+/* Nav Right: Sign In / Sign Up */
+.nav-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.nav-right a {
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-signin {
+    background-color: white;
+    color: #d01a4d;
+}
+
+.btn-signin:hover {
+    background-color: #ffe5df;
+}
+
+.btn-signup {
+    background-color: #d01a4d;
+    color: white;
+}
+
+.btn-signup:hover {
+    background-color: #d01a4d;
+}
+
+/* Popular Meals Section */
+.popular-meals {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.meal-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.meal-card:hover {
+    transform: scale(1.05);
+}
+
+.meal-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.meal-card h3 {
+    margin: 10px 0;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 40px;
+}
+/* Categories Section */
+.categories-section {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.categories-section h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.category-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+    background: white;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+}
+
+.category-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.category-card h3 {
+    padding: 15px 0;
+    font-size: 20px;
+    margin: 0;
+    background-color:#d01a4d;
+    color: white;
+}
+/* Reviews Section */
+.reviews-section {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.reviews-section h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.review-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.review-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.review-card h3 {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.stars {
+    color: #FFD700;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.review-card p {
+    font-size: 15px;
+    color: #555;
+}

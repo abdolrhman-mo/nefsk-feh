@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Details - ChefMeals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="meal-details.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">ChefMeals</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="meal-details-card">
+            <div class="meal-image-container">
+                <img id="mealImage" src="" alt="Meal Image" class="meal-image">
+            </div>
+            
+            <div class="meal-info">
+                <h2 id="mealName" class="meal-title"></h2>
+                <p id="mealDescription" class="meal-description"></p>
+                
+                <div class="price-section">
+                    <span class="price-label">Price:</span>
+                    <span id="mealPrice" class="price">₹0</span>
+                </div>
+                
+                <div class="quantity-section">
+                    <label for="quantity">Quantity:</label>
+                    <div class="quantity-controls">
+                        <button id="decreaseBtn" class="quantity-btn">−</button>
+                        <input type="number" id="quantity" value="1" min="1" readonly>
+                        <button id="increaseBtn" class="quantity-btn">+</button>
+                    </div>
+                </div>
+                
+                <button id="addToCartBtn" class="add-to-cart-btn">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Cart Icon -->
+    <a href="cart.html" class="floating-cart">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span id="cartBadge" class="cart-badge">0</span>
+    </a>
+
+    <script src="meal-details.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nefsk Feeh - Home</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+    <!-- Navbar with Logo, Welcome, Hamburger and Sign In/Up -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="hamburger" id="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <a href="index.html">
+                <img src="IMG_3208.JPG" alt="Nefsk Feeh Logo" class="logo-img">
+            </a>
+            <span class="welcome-msg">Welcome to Nefsk Feeh!</span>
+
+            
+
+            <!-- Hidden Menu Links -->
+            <ul class="menu" id="menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="../about/about.html">About</a></li>
+                <li><a href="../../makady/cook-dashboard.html" class="btn-become-chef">Become a Chef</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-right">
+            <a href="../../makady/login.html" class="btn-signin">Sign In</a>
+            <a href="../../makady/register.html" class="btn-signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Popular Meals Section -->
+    <section class="popular-meals">
+        <h2>Popular Meals</h2>
+        <div id="meals-container" class="meals-grid">
+            <!-- Filled by JS -->
+        </div>
+    </section>
+    <!-- Categories Section -->
+<section class="categories-section">
+    <h2>Categories</h2>
+
+    <div class="categories-grid">
+        
+        <!-- Home Cooked / Oriental Food -->
+        <div class="category-card">
+            <img src="IMG_3215.JPG" alt="Oriental Food">
+            <h3>Oriental Food</h3>
+        </div>
+
+        <!-- Frozen Food -->
+        <div class="category-card">
+            <img src="IMG_3216.JPG" alt="Frozen Food">
+            <h3>Frozen Food</h3>
+        </div>
+
+    </div>
+</section>
+<!-- Reviews Section -->
+<section class="reviews-section">
+    <h2>Customer Reviews</h2>
+
+    <div class="reviews-grid">
+
+        <!-- Review 1 -->
+        <div class="review-card">
+            <img src="images/user1.jpg" alt="user review">
+            <h3>Sarah Ahmed</h3>
+            <div class="stars">★★★★★</div>
+            <p>The food was delicious and tasted exactly like home cooking. Will definitely order again!</p>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-card">
+            <img src="images/user2.jpg" alt="user review">
+            <h3>Mohamed Ali</h3>
+            <div class="stars">★★★★☆</div>
+            <p>Great frozen food quality, especially the marinated chicken. Very easy to cook!</p>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="review-card">
+            <img src="images/user3.jpg" alt="user review">
+            <h3>Nour Hassan</h3>
+            <div class="stars">★★★★★</div>
+            <p>Amazing oriental meals! The mahshi was perfect and full of flavor.</p>
+        </div>
+
+    </div>
+</section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Nefsk Feeh. All rights reserved.</p>
+    </footer>
+
+    <script src="home.js"></script>
+</body>
+</html>

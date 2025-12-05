@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px 0;
+    margin-bottom: 40px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f01d59;
+    text-align: center;
+}
+
+/* Meal Details Card */
+main {
+    padding: 20px 0 100px;
+}
+
+.meal-details-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.meal-image-container {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.meal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.meal-info {
+    padding: 30px;
+}
+
+.meal-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.meal-description {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.8;
+}
+
+.price-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.price-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f01d59;
+}
+
+.quantity-section {
+    margin-bottom: 30px;
+}
+
+.quantity-section label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: fit-content;
+}
+
+.quantity-btn {
+    width: 40px;
+    height: 40px;
+    background: #f01d59;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background: #d0174a;
+}
+
+.quantity-btn:active {
+    transform: scale(0.95);
+}
+
+#quantity {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+}
+
+.add-to-cart-btn {
+    background: #f01d59;
+    color: #fff;
+    padding: 12px 22px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.add-to-cart-btn:hover {
+    background: #d0174a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(240, 29, 89, 0.3);
+}
+
+.add-to-cart-btn:active {
+    transform: translateY(0);
+}
+
+.add-to-cart-btn.added {
+    background: #28a745;
+    animation: addedPulse 0.5s ease;
+}
+
+@keyframes addedPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Floating Cart */
+.floating-cart {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: #f01d59;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(240, 29, 89, 0.4);
+    transition: 0.2s;
+    z-index: 1000;
+}
+
+.floating-cart:hover {
+    background: #d0174a;
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(240, 29, 89, 0.5);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fff;
+    color: #f01d59;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid #f01d59;
+}
+
+.cart-badge.hidden {
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .meal-image-container {
+        height: 300px;
+    }
+
+    .meal-info {
+        padding: 20px;
+    }
+
+    .meal-title {
+        font-size: 24px;
+    }
+
+    .price {
+        font-size: 24px;
+    }
+
+    .floating-cart {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .floating-cart svg {
+        width: 20px;
+        height: 20px;
+    }
+}

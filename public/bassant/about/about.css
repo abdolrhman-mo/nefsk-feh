@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #fafafa;
+}
+
+.about-section {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 15px;
+}
+
+.about-section h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: #444;
+}
+
+.about-section h2 {
+    margin-top: 30px;
+    font-size: 28px;
+    color:#d01a4d;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 12px;
+    margin: 25px 0;
+}
+
+.why-list li {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 40px;
+}
