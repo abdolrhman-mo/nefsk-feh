@@ -5,63 +5,55 @@ This document outlines the contributions made by each team member to the project
 ## Phase 1: Frontend Development
 
 ### Bassant
-**Frontend Development - Home & About Pages**
+**Home & About Pages**
 - Home page (`home/index.html`, `home/home.css`, `home/home.js`)
 - About page (`about/about.html`, `about/about.css`)
 - Home page image assets (9 images)
 
+**Backend Endpoints:**
+- Server setup
+
 ### Makady
-**Backend & Authentication Pages**
+**Authentication Pages & Profile Page**
 - Login page (`login.html`, `login.css`)
 - Register page (`register.html`, `register.css`)
 - Cook dashboard page (`cook-dashboard.html`, `cook-dashboard.css`)
+
+**Backend Endpoints:**
+- `POST /api/register` - User registration (already implemented)
+- `POST /api/login` - User login (already implemented)
+- `GET /api/user/meals` - Get meals I'm selling
 
 ### Melissia
 **Checkout & Order Tracking**
 - Checkout page (`checkout.html`, `css/checkout.css`, `js/checkout.js`)
 - Order tracking page (`order-tracking.html`, `css/tracking.css`, `js/tracking.js`)
 
+**Backend Endpoints:**
+- `POST /api/orders` - Create an order
+- `GET /api/orders` - Get all orders
+- `GET /api/orders/:id` - Get order by ID
+
 ### Nadine
 **Cart & Meal Details**
 - Shopping cart page (`cart.html`, `cart.css`, `cart.js`)
 - Meal details page (`meal-details.html`, `meal-details.css`, `meal-details.js`)
 
-### Shahd
-**Meals Listing Page**
-- Meals project/listing page (`mealsproject.html`)
-
----
-
-## Phase 2: Backend Development
-
-### Bassant
-**Endpoints:**
-- Server setup
-
-### Shahd
-**Endpoints:**
-- `GET /api/meals` - Get all meals
-- `GET /api/meals?search=...` - Search meals
-- `POST /api/meals` - Create a meal
-
-### Nadine
-**Endpoints:**
+**Backend Endpoints:**
 - `GET /api/meals/:id` - Get meal by ID
 - `GET /api/cart` - Get cart items
 - `POST /api/cart` - Add item to cart
 - `DELETE /api/cart/:id` - Remove item from cart
 
-### Melissia
-**Endpoints:**
-- `POST /api/orders` - Create an order
-- `GET /api/orders` - Get all orders
-- `GET /api/orders/:id` - Get order by ID
+### Shahd
+**Meals Listing Page**
+- Meals project/listing page (`mealsproject.html`)
 
-### Makady
-**Endpoints:**
-- `POST /api/register` - User registration (already implemented)
-- `POST /api/login` - User login (already implemented)
-- `GET /api/user/meals` - Get meals I'm selling
+**Backend Endpoints:**
+- `GET /api/meals` - Get all meals
+- `GET /api/meals?search=...` - Search meals
+- `POST /api/meals` - Create a meal
+
 
 ---
 
