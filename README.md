@@ -12,13 +12,9 @@ This document outlines the contributions made by each team member to the project
 
 ### Makady
 **Backend & Authentication Pages**
-- Backend server setup (`server.js`)
-- Authentication routes (`routes/auth.js`)
-- User registration and login endpoints
 - Login page (`login.html`, `login.css`)
 - Register page (`register.html`, `register.css`)
 - Cook dashboard page (`cook-dashboard.html`, `cook-dashboard.css`)
-- Cook dashboard image assets (profile, meal images)
 
 ### Melissia
 **Checkout & Order Tracking**
