@@ -1,0 +1,72 @@
+# Project Contributors
+
+This document outlines the contributions made by each team member to the project.
+
+## Phase 1: Frontend Development
+
+### Bassant
+**Frontend Development - Home & About Pages**
+- Home page (`home/index.html`, `home/home.css`, `home/home.js`)
+- About page (`about/about.html`, `about/about.css`)
+- Home page image assets (9 images)
+
+### Makady
+**Backend & Authentication Pages**
+- Backend server setup (`server.js`)
+- Authentication routes (`routes/auth.js`)
+- User registration and login endpoints
+- Login page (`login.html`, `login.css`)
+- Register page (`register.html`, `register.css`)
+- Cook dashboard page (`cook-dashboard.html`, `cook-dashboard.css`)
+- Cook dashboard image assets (profile, meal images)
+
+### Melissia
+**Checkout & Order Tracking**
+- Checkout page (`checkout.html`, `css/checkout.css`, `js/checkout.js`)
+- Order tracking page (`order-tracking.html`, `css/tracking.css`, `js/tracking.js`)
+
+### Nadine
+**Cart & Meal Details**
+- Shopping cart page (`cart.html`, `cart.css`, `cart.js`)
+- Meal details page (`meal-details.html`, `meal-details.css`, `meal-details.js`)
+
+### Shahd
+**Meals Listing Page**
+- Meals project/listing page (`mealsproject.html`)
+
+---
+
+## Phase 2: Backend Development
+
+### Bassant
+**Endpoints:**
+- None (just server setup)
+
+### Shahd
+**Endpoints:**
+- `GET /api/meals` - Get all meals
+- `GET /api/meals?search=...` - Search meals
+- `POST /api/meals` - Create a meal
+
+### Nadine
+**Endpoints:**
+- `GET /api/meals/:id` - Get meal by ID
+- `GET /api/cart` - Get cart items
+- `POST /api/cart` - Add item to cart
+- `DELETE /api/cart/:id` - Remove item from cart
+
+### Melissia
+**Endpoints:**
+- `POST /api/orders` - Create an order
+- `GET /api/orders` - Get all orders
+- `GET /api/orders/:id` - Get order by ID
+
+### Makady
+**Endpoints:**
+- `POST /api/register` - User registration (already implemented)
+- `POST /api/login` - User login (already implemented)
+- `GET /api/user/meals` - Get meals I'm selling
+
+---
+
+*Generated: December 2025*
