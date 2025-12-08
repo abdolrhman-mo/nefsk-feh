@@ -1,39 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Meals</title>
-    <link rel="stylesheet" href="../css/meals.css">
-    <link rel="stylesheet" href="../css/filters.css">
+    <meta charset="UTF-8" />   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+    <title>Meals Listing</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 20px; 
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 220px;
+        }
+
+        .meals-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .meal-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .meal-card:hover {
+            transform: scale(1.03);
+        }
+
+        .meal-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .meal-card h3 {
+            margin: 10px 0;
+        }
+
+        .meal-card p {
+            color: #666;
+            margin: 5px 0;
+        }
+    </style>
 </head>
+
 <body>
 
-    <div class="meals-container">
+    <h1>Meals Listing 🍽️</h1>
 
-        <!-- Search + Filters Section -->
-        <div class="filters-section">
-            <input type="text" id="searchInput" placeholder="Search meals...">
+    <div class="filters">
+        <input type="text" id="searchInput" placeholder="Search meals..." />
+        <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="pizza">Pizza</option>
+            <option value="burger">Burger</option>
+            <option value="pasta">Pasta</option>
+            <option value="dessert">Dessert</option>
+        </select>
 
-            <select id="categoryFilter">
-                <option value="all">All Categories</option>
-                <option value="pizza">Pizza</option>
-                <option value="burger">Burger</option>
-                <option value="pasta">Pasta</option>
-            </select>
-
-            <select id="priceFilter">
-                <option value="all">Any Price</option>
-                <option value="low">Below $10</option>
-                <option value="mid">$10 - $20</option>
-                <option value="high">Above $20</option>
-            </select>
-        </div>
-
-        <!-- Cards Container -->
-        <div id="mealsList" class="meals-list"></div>
-
+        <select id="priceFilter">
+            <option value="all">All Prices</option>
+            <option value="low">Below 150 EGP</option>
+            <option value="mid">150 - 250 EGP</option>
+            <option value="high">Above 250 EGP</option>
+        </select>
     </div>
 
-<script src="../js/meals.js"></script>
+    <div class="meals-container" id="mealsContainer"></div>
+
+    <script>
+        const meals = [
+            {
+                name: "Pepperoni Pizza",
+                category: "pizza",
+                price: 220,
+                img: "https://images.unsplash.com/photo-1601924582971-df56b0e1e4a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Margherita Pizza",
+                category: "pizza",
+                price: 180,
+                img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Cheese Burger",
+                category: "burger",
+                price: 120,
+                img: "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "BBQ Burger",
+                category: "burger",
+                price: 150,
+                img: "https://images.unsplash.com/photo-1606755962772-94a6606d1d65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Chicken Pasta",
+                category: "pasta",
+                price: 180,
+                img: "https://images.unsplash.com/photo-1604908177520-8f7b91c1b7c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Creamy Alfredo Pasta",
+                category: "pasta",
+                price: 200,
+                img: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8d0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Chocolate Cake",
+                category: "dessert",
+                price: 90,
+                img: "https://images.unsplash.com/photo-1601977913749-abb81f84f8c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Cheesecake",
+                category: "dessert",
+                price: 110,
+                img: "https://images.unsplash.com/photo-1617196034130-38cbe28c8b6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Fruit Tart",
+                category: "dessert",
+                price: 95,
+                img: "https://images.unsplash.com/photo-1606755962772-04b6e6b32c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        const container = document.getElementById("mealsContainer");
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const priceFilter = document.getElementById("priceFilter");
+
+        function renderMeals(list) {
+            container.innerHTML = "";
+            const fragment = document.createDocumentFragment();
+
+            list.forEach(meal => {
+                const card = document.createElement("div");
+                card.className = "meal-card";
+                card.innerHTML = `
+                    <img src="${meal.img}" alt="${meal.name}">
+                    <h3>${meal.name}</h3>
+                    <p>Category: ${meal.category.toUpperCase()}</p>
+                    <p>Price: ${meal.price} EGP</p>
+                `;
+                fragment.appendChild(card);
+            });
+
+            container.appendChild(fragment);
+        }
+
+        function applyFilters() {
+            let filtered = meals;
+            const searchValue = searchInput.value.toLowerCase();
+            const categoryValue = categoryFilter.value;
+            const priceValue = priceFilter.value;
+
+            filtered = filtered.filter(meal =>
+                meal.name.toLowerCase().includes(searchValue)
+            );
+
+            if (categoryValue !== "all") {
+                filtered = filtered.filter(meal => meal.category === categoryValue);
+            }
+
+            if (priceValue !== "all") {
+                filtered = filtered.filter(meal => {
+                    if (priceValue === "low") return meal.price < 150;
+                    if (priceValue === "mid") return meal.price >= 150 && meal.price <= 250;
+                    if (priceValue === "high") return meal.price > 250;
+                });
+            }
+
+            renderMeals(filtered);
+        }
+
+        searchInput.addEventListener("input", applyFilters);
+        categoryFilter.addEventListener("change", applyFilters);
+        priceFilter.addEventListener("change", applyFilters);
+
+        renderMeals(meals);
+    </script>
+
 </body>
 </html>
