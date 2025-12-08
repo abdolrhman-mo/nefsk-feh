@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meals</title>
+    <link rel="stylesheet" href="meals.css">
+    <link rel="stylesheet" href="filters.css">
+</head>
+<body>
+
+    <div class="meals-container">
+
+        <!-- Search + Filters Section -->
+        <div class="filters-section">
+            <input type="text" id="searchInput" placeholder="Search meals...">
+
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="pizza">Pizza</option>
+                <option value="burger">Burger</option>
+                <option value="pasta">Pasta</option>
+            </select>
+
+            <select id="priceFilter">
+                <option value="all">Any Price</option>
+                <option value="low">Below $10</option>
+                <option value="mid">$10 - $20</option>
+                <option value="high">Above $20</option>
+            </select>
+        </div>
+
+        <!-- Cards Container -->
+        <div id="mealsList" class="meals-list"></div>
+
+    </div>
+
+<script src="meals.js"></script>
+</body>
+</html>
