@@ -36,7 +36,7 @@ This document outlines the contributions made by each team member to the project
 
 ### Bassant
 **Endpoints:**
-- None (just server setup)
+- Server setup
 
 ### Shahd
 **Endpoints:**
