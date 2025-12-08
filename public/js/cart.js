@@ -166,8 +166,8 @@ function handleCheckout() {
         return;
     }
 
-    const checkoutUrl = '../melissia/checkout.html';
-    const trackingUrl = '../melissia/order-tracking.html';
+    const checkoutUrl = 'checkout.html';
+    const trackingUrl = 'order-tracking.html';
 
     window.open(trackingUrl, '_blank');
     window.location.href = checkoutUrl;

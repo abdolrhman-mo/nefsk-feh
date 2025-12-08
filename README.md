@@ -13,17 +13,6 @@ This document outlines the contributions made by each team member to the project
 **Backend Endpoints:**
 - Server setup
 
-### Makady
-**Authentication Pages & Profile Page**
-- Login page (`login.html`, `login.css`)
-- Register page (`register.html`, `register.css`)
-- Cook dashboard page (`cook-dashboard.html`, `cook-dashboard.css`)
-
-**Backend Endpoints:**
-- `POST /api/register` - User registration (already implemented)
-- `POST /api/login` - User login (already implemented)
-- `GET /api/user/meals` - Get meals I'm selling
-
 ### Melissia
 **Checkout & Order Tracking**
 - Checkout page (`checkout.html`, `css/checkout.css`, `js/checkout.js`)
@@ -54,6 +43,16 @@ This document outlines the contributions made by each team member to the project
 - `GET /api/meals?search=...` - Search meals
 - `POST /api/meals` - Create a meal
 
+### Makady
+**Authentication Pages & Profile Page**
+- Login page (`login.html`, `login.css`)
+- Register page (`register.html`, `register.css`)
+- Cook dashboard page (`cook-dashboard.html`, `cook-dashboard.css`)
+
+**Backend Endpoints:**
+- `POST /api/register` - User registration (already implemented)
+- `POST /api/login` - User login (already implemented)
+- `GET /api/user/meals` - Get meals I'm selling
 
 ---
 

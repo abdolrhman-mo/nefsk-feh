@@ -8,10 +8,10 @@ hamburger.addEventListener('click', () => {
 
 // Popular meals (static/mock data)
 const meals = [
-    { name: "Pizza", image: "IMG_3210.JPG" },
-    { name: "Burger", image: "IMG_3209.JPG" },
-    { name: "Mahshi", image: "IMG_3211.JPG" },
-    { name: "Twagen", image: "IMG_3212.JPG" }
+    { name: "Pizza", image: "../images/home/IMG_3210.JPG" },
+    { name: "Burger", image: "../images/home/IMG_3209.JPG" },
+    { name: "Mahshi", image: "../images/home/IMG_3211.JPG" },
+    { name: "Twagen", image: "../images/home/IMG_3212.JPG" }
 ];
 
 const mealsContainer = document.getElementById('meals-container');
