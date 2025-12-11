@@ -4,67 +4,117 @@ const statusItems = Array.from(document.querySelectorAll("[data-status]"));
 const itemListEl = document.getElementById("itemList");
 const totalEl = document.getElementById("total");
 
-const statuses = [
-  { name: "Pending", delay: 3000, color: "pending" },
-  { name: "Preparing", delay: 4000, color: "pending" },
-  { name: "Out for delivery", delay: 5000, color: "enroute" },
-  { name: "Delivered", delay: 0, color: "delivered" }
-];
-
+// Format money
 const formatMoney = (n) => `$${n.toFixed(2)}`;
 
-const setOrderId = () => {
-  const stored = JSON.parse(localStorage.getItem("lastOrder") || "{}");
-  const id = stored.orderId || `QB-${Math.floor(Math.random() * 90000 + 10000)}`;
-  orderIdEl.textContent = `#${id}`;
-  return id;
+// Mapping backend status → frontend stage index
+const statusMap = {
+  processing: 0,
+  preparing: 1,
+  enroute: 2,
+  completed: 3
 };
 
-const updateTotal = () => {
-  const items = Array.from(itemListEl.querySelectorAll("[data-price]"));
-  const total = items.reduce((sum, li) => sum + Number(li.dataset.price), 0);
-  totalEl.textContent = formatMoney(total);
-};
-
+// Color + progress update
 const paintStatus = (index) => {
   statusItems.forEach((li, i) => {
     li.classList.remove("done", "current");
     if (i < index) li.classList.add("done");
     if (i === index) li.classList.add("current");
   });
-  const state = statuses[index];
-  statusValue.textContent = state.name;
-  statusValue.className = `status-pill ${state.color} ${index === statuses.length - 1 ? "done" : "current"}`;
-};
 
-const runProgress = (idx = 0) => {
-  paintStatus(idx);
-  const state = statuses[idx];
-  if (idx < statuses.length - 1) {
-    setTimeout(() => runProgress(idx + 1), state.delay);
+  const state = statusItems[index];
+  if(state) {
+    statusValue.textContent = state.dataset.status;
+    statusValue.className = `status-pill ${state.dataset.status
+      .toLowerCase()
+      .replace(/\s/g,'')}`;
   }
 };
 
-const setSummary = () => {
-  const stored = JSON.parse(localStorage.getItem("lastOrder") || "{}");
-  document.getElementById("infoOrder").textContent = stored.orderId || orderIdEl.textContent;
-  const eta = new Date(Date.now() + 35 * 60000);
-  document.getElementById("infoEta").textContent = eta.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  document.getElementById("infoPayment").textContent = stored.payment ? stored.payment.toUpperCase() : "N/A";
-  document.getElementById("infoAddress").textContent = stored.customer?.address || "Address not provided";
+// Fill order details + items (runs once)
+const updateSummary = (order) => {
+  document.getElementById("infoOrder").textContent = order.id;
 
-  if (stored.items?.length) {
-    itemListEl.innerHTML = "";
-    stored.items.forEach((item) => {
+  document.getElementById("infoEta").textContent = new Date(Date.now() + 35*60000)
+    .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  document.getElementById("infoPayment").textContent =
+    order.paymentMethod?.toUpperCase() || "N/A";
+
+  document.getElementById("infoAddress").textContent =
+    order.customer?.address || "Address not provided";
+
+  // Items
+  itemListEl.innerHTML = "";
+  if(order.items?.length){
+    order.items.forEach(item => {
       const li = document.createElement("li");
       li.dataset.price = item.price;
-      li.innerHTML = `<span>${item.name}</span><strong>${formatMoney(item.price)}</strong>`;
+      li.innerHTML = `
+        <span>${item.name}</span>
+        <strong>${formatMoney(item.price)}</strong>
+      `;
       itemListEl.appendChild(li);
     });
   }
+
+  // Total
+  const total = order.items?.reduce((s, i) => s + i.price, 0) || 0;
+  totalEl.textContent = formatMoney(total);
 };
 
-setOrderId();
-setSummary();
-updateTotal();
-runProgress();
+let currentStatus = null;
+
+// Load all details (first time only)
+const loadOrder = async () => {
+  const stored = JSON.parse(localStorage.getItem("lastOrder") || "{}");
+
+  if(!stored.id){
+    orderIdEl.textContent = "N/A";
+    statusValue.textContent = "Order not found";
+    return;
+  }
+
+  orderIdEl.textContent = `#${stored.id}`;
+
+  try {
+    const res = await fetch(`/api/orders/${stored.id}`);
+    if(!res.ok) throw new Error("Order not found");
+
+    const order = await res.json();
+    
+    updateSummary(order);
+
+    currentStatus = order.status;
+    paintStatus(statusMap[currentStatus] || 0);
+
+  } catch(err){
+    console.error(err);
+  }
+};
+
+// Only check status (efficient)
+const checkStatus = async () => {
+  const stored = JSON.parse(localStorage.getItem("lastOrder") || "{}");
+  if(!stored.id) return;
+
+  try {
+    const res = await fetch(`/api/orders/${stored.id}`);
+    const order = await res.json();
+
+    if(order.status !== currentStatus){
+      currentStatus = order.status;
+      paintStatus(statusMap[currentStatus] || 0);
+    }
+
+  } catch(err){
+    console.error(err);
+  }
+};
+
+// Run first time
+loadOrder();
+
+// Auto-update every 4 seconds
+setInterval(checkStatus, 4000);

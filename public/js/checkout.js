@@ -44,7 +44,7 @@ const validateForm = () => {
   return "";
 };
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
   const error = validateForm();
   if (error) {
@@ -52,7 +52,8 @@ const handleSubmit = (e) => {
     messageEl.className = "message error";
     return;
   }
-  const orderId = `QB-${Math.floor(Math.random() * 90000 + 10000)}`;
+
+  // Prepare payload to send to backend
   const payment = paymentRadios.find((r) => r.checked)?.value;
   const payload = {
     customer: {
@@ -62,25 +63,48 @@ const handleSubmit = (e) => {
       notes: form.notes.value.trim()
     },
     items: items.map((i) => ({ name: i.dataset.name, price: Number(i.dataset.price) })),
-    total: totalEl.textContent,
-    payment,
+    total: Number(totalEl.textContent.replace('$', '')),
+    paymentMethod: payment,
     card: payment === "card" ? {
       number: document.getElementById("cardNumber").value.trim(),
-      expiry: document.getElementById("cardExpiry").value.trim()
+      expiry: document.getElementById("cardExpiry").value.trim(),
+      cvc: document.getElementById("cardCvc").value.trim()
     } : null,
-    orderId
+    status: 'processing'
   };
-  messageEl.textContent = `Order confirmed! ID: ${orderId}`;
-  messageEl.className = "message success";
-  console.log("Ready to send:", payload);
-  localStorage.setItem("lastOrder", JSON.stringify(payload));
-  setTimeout(() => {
-    window.location.href = "order-tracking.html";
-  }, 400);
-  form.reset();
-  togglePayment();
-  updateTotal();
-  cardPreview.textContent = "Paying with cash on delivery.";
+
+  try {
+    // Send order to backend
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    messageEl.textContent = `Order confirmed! ID: ${data.id}`;
+    messageEl.className = "message success";
+
+    // Save last order ID for tracking
+    localStorage.setItem("lastOrder", JSON.stringify(data));
+
+    // Redirect to tracking page after short delay
+    setTimeout(() => {
+      window.location.href = "order-tracking.html";
+    }, 800
+  );
+
+    form.reset();
+    togglePayment();
+    updateTotal();
+    cardPreview.textContent = "Paying with cash on delivery.";
+
+  } catch (err) {
+    console.error(err);
+    messageEl.textContent = "Error placing order. Please try again.";
+    messageEl.className = "message error";
+  }
 };
 
 document.getElementById("cardNumber").addEventListener("input", (e) => {
@@ -88,5 +112,6 @@ document.getElementById("cardNumber").addEventListener("input", (e) => {
 });
 paymentRadios.forEach((r) => r.addEventListener("change", togglePayment));
 form.addEventListener("submit", handleSubmit);
+
 updateTotal();
 togglePayment();
