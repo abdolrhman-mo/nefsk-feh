@@ -1,201 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - Nefsk Feeh</title>
-    <link rel="stylesheet" href="../css/checkout.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Fresh Food</title>
+<link rel="stylesheet" href="../css/checkout.css">
 </head>
 <body>
-    <div class="page-wrapper">
-        <header class="main-header">
-            <div class="header-content">
-                <h1>Checkout</h1>
-                <p class="header-subtitle">Complete your order details</p>
-            </div>
-        </header>
+  <h1 class="title">Checkout</h1>
+  <form id="checkoutForm" class="grid" novalidate>
+    <section class="panel">
+      <h2>User Information</h2>
+      <label class="field">
+        Name
+        <input id="name" name="name" type="text" placeholder="Jane Doe" required>
+      </label>
+      <label class="field">
+        Phone
+        <input id="phone" name="phone" type="tel" placeholder="+1 555 123 4567" required>
+      </label>
+      <label class="field">
+        Address
+        <input id="address" name="address" type="text" placeholder="123 Main St" required>
+      </label>
+      <label class="field">
+        Notes
+        <textarea id="notes" name="notes" rows="3" placeholder="Add delivery notes"></textarea>
+      </label>
+    </section>
 
-        <main class="checkout-container">
-            <!-- User Information Section -->
-            <section class="form-section">
-                <div class="section-header">
-                    <h2 class="section-title">User Information</h2>
-                    <span class="section-icon">👤</span>
-                </div>
-                <form id="checkoutForm" novalidate>
-                    <div class="form-group">
-                        <label for="fullName">
-                            Full Name 
-                            <span class="required">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            id="fullName" 
-                            name="fullName" 
-                            placeholder="John Doe"
-                            autocomplete="name"
-                            required>
-                        <span class="error-message" id="fullNameError"></span>
-                    </div>
+    <section class="panel">
+      <h2>Order Summary</h2>
+      <ul class="items" id="itemSummary">
+        <li data-name="Margherita Pizza" data-price="12"><span>Margherita Pizza</span><strong>$12.00</strong></li>
+        <li data-name="Veggie Bowl" data-price="10"><span>Veggie Bowl</span><strong>$10.00</strong></li>
+        <li data-name="Pasta Alfredo" data-price="9"><span>Pasta Alfredo</span><strong>$9.00</strong></li>
+        <li data-name="Berry Smoothie" data-price="6"><span>Berry Smoothie</span><strong>$6.00</strong></li>
+      </ul>
+      <div class="summary-line">
+        <span>Total</span>
+        <strong id="total">$0.00</strong>
+      </div>
+      <div class="payment">
+        <p class="label">Payment Method</p>
+        <label><input type="radio" name="payment" value="cash" checked> Cash</label>
+        <label><input type="radio" name="payment" value="card"> Credit Card</label>
+      </div>
+      <div id="cardFields" class="card-fields hidden">
+        <input type="text" id="cardNumber" placeholder="Card Number">
+        <div class="two">
+          <input type="text" id="cardExpiry" placeholder="MM/YY">
+          <input type="text" id="cardCvc" placeholder="CVC">
+        </div>
+        <p id="cardPreview" class="card-preview">Enter card details to pay by credit card.</p>
+      </div>
+      <button type="submit" class="primary">Place Order</button>
+      <p id="message" class="message" role="status"></p>
+    </section>
+  </form>
 
-                    <div class="form-group">
-                        <label for="phone">
-                            Phone Number 
-                            <span class="required">*</span>
-                        </label>
-                        <input 
-                            type="tel" 
-                            id="phone" 
-                            name="phone" 
-                            placeholder="+1 234 567 8900"
-                            autocomplete="tel"
-                            required>
-                        <span class="error-message" id="phoneError"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="address">
-                            Delivery Address 
-                            <span class="required">*</span>
-                        </label>
-                        <textarea 
-                            id="address" 
-                            name="address" 
-                            rows="3" 
-                            placeholder="Enter your complete delivery address"
-                            required></textarea>
-                        <span class="error-message" id="addressError"></span>
-                    </div>
-
-                    <!-- Payment Method Section -->
-                    <div class="form-group payment-section">
-                        <div class="section-header">
-                            <h3 class="section-title">Payment Method</h3>
-                            <span class="section-icon">💳</span>
-                        </div>
-                        <div class="payment-options">
-                            <div class="payment-option">
-                                <input type="radio" id="cash" name="paymentMethod" value="cash" checked>
-                                <label for="cash" class="payment-label">
-                                    <div class="payment-icon">💵</div>
-                                    <div class="payment-details">
-                                        <strong>Cash on Delivery</strong>
-                                        <small>Pay when you receive your order</small>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="payment-option">
-                                <input type="radio" id="card" name="paymentMethod" value="card">
-                                <label for="card" class="payment-label">
-                                    <div class="payment-icon">💳</div>
-                                    <div class="payment-details">
-                                        <strong>Credit Card</strong>
-                                        <small>Secure online payment</small>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Credit Card Fields (Hidden by default) -->
-                        <div class="card-fields" id="cardFields">
-                            <div class="card-preview">
-                                <div class="card-front">
-                                    <div class="card-chip"></div>
-                                    <div class="card-number-display" id="cardNumberDisplay">#### #### #### ####</div>
-                                    <div class="card-info">
-                                        <div class="card-name-display" id="cardNameDisplay">CARDHOLDER NAME</div>
-                                        <div class="card-expiry-display" id="cardExpiryDisplay">MM/YY</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="cardNumber">Card Number <span class="required">*</span></label>
-                                <input 
-                                    type="text" 
-                                    id="cardNumber" 
-                                    name="cardNumber" 
-                                    placeholder="1234 5678 9012 3456" 
-                                    maxlength="19"
-                                    autocomplete="cc-number">
-                                <span class="error-message" id="cardNumberError"></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="cardName">Cardholder Name <span class="required">*</span></label>
-                                <input 
-                                    type="text" 
-                                    id="cardName" 
-                                    name="cardName" 
-                                    placeholder="John Doe"
-                                    autocomplete="cc-name">
-                                <span class="error-message" id="cardNameError"></span>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="expiry">Expiry Date <span class="required">*</span></label>
-                                    <input 
-                                        type="text" 
-                                        id="expiry" 
-                                        name="expiry" 
-                                        placeholder="MM/YY" 
-                                        maxlength="5"
-                                        autocomplete="cc-exp">
-                                    <span class="error-message" id="expiryError"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cvv">CVV <span class="required">*</span></label>
-                                    <input 
-                                        type="text" 
-                                        id="cvv" 
-                                        name="cvv" 
-                                        placeholder="123" 
-                                        maxlength="4"
-                                        autocomplete="cc-csc">
-                                    <span class="error-message" id="cvvError"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Order Summary Section -->
-            <aside class="order-summary">
-                <div class="summary-header">
-                    <h2 class="summary-title">Order Summary</h2>
-                    <span class="summary-icon">📦</span>
-                </div>
-                <div class="summary-items" id="summaryItems">
-                    <!-- Items will be generated by JS -->
-                </div>
-                <div class="summary-divider"></div>
-                <div class="summary-totals">
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span id="subtotal">$0.00</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Delivery Fee</span>
-                        <span id="deliveryFee">$2.99</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Tax</span>
-                        <span id="tax">$0.00</span>
-                    </div>
-                    <div class="summary-divider"></div>
-                    <div class="summary-row total-row">
-                        <span>Total</span>
-                        <span id="totalPrice">$0.00</span>
-                    </div>
-                </div>
-                <button type="button" class="place-order-btn" id="placeOrderBtn">
-                    <span class="btn-text">Place Order</span>
-                    <span class="btn-loader" style="display: none;"></span>
-                </button>
-                <p class="order-note">By placing this order, you agree to our terms and conditions.</p>
-            </aside>
-        </main>
-    </div>
-
-    <script src="../js/checkout.js"></script>
+<script src="../js/checkout.js"></script>
 </body>
 </html>

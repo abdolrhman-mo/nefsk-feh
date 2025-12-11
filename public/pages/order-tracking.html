@@ -1,178 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Tracking - Nefsk Feeh</title>
-    <link rel="stylesheet" href="../css/tracking.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Tracking | Fresh Food</title>
+  <link rel="stylesheet" href="../css/tracking.css">
 </head>
 <body>
-    <div class="page-wrapper">
-        <header class="main-header">
-            <div class="header-content">
-                <h1>Order Tracking</h1>
-                <p class="order-id">Order #<span id="orderNumber">12345</span></p>
-            </div>
-        </header>
+  <h1 class="title">Order Tracking</h1>
+  <p class="order-tag">Order ID: <strong id="orderId"></strong></p>
 
-        <main class="tracking-container">
-            <!-- Progress Bar -->
-            <section class="progress-section">
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progressBar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <div class="progress-steps">
-                        <div class="progress-step" data-step="1">
-                            <div class="step-dot"></div>
-                            <span class="step-label">Placed</span>
-                        </div>
-                        <div class="progress-step" data-step="2">
-                            <div class="step-dot"></div>
-                            <span class="step-label">Preparing</span>
-                        </div>
-                        <div class="progress-step" data-step="3">
-                            <div class="step-dot"></div>
-                            <span class="step-label">On Way</span>
-                        </div>
-                        <div class="progress-step" data-step="4">
-                            <div class="step-dot"></div>
-                            <span class="step-label">Delivered</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+  <div class="cards-row">
+    <section class="card">
+      <div class="card-head">
+        <h2>Status</h2>
+        <span id="statusValue" class="status-pill">Starting...</span>
+      </div>
+      <ul id="statusList" class="status-list" aria-live="polite">
+        <li data-status="Pending"><span class="dot"></span><div><strong>Pending</strong><small>Order received</small></div></li>
+        <li data-status="Preparing"><span class="dot"></span><div><strong>Preparing</strong><small>Kitchen is on it</small></div></li>
+        <li data-status="Out for delivery"><span class="dot"></span><div><strong>Out for delivery</strong><small>Courier en route</small></div></li>
+        <li data-status="Delivered"><span class="dot"></span><div><strong>Delivered</strong><small>Enjoy your meal</small></div></li>
+      </ul>
+    </section>
 
-            <!-- Timeline Section -->
-            <section class="timeline-section">
-                <h2 class="section-title">Order Status</h2>
-                <div class="timeline">
-                    <!-- Step 1: Order Placed -->
-                    <div class="timeline-step" id="step1">
-                        <div class="step-indicator">
-                            <div class="step-circle">
-                                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M9 11l3 3L22 4"></path>
-                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                </svg>
-                            </div>
-                            <div class="step-connector"></div>
-                        </div>
-                        <div class="step-content">
-                            <h3 class="step-title">Order Placed</h3>
-                            <p class="step-description">Your order has been received and confirmed</p>
-                            <p class="step-time" id="time1">Just now</p>
-                        </div>
-                    </div>
+    <section class="card">
+      <h2>Order Details</h2>
+      <div class="info-grid">
+        <div><span class="label">Order Number</span><strong id="infoOrder"></strong></div>
+        <div><span class="label">Estimated Delivery</span><strong id="infoEta"></strong></div>
+        <div><span class="label">Payment Method</span><strong id="infoPayment"></strong></div>
+        <div><span class="label">Delivery Address</span><strong id="infoAddress"></strong></div>
+      </div>
+      <ul id="itemList" class="item-list">
+        <li data-price="12"><span>Margherita Pizza</span><strong>$12.00</strong></li>
+        <li data-price="10"><span>Veggie Bowl</span><strong>$10.00</strong></li>
+        <li data-price="9"><span>Pasta Alfredo</span><strong>$9.00</strong></li>
+        <li data-price="6"><span>Berry Smoothie</span><strong>$6.00</strong></li>
+      </ul>
+      <div class="summary-line">
+        <span>Total</span>
+        <strong id="total">$0.00</strong>
+      </div>
+    </section>
+  </div>
 
-                    <!-- Step 2: Preparing -->
-                    <div class="timeline-step" id="step2">
-                        <div class="step-indicator">
-                            <div class="step-circle">
-                                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                    <path d="M2 17l10 5 10-5"></path>
-                                    <path d="M2 12l10 5 10-5"></path>
-                                </svg>
-                            </div>
-                            <div class="step-connector"></div>
-                        </div>
-                        <div class="step-content">
-                            <h3 class="step-title">Preparing</h3>
-                            <p class="step-description">Your food is being prepared with care</p>
-                            <p class="step-time" id="time2">-</p>
-                        </div>
-                    </div>
+  <div class="actions">
+    <a class="primary" href="checkout.html">Place New Order</a>
+    <a class="ghost" href="home.html">Back to Home</a>
+  </div>
 
-                    <!-- Step 3: Out for Delivery -->
-                    <div class="timeline-step" id="step3">
-                        <div class="step-indicator">
-                            <div class="step-circle">
-                                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                            </div>
-                            <div class="step-connector"></div>
-                        </div>
-                        <div class="step-content">
-                            <h3 class="step-title">Out for Delivery</h3>
-                            <p class="step-description">Your order is on the way to you</p>
-                            <p class="step-time" id="time3">-</p>
-                        </div>
-                    </div>
-
-                    <!-- Step 4: Delivered -->
-                    <div class="timeline-step" id="step4">
-                        <div class="step-indicator">
-                            <div class="step-circle">
-                                <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="step-content">
-                            <h3 class="step-title">Delivered</h3>
-                            <p class="step-description">Your order has been successfully delivered</p>
-                            <p class="step-time" id="time4">-</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Status Card -->
-            <section class="status-card">
-                <div class="status-header">
-                    <h3>Current Status</h3>
-                    <div class="status-badge" id="statusBadge">Pending</div>
-                </div>
-                <div class="status-message" id="statusMessage">
-                    <p>Your order is being processed...</p>
-                </div>
-                <div class="estimated-delivery">
-                    <span class="delivery-label">Estimated Delivery:</span>
-                    <span class="delivery-time" id="estimatedDelivery">Calculating...</span>
-                </div>
-            </section>
-
-            <!-- Order Details Card -->
-            <section class="order-details-card">
-                <h3 class="details-title">Order Details</h3>
-                <div class="details-grid">
-                    <div class="detail-item">
-                        <span class="detail-label">Order Number</span>
-                        <span class="detail-value" id="detailOrderNumber">#12345</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Order Date</span>
-                        <span class="detail-value" id="detailOrderDate">-</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Total Amount</span>
-                        <span class="detail-value" id="detailTotal">$45.00</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Payment Method</span>
-                        <span class="detail-value" id="detailPayment">Cash on Delivery</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Action Buttons -->
-            <section class="action-buttons-section">
-                <button class="action-btn btn-primary" id="newOrderBtn">
-                    <span class="btn-icon">🛒</span>
-                    <span class="btn-text">New Order</span>
-                </button>
-                <button class="action-btn btn-secondary" id="homeBtn">
-                    <span class="btn-icon">🏠</span>
-                    <span class="btn-text">Home</span>
-                </button>
-            </section>
-        </main>
-    </div>
-
-    <script src="../js/tracking.js"></script>
+  <script src="../js/tracking.js"></script>
 </body>
 </html>
