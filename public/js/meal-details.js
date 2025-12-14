@@ -1,110 +1,97 @@
-// Sample meal object
-const meal = {
-    id: 1,
-    name: "Grilled Chicken Plate",
-    description: "Perfectly seasoned grilled chicken with vegetables and herbs.",
-    price: 120,
-    image: "https://www.budgetbytes.com/wp-content/uploads/2024/06/Grilled-Chicken-Overhead-500x500.jpg"
+const elements = {
+    mealImage: document.getElementById('mealImage'),
+    mealName: document.getElementById('mealName'),
+    mealDescription: document.getElementById('mealDescription'),
+    mealPrice: document.getElementById('mealPrice'),
+    quantityInput: document.getElementById('quantity'),
+    increaseBtn: document.getElementById('increaseBtn'),
+    decreaseBtn: document.getElementById('decreaseBtn'),
+    addToCartBtn: document.getElementById('addToCartBtn'),
+    cartBadge: document.getElementById('cartBadge')
 };
 
-// DOM Elements
-const mealImage = document.getElementById('mealImage');
-const mealName = document.getElementById('mealName');
-const mealDescription = document.getElementById('mealDescription');
-const mealPrice = document.getElementById('mealPrice');
-const quantityInput = document.getElementById('quantity');
-const increaseBtn = document.getElementById('increaseBtn');
-const decreaseBtn = document.getElementById('decreaseBtn');
-const addToCartBtn = document.getElementById('addToCartBtn');
-const cartBadge = document.getElementById('cartBadge');
+const mealId = new URLSearchParams(window.location.search).get('id');
 
-// Initialize page
-function init() {
-    loadMealInfo();
-    updateCartBadge();
-    setupEventListeners();
+async function apiCall(url, options = {}) {
+    const res = await fetch(url, options);
+    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'Request failed');
+    return res.json();
 }
 
-// Load meal information into the page
-function loadMealInfo() {
-    mealImage.src = meal.image;
-    mealImage.alt = meal.name;
-    mealName.textContent = meal.name;
-    mealDescription.textContent = meal.description;
-    mealPrice.textContent = `₹${meal.price}`;
-}
-
-// Setup event listeners
-function setupEventListeners() {
-    increaseBtn.addEventListener('click', () => {
-        const currentQty = parseInt(quantityInput.value);
-        quantityInput.value = currentQty + 1;
-    });
-
-    decreaseBtn.addEventListener('click', () => {
-        const currentQty = parseInt(quantityInput.value);
-        if (currentQty > 1) {
-            quantityInput.value = currentQty - 1;
+async function updateCartBadge() {
+    try {
+        const cart = await apiCall('/api/cart');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        if (elements.cartBadge) {
+            elements.cartBadge.textContent = totalItems;
+            elements.cartBadge.classList.toggle('hidden', totalItems === 0);
         }
-    });
-
-    addToCartBtn.addEventListener('click', handleAddToCart);
+    } catch (err) {
+        if (elements.cartBadge) {
+            elements.cartBadge.textContent = '0';
+            elements.cartBadge.classList.add('hidden');
+        }
+    }
 }
 
-// Handle Add to Cart
-function handleAddToCart() {
-    const quantity = parseInt(quantityInput.value);
-    
-    // Get existing cart from localStorage
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Check if meal already exists in cart
-    const existingItemIndex = cart.findIndex(item => item.id === meal.id);
-    
-    if (existingItemIndex !== -1) {
-        // Increase quantity if item exists
-        cart[existingItemIndex].quantity += quantity;
-    } else {
-        // Add new item to cart
-        cart.push({
-            id: meal.id,
-            name: meal.name,
-            description: meal.description,
-            price: meal.price,
-            image: meal.image,
-            quantity: quantity
+async function loadMealInfo() {
+    if (!mealId) {
+        alert('No meal ID provided. Please select a meal from the menu.');
+        elements.addToCartBtn.disabled = true;
+        return;
+    }
+    try {
+        const meal = await apiCall(`/api/meals/${mealId}`);
+        elements.mealImage.src = meal.image;
+        elements.mealImage.alt = meal.name;
+        elements.mealName.textContent = meal.name;
+        elements.mealDescription.textContent = meal.description;
+        elements.mealPrice.textContent = `₹${meal.price}`;
+        window.meal = meal;
+    } catch (err) {
+        alert('Failed to load meal details: ' + err.message);
+        elements.addToCartBtn.disabled = true;
+        elements.mealName.textContent = 'Meal not found';
+        elements.mealDescription.textContent = 'Please go back and select a valid meal.';
+    }
+}
+
+function updateQuantity(change) {
+    elements.quantityInput.value = Math.max(1, parseInt(elements.quantityInput.value) + change);
+}
+
+async function handleAddToCart() {
+    if (!window.meal) return alert('Meal information not loaded');
+    const quantity = parseInt(elements.quantityInput.value);
+    if (isNaN(quantity) || quantity < 1) return alert('Invalid quantity');
+
+    try {
+        await apiCall('/api/cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                mealId: window.meal.id,
+                name: window.meal.name,
+                price: window.meal.price,
+                image: window.meal.image,
+                quantity
+            })
         });
-    }
-    
-    // Save to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Update cart badge
-    updateCartBadge();
-    
-    // Show "added!" animation
-    addToCartBtn.textContent = 'Added!';
-    addToCartBtn.classList.add('added');
-    
-    setTimeout(() => {
-        addToCartBtn.textContent = 'Add to Cart';
-        addToCartBtn.classList.remove('added');
-    }, 2000);
-}
-
-// Update cart badge
-function updateCartBadge() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
-    if (totalItems > 0) {
-        cartBadge.textContent = totalItems;
-        cartBadge.classList.remove('hidden');
-    } else {
-        cartBadge.classList.add('hidden');
+        await updateCartBadge();
+        elements.addToCartBtn.textContent = 'Added!';
+        elements.addToCartBtn.classList.add('added');
+        setTimeout(() => {
+            elements.addToCartBtn.textContent = 'Add to Cart';
+            elements.addToCartBtn.classList.remove('added');
+        }, 2000);
+    } catch (err) {
+        alert('Failed to add item to cart: ' + err.message);
     }
 }
 
-// Initialize on page load
-init();
+elements.increaseBtn.addEventListener('click', () => updateQuantity(1));
+elements.decreaseBtn.addEventListener('click', () => updateQuantity(-1));
+elements.addToCartBtn.addEventListener('click', handleAddToCart);
 
+loadMealInfo();
+updateCartBadge();
