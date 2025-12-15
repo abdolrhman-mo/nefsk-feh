@@ -1,204 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />   
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
-    <title>Meals Website</title>
-
-    <style>
-        /* ==================== 1. التنسيقات العامة ==================== */
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 20px; 
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px 20px 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin: 0;
-        }
-
-        /* تنسيق أيقونة السلة */
-        .cart-icon {
-            font-size: 1.5em;
-            cursor: pointer;
-            position: relative;
-            color: #333;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: #d9534f;
-            color: white;
-            border-radius: 50%;
-            padding: 3px 8px;
-            font-size: 0.75em;
-            font-weight: bold;
-        }
-
-        /* ==================== 2. تنسيقات قائمة الوجبات (Listing View) ==================== */
-        .filters {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .filters input,
-        .filters select {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            width: 220px;
-        }
-
-        .meals-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .meal-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
-
-        .meal-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .meal-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        
-        .no-results-message {
-            grid-column: 1 / -1; 
-            text-align: center;
-            padding: 50px;
-            background-color: #fff0f0; 
-            border: 1px solid #ffcccc;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-
-        .no-results-message h2 {
-            color: #d9534f;
-            margin-top: 0;
-        }
-
-
-        /* ==================== 3. تنسيقات صفحة التفاصيل (Details View) ==================== */
-        #detailsView {
-            display: none; 
-            max-width: 800px; 
-            margin: 0 auto; 
-            background: #fff; 
-            padding: 30px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-        }
-        
-        #detailsView img { 
-            width: 100%; 
-            height: 400px; 
-            object-fit: cover; 
-            border-radius: 8px; 
-            margin-bottom: 20px; 
-        }
-        
-        .price-tag { 
-            font-size: 1.5em; 
-            color: #d9534f; 
-            font-weight: bold; 
-            margin: 15px 0 25px; 
-            display: block; 
-        }
-
-        .actions { 
-            margin-top: 30px; 
-            display: flex; 
-            gap: 20px; 
-        }
-
-        .actions button { 
-            padding: 15px 30px; 
-            font-size: 1.1em; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            transition: background 0.3s; 
-            flex-grow: 1;
-        }
-        
-        .checkout-btn { background-color: #28a745; color: white; }
-        .add-to-cart-btn { background-color: #007bff; color: white; }
-        .checkout-btn:hover { background-color: #218838; }
-        .add-to-cart-btn:hover { background-color: #0056b3; }
-        
-        .back-btn { 
-            display: inline-block; 
-            margin-bottom: 20px; 
-            text-decoration: none; 
-            color: #007bff; 
-            font-weight: bold;
-            background: transparent;
-            border: none;
-            font-size: 1.1em;
-            cursor: pointer;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meals - Nefsk Feeh</title>
+    <link rel="stylesheet" href="../css/meals.css">
+    <link rel="stylesheet" href="../css/notification.css">
 </head>
-
 <body>
-
     <header>
-        <h1 id="mainTitle">Meals Listing 🍽️</h1>
-        <div class="cart-icon" onclick="alert('سلة التسوق تحتوي على ' + cart.length + ' وجبة. (هذه رسالة تجريبية)')">
-            🛒
-            <span class="cart-count" id="cartCount">0</span>
+        <div class="header-content">
+            <h1>Meals Listing 🍽️</h1>
+            <a href="cart.html" class="cart-link">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
         </div>
     </header>
 
-    <div id="listingView">
+    <main class="container">
         <div class="filters">
-            <input type="text" id="searchInput" placeholder="Search meals..." />
-            <select id="categoryFilter">
+            <input type="text" id="searchInput" placeholder="Search meals..." class="filter-input">
+            <select id="categoryFilter" class="filter-select">
                 <option value="all">All Categories</option>
-                <option value="pizza">Pizza</option>
-                <option value="burger">Burger</option>
-                <option value="pasta">Pasta</option>
-                <option value="dessert">Dessert</option>
             </select>
-
-            <select id="priceFilter">
+            <select id="priceFilter" class="filter-select">
                 <option value="all">All Prices</option>
-                <option value="low">Below 150 EGP</option>
-                <option value="mid">150 - 250 EGP</option>
-                <option value="high">Above 250 EGP</option>
+                <option value="low">Below 350 EGP</option>
+                <option value="mid">350 - 400 EGP</option>
+                <option value="high">Above 400 EGP</option>
             </select>
-
-            <select id="sortFilter">
+            <select id="sortFilter" class="filter-select">
                 <option value="default">Default Sort</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
@@ -206,208 +38,13 @@
             </select>
         </div>
 
-        <div class="meals-container" id="mealsContainer"></div>
-    </div>
-    
-    <div id="detailsView">
-        <button class="back-btn" onclick="showListingView()">← Back to Meals Listing</button>
-        <div id="mealDetailsContent">
-            </div>
-    </div>
+        <div class="meals-container" id="mealsContainer">
+            <div class="loading">Loading meals...</div>
+        </div>
+    </main>
 
-
-    <script>
-        // 1. بيانات الوجبات + متغير السلة
-        let cart = []; // سلة التسوق العالمية
-        const meals = [
-            { id: 1, name: "Pepperoni Pizza", category: "pizza", price: 220, img: "https://images.unsplash.com/photo-1601924582971-df56b0e1e4a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "A classic pepperoni pizza with premium cheese and a rich tomato base." },
-            { id: 2, name: "Margherita Pizza", category: "pizza", price: 180, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "Simple yet elegant pizza with fresh mozzarella, basil, and San Marzano tomatoes." },
-            { id: 3, name: "Cheese Burger", category: "burger", price: 120, img: "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "Juicy beef patty topped with melted cheddar cheese, lettuce, and our signature sauce." },
-            { id: 4, name: "BBQ Burger", category: "burger", price: 150, img: "https://images.unsplash.com/photo-1606755962772-94a6606d1d65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "Smoky BBQ sauce, crispy onions, and a perfectly grilled beef patty." },
-            { id: 5, name: "Chicken Pasta", category: "pasta", price: 180, img: "https://images.unsplash.com/photo-1604908177520-8f7b91c1b7c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "Creamy chicken and mushroom pasta, served with a delicate white sauce." },
-            { id: 6, name: "Creamy Alfredo Pasta", category: "pasta", price: 200, img: "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8d0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "Fettuccine pasta tossed in rich, homemade Alfredo sauce." },
-            { id: 7, name: "Chocolate Cake", category: "dessert", price: 90, img: "https://images.unsplash.com/photo-1601977913749-abb81f84f8c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "Decadent chocolate cake with a molten center, perfect for chocolate lovers." },
-            { id: 8, name: "Cheesecake", category: "dessert", price: 110, img: "https://images.unsplash.com/photo-1617196034130-38cbe28c8b6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "Classic New York style cheesecake with a fresh berry topping." },
-            { id: 9, name: "Fruit Tart", category: "dessert", price: 95, img: "https://images.unsplash.com/photo-1606755962772-04b6e6b32c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", desc: "A refreshing tart filled with sweet pastry cream and seasonal fruits." }
-        ];
-        
-        // 2. جلب العناصر من HTML
-        const listingView = document.getElementById("listingView");
-        const detailsView = document.getElementById("detailsView");
-        const mealDetailsContent = document.getElementById("mealDetailsContent");
-        const mainTitle = document.getElementById("mainTitle");
-        const cartCount = document.getElementById("cartCount");
-        
-        const container = document.getElementById("mealsContainer");
-        const searchInput = document.getElementById("searchInput");
-        const categoryFilter = document.getElementById("categoryFilter");
-        const priceFilter = document.getElementById("priceFilter");
-        const sortFilter = document.getElementById("sortFilter");
-        
-        // ============================================
-        // 🛒 دوال سلة التسوق (CART FUNCTIONS)
-        // ============================================
-
-        function saveCart() {
-            localStorage.setItem('shoppingCart', JSON.stringify(cart));
-        }
-
-        function loadCart() {
-            const storedCart = localStorage.getItem('shoppingCart');
-            if (storedCart) {
-                cart = JSON.parse(storedCart);
-            }
-        }
-
-        function renderCartCount() {
-            cartCount.textContent = cart.length;
-        }
-
-        function addToCart(meal) {
-            // إضافة الوجبة إلى مصفوفة السلة
-            cart.push(meal);
-            saveCart(); // حفظ السلة في التخزين المحلي
-            renderCartCount(); // تحديث العداد
-            alert(`${meal.name} added to your cart successfully! Total items: ${cart.length}`);
-        }
-
-        function checkoutNow() {
-            if (cart.length === 0) {
-                alert("Your cart is empty. Please add items before checking out.");
-                return;
-            }
-            
-            // حساب الإجمالي
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-            // مسح السلة بعد "الدفع"
-            cart = [];
-            saveCart();
-            renderCartCount();
-            
-            // رسالة تجريبية
-            alert(`Payment successful! Total amount: ${total} EGP. Your order has been placed.`);
-            showListingView();
-        }
-
-        // ============================================
-        // ⚙️ دوال العرض والتصفية (VIEW FUNCTIONS)
-        // ============================================
-
-        function renderMeals(list) {
-            container.innerHTML = "";
-            
-            if (list.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results-message">
-                        <h2>عذراً، لا توجد وجبات مطابقة 😔</h2>
-                        <p>حاول البحث بكلمات أخرى أو تغيير المرشحات.</p>
-                    </div>
-                `;
-                return;
-            }
-            // ... (باقي منطق العرض)
-            const fragment = document.createDocumentFragment();
-            list.forEach(meal => {
-                const card = document.createElement("div");
-                card.className = "meal-card";
-                card.addEventListener('click', () => { showDetails(meal.name); });
-                card.innerHTML = `
-                    <img src="${meal.img}" alt="${meal.name}">
-                    <h3>${meal.name}</h3>
-                    <p>Category: ${meal.category.toUpperCase()}</p>
-                    <p>Price: ${meal.price} EGP</p>
-                `;
-                fragment.appendChild(card);
-            });
-            container.appendChild(fragment);
-        }
-
-        function applyFilters() {
-            let filtered = meals;
-            const searchValue = searchInput.value.toLowerCase();
-            const categoryValue = categoryFilter.value;
-            const priceValue = priceFilter.value;
-            const sortValue = sortFilter.value;
-
-            // تطبيق التصفية
-            filtered = filtered.filter(meal => meal.name.toLowerCase().includes(searchValue));
-            if (categoryValue !== "all") { filtered = filtered.filter(meal => meal.category === categoryValue); }
-            if (priceValue !== "all") {
-                filtered = filtered.filter(meal => {
-                    if (priceValue === "low") return meal.price < 150;
-                    if (priceValue === "mid") return meal.price >= 150 && meal.price <= 250;
-                    if (priceValue === "high") return meal.price > 250;
-                });
-            }
-
-            // تطبيق الترتيب
-            if (sortValue !== "default") {
-                filtered.sort((a, b) => {
-                    if (sortValue === "price-asc") return a.price - b.price; 
-                    if (sortValue === "price-desc") return b.price - a.price; 
-                    if (sortValue === "name-asc") {
-                        const nameA = a.name.toLowerCase();
-                        const nameB = b.name.toLowerCase();
-                        if (nameA < nameB) return -1;
-                        if (nameA > nameB) return 1;
-                        return 0;
-                    }
-                });
-            }
-            
-            renderMeals(filtered);
-        }
-
-        function showDetails(mealName) {
-            const selectedMeal = meals.find(meal => meal.name === mealName);
-
-            if (!selectedMeal) {
-                alert("Meal not found!");
-                return;
-            }
-
-            // تحديث العنوان وإظهار/إخفاء العروض
-            mainTitle.textContent = selectedMeal.name;
-            listingView.style.display = 'none';
-            detailsView.style.display = 'block';
-
-            // ملء محتوى التفاصيل
-            mealDetailsContent.innerHTML = `
-                <img src="${selectedMeal.img}" alt="${selectedMeal.name}">
-                <h2>${selectedMeal.name}</h2>
-                <p class="price-tag">Price: ${selectedMeal.price} EGP</p>
-                <p><strong>Category:</strong> ${selectedMeal.category.toUpperCase()}</p>
-                <p>${selectedMeal.desc}</p>
-                
-                <div class="actions">
-                    <button class="checkout-btn" onclick="checkoutNow()">
-                        🛒 الدفع الآن (Checkout)
-                    </button>
-                    <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(selectedMeal)})'>
-                        + إضافة للسلة ومتابعة التسوق
-                    </button>
-                </div>
-            `;
-        }
-
-        function showListingView() {
-            mainTitle.textContent = "Meals Listing 🍽️";
-            listingView.style.display = 'block';
-            detailsView.style.display = 'none';
-        }
-
-        // 8. ربط عناصر التحكم بالأحداث
-        searchInput.addEventListener("input", applyFilters);
-        categoryFilter.addEventListener("change", applyFilters);
-        priceFilter.addEventListener("change", applyFilters);
-        sortFilter.addEventListener("change", applyFilters);
-
-        // 9. الإعداد عند تحميل الصفحة
-        loadCart();      // تحميل السلة المحفوظة
-        renderCartCount(); // عرض عدد العناصر
-        renderMeals(meals); // العرض الأولي
-    </script>
-
+    <div id="notification" class="notification hidden"></div>
+    <script src="../js/notification.js"></script>
+    <script src="../js/meals.js"></script>
 </body>
 </html>

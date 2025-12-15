@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout | Fresh Food</title>
-<link rel="stylesheet" href="../css/checkout.css">
+  <title>Checkout - Nefsk Feeh</title>
+  <link rel="stylesheet" href="../css/checkout.css">
+  <link rel="stylesheet" href="../css/notification.css">
 </head>
 <body>
   <h1 class="title">Checkout</h1>
@@ -17,7 +18,7 @@
       </label>
       <label class="field">
         Phone
-        <input id="phone" name="phone" type="tel" placeholder="+1 555 123 4567" required>
+        <input id="phone" name="phone" type="tel" placeholder="+20 123 456 7890" required>
       </label>
       <label class="field">
         Address
@@ -32,14 +33,11 @@
     <section class="panel">
       <h2>Order Summary</h2>
       <ul class="items" id="itemSummary">
-        <li data-name="Margherita Pizza" data-price="12"><span>Margherita Pizza</span><strong>$12.00</strong></li>
-        <li data-name="Veggie Bowl" data-price="10"><span>Veggie Bowl</span><strong>$10.00</strong></li>
-        <li data-name="Pasta Alfredo" data-price="9"><span>Pasta Alfredo</span><strong>$9.00</strong></li>
-        <li data-name="Berry Smoothie" data-price="6"><span>Berry Smoothie</span><strong>$6.00</strong></li>
+        <li class="loading-item">Loading cart items...</li>
       </ul>
       <div class="summary-line">
         <span>Total</span>
-        <strong id="total">$0.00</strong>
+        <strong id="total">0 EGP</strong>
       </div>
       <div class="payment">
         <p class="label">Payment Method</p>
@@ -59,6 +57,8 @@
     </section>
   </form>
 
-<script src="../js/checkout.js"></script>
+  <div id="notification" class="notification hidden"></div>
+  <script src="../js/notification.js"></script>
+  <script src="../js/checkout.js"></script>
 </body>
 </html>

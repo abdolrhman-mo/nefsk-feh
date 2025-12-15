@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Path to meals.json
-const mealsFilePath = path.join(__dirname, '..', 'data', 'meals.json');
+const mealsFilePath = path.join(__dirname, '..', 'static_data', 'meals.json');
 
 // Helper function to read meals data
 function getMeals() {
@@ -31,8 +31,10 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     try {
         const meals = getMeals();
-        const mealId = parseInt(req.params.id);
-        const meal = meals.find(m => m.id === mealId);
+        const requestedId = req.params.id;
+        const mealIdNum = parseInt(requestedId);
+        // Try to find by numeric ID first, then by string match
+        const meal = meals.find(m => m.id === mealIdNum || m.id === requestedId || String(m.id) === String(requestedId));
         
         if (!meal) {
             return res.status(404).json({ error: 'Meal not found' });

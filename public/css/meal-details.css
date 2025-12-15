@@ -238,6 +238,45 @@ main {
     display: none;
 }
 
+.back-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.2s;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.back-link:hover {
+    color: #f01d59;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.checkout-link {
+    background: #28a745;
+    color: #fff;
+    padding: 12px 22px;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    transition: 0.2s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.checkout-link:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .meal-image-container {

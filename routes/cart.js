@@ -86,6 +86,16 @@ router.post('/', (req, res) => {
     }
 });
 
+// DELETE /api/cart - Clear entire cart
+router.delete('/', (req, res) => {
+    try {
+        writeCart([]);
+        res.json({ message: 'Cart cleared', cart: [] });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to clear cart' });
+    }
+});
+
 // DELETE /api/cart/:id - Remove item from cart by cart item ID
 router.delete('/:id', (req, res) => {
     try {

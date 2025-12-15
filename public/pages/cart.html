@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - ChefMeals</title>
+    <title>Shopping Cart - Nefsk Feeh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="../css/notification.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1 class="logo">ChefMeals</h1>
-            <a href="meal-details.html" class="back-link">← Back to Menu</a>
+            <h1 class="logo">Nefsk Feeh</h1>
+            <a href="meals.html" class="back-link">← Back to Meals</a>
         </div>
     </header>
 
@@ -32,20 +33,22 @@
             </svg>
             <h3>Your cart is empty</h3>
             <p>Add some delicious meals to get started!</p>
-            <a href="meal-details.html" class="shop-btn">Browse Meals</a>
+            <a href="meals.html" class="shop-btn">Browse Meals</a>
         </div>
 
         <div id="cartSummary" class="cart-summary hidden">
             <div class="summary-content">
                 <div class="total-section">
                     <span class="total-label">Total:</span>
-                    <span id="totalPrice" class="total-price">₹0</span>
+                    <span id="totalPrice" class="total-price">0 EGP</span>
                 </div>
                 <button id="checkoutBtn" class="checkout-btn">Proceed to Checkout</button>
             </div>
         </div>
     </main>
 
+    <div id="notification" class="notification hidden"></div>
+    <script src="../js/notification.js"></script>
     <script src="../js/cart.js"></script>
 </body>
 </html>
