@@ -58,7 +58,7 @@ body {
     flex-direction: column;
     gap: 10px;
     position: absolute;
-    top: 60px; /* below Navbar */
+    top: 40px; /* below Navbar */
     left: 20px;
     background-color: #d01a4d;
     padding: 10px;
@@ -76,10 +76,6 @@ body {
     background-color: #d01a4d;
     padding: 5px 10px;
     border-radius: 5px;
-}
-
-.menu li a.btn-become-chef:hover {
-    background-color:#d01a4d;
 }
 
 /* Nav Right: Sign In / Sign Up */
