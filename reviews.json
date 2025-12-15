@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Sarah Ahmed",
+        "avatar": "/images/reviews/user1.jpg",
+        "rating": 5,
+        "comment": "The food was delicious and tasted exactly like home cooking. Will definitely order again!",
+        "date": "2024-12-15"
+    },
+    {
+        "id": 2,
+        "name": "Mohamed Ali",
+        "avatar": "/images/reviews/user2.jpg",
+        "rating": 4,
+        "comment": "Great frozen food quality, especially the marinated chicken. Very easy to cook!",
+        "date": "2024-12-10"
+    },
+    {
+        "id": 3,
+        "name": "Nour Hassan",
+        "avatar": "/images/reviews/user3.jpg",
+        "rating": 5,
+        "comment": "Amazing oriental meals! The mahshi was perfect and full of flavor.",
+        "date": "2024-12-08"
+    },
+    {
+        "id": 4,
+        "name": "Omar Khalil",
+        "avatar": "/images/reviews/user4.jpg",
+        "rating": 5,
+        "comment": "Outstanding service and food quality. The baneh was exceptional!",
+        "date": "2024-12-05"
+    },
+    {
+        "id": 5,
+        "name": "Fatima Ibrahim",
+        "avatar": "/images/reviews/user5.jpg",
+        "rating": 4,
+        "comment": "Fresh ingredients and authentic taste. Highly recommended!",
+        "date": "2024-12-01"
+    }
+]
