@@ -7,13 +7,6 @@
     <link rel="stylesheet" href="../css/cook-dashboard.css">
 </head>
 <body>
-    <script>
-        // Check if user is logged in
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (!user) {
-            window.location.href = 'login.html';
-        }
-    </script>
     <header>
         <h1>Cook Dashboard</h1>
         <button type="button" id="logout-btn" style="position: absolute; top: 20px; right: 20px; padding: 10px 20px; background-color: #F01D59; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
@@ -193,18 +186,7 @@
         </table>
     </section>
 
-    <script>
-        // Display user name from localStorage
-        if (user) {
-            document.getElementById('user-name').textContent = user.username;
-        }
-
-        // Logout functionality
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            localStorage.removeItem('user');
-            window.location.href = 'login.html';
-        });
-    </script>
+    <script src="../js/cook-dashboard.js"></script>
 </body>
 </html>
 
