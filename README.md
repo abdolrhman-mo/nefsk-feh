@@ -2,8 +2,6 @@
 
 This document outlines the contributions made by each team member to the project.
 
-## Phase 1: Frontend Development
-
 ### Bassant
 **Home & About Pages**
 - Home page (`home/index.html`, `home/home.css`, `home/home.js`)
