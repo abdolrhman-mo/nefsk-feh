@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Baneh",
+        "description": "Traditional Middle Eastern dish with rich flavors",
+        "price": 400,
+        "image": "/images/meals/baneh.jpg",
+        "category": "main"
+    },
+    {
+        "id": 2,
+        "name": "Mahshi",
+        "description": "Stuffed vegetables with rice and herbs",
+        "price": 330,
+        "image": "/images/meals/mahshi.jpg",
+        "category": "main"
+    },
+    {
+        "id": 3,
+        "name": "Mombar",
+        "description": "Delicious traditional stuffed intestines",
+        "price": 350,
+        "image": "/images/meals/mombar.jpg",
+        "category": "main"
+    }
+]
+

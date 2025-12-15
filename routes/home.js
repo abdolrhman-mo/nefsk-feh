@@ -6,7 +6,7 @@ const path = require('path');
 // Paths to static data files
 const categoriesFilePath = path.join(__dirname, '..', 'static_data', 'categories.json');
 const reviewsFilePath = path.join(__dirname, '..', 'static_data', 'reviews.json');
-const mealsFilePath = path.join(__dirname, '..', 'data', 'meals.json');
+const mealsFilePath = path.join(__dirname, '..', 'static_data', 'meals.json');
 
 // Helper function to read JSON file
 function readJSONFile(filePath) {
