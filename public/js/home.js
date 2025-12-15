@@ -1,12 +1,3 @@
-
-// Hamburger menu toggle
-const hamburger = document.getElementById('hamburger');
-const menu = document.getElementById('menu');
-
-hamburger.addEventListener('click', () => {
-    menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
-});
-
 // API base URL
 const API_BASE = '/api';
 
@@ -108,34 +99,3 @@ async function loadReviews() {
         }
     }
 }
-// Hamburger toggle
-const navRight = document.querySelector(".nav-right");
-
-hamburger.addEventListener("click", () => {
-    navRight.classList.toggle("open");
-});
-
-// Sections toggle
-const links = document.querySelectorAll(".nav-link");
-const sections = document.querySelectorAll(".section");
-
-links.forEach(link => {
-    link.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        // إزالة active من كل رابط
-        links.forEach(l => l.classList.remove("active"));
-        link.classList.add("active");
-
-        // اظهار القسم المطلوب
-        const targetId = link.getAttribute("href").substring(1);
-        sections.forEach(sec => {
-            sec.style.display = (sec.id === targetId) ? "block" : "none";
-        });
-
-        // لو الـ hamburger مفتوح، أقفله بعد الضغط
-        if(navRight.classList.contains("open")){
-            navRight.classList.remove("open");
-        }
-    });
-});
