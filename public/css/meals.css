@@ -1,21 +1,163 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; }
-header { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.header-content { display: flex; justify-content: space-between; align-items: center; }
-h1 { font-size: 1.8em; color: #333; }
-.cart-link { position: relative; text-decoration: none; font-size: 1.5em; }
-.cart-count { position: absolute; top: -10px; right: -10px; background: #d9534f; color: white; border-radius: 50%; padding: 3px 8px; font-size: 0.6em; font-weight: bold; min-width: 20px; text-align: center; }
-.container { max-width: 1200px; margin: 0 auto; }
-.filters { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center; }
-.filter-input, .filter-select { padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; min-width: 180px; }
-.filter-input:focus, .filter-select:focus { outline: none; border-color: #007bff; }
-.meals-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-.meal-card { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 2px 7px rgba(0,0,0,0.1); text-align: center; transition: transform 0.2s; cursor: pointer; }
-.meal-card:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-.meal-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-.meal-card h3 { margin: 10px 0 5px; color: #333; }
-.meal-card .meal-price { color: #d9534f; font-weight: bold; font-size: 1.1em; }
-.no-results { grid-column: 1 / -1; text-align: center; padding: 50px; background: #fff0f0; border: 1px solid #ffcccc; border-radius: 10px; }
-.loading { grid-column: 1 / -1; text-align: center; padding: 30px; color: #666; }
-@media (max-width: 768px) { .filters { flex-direction: column; } .filter-input, .filter-select { width: 100%; } }
 
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  padding: 20px;
+}
+
+header {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-size: 1.8em;
+  color: #333;
+}
+
+.cart-link {
+  position: relative;
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.cart-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #f01d59;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 8px;
+  font-size: 0.6em;
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter-input,
+.filter-select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 180px;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: #f01d59;
+}
+
+.meals-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.meal-card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 7px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.meal-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.meal-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.meal-card h3 {
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.meal-card .meal-price {
+  color: #f01d59;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+/* ✅ PRIMARY ACTION BUTTONS */
+button,
+.btn,
+.add-to-cart,
+.checkout-btn {
+  background-color: #f01d59;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+button:hover,
+.btn:hover,
+.add-to-cart:hover,
+.checkout-btn:hover {
+  opacity: 0.9;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+  background: #fff0f0;
+  border: 1px solid #ffcccc;
+  border-radius: 10px;
+}
+
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+  }
+
+  .filter-input,
+  .filter-select {
+    width: 100%;
+  }
+}
