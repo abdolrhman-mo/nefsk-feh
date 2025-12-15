@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const orderRoutes = require('./routes/orders');
 const mealsRoutes = require('./routes/meals');
 const cartRoutes = require('./routes/cart');
+const homeRoutes = require('./routes/home');
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -20,7 +21,8 @@ app.use('/pages', express.static('public/pages'));
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/meals', mealsRoutes);
-app.use('/api/cart', cartRoutes); 
+app.use('/api/cart', cartRoutes);
+app.use('/api/home', homeRoutes); 
 
 // Start server
 app.listen(PORT, () => {
