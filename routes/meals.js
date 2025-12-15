@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Path to meals.json
-const mealsFilePath = path.join(__dirname, '..', 'meals.json');
+const mealsFilePath = path.join(__dirname, '..', 'data', 'meals.json');
 
 // Helper function to read meals data
 function getMeals() {
