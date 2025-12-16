@@ -11,17 +11,25 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-left">
-            <span class="logo-text">Nefsk Feeh</span>
+            <span class="logo-text"><a href="home.html">Nefsk Feeh</a></span>
             <ul class="menu">
-                <li><a href="home.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="cook-dashboard.html">Become a Chef</a></li>
             </ul>
         </div>
 
         <div class="nav-right">
-            <a href="login.html" class="btn-signin">Sign In</a>
-            <a href="register.html" class="btn-signup">Sign Up</a>
+            <!-- Shown when NOT logged in -->
+            <div id="auth-buttons">
+                <a href="login.html" class="btn-signin">Sign In</a>
+                <a href="register.html" class="btn-signup">Sign Up</a>
+            </div>
+
+            <!-- Shown when logged in -->
+            <div id="user-menu" style="display: none;">
+                <span class="user-greeting">Welcome, <span id="nav-username">User</span>!</span>
+                <a href="cook-dashboard.html" class="btn-dashboard">Dashboard</a>
+                <button id="nav-logout-btn" class="btn-logout">Logout</button>
+            </div>
         </div>
     </nav>
 

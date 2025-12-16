@@ -4,10 +4,12 @@ if (!user) {
     window.location.href = 'login.html';
 }
 
-// Display user name from localStorage
+// Display user info from localStorage
 if (user) {
     document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('user-name').textContent = user.username;
+        document.getElementById('user-name').textContent = user.username || 'N/A';
+        document.getElementById('user-email').textContent = user.email || 'N/A';
+        document.getElementById('user-address').textContent = user.address || 'Not provided';
     });
 }
 

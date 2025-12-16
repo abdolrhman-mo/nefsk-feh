@@ -1,12 +1,53 @@
+// Check if user is logged in and update navbar
+const user = JSON.parse(localStorage.getItem('user'));
+
 // API base URL
 const API_BASE = '/api';
 
 // Load data on page load
 document.addEventListener('DOMContentLoaded', () => {
+    // Update navbar based on login state
+    updateNavbar();
+
     loadPopularMeals();
     loadCategories();
     loadReviews();
 });
+
+// Update navbar based on login state
+function updateNavbar() {
+    const authButtons = document.getElementById('auth-buttons');
+    const userMenu = document.getElementById('user-menu');
+    const becomeChefLink = document.querySelector('a[href="cook-dashboard.html"]');
+
+    if (user) {
+        // User is logged in - show user menu, hide auth buttons
+        authButtons.style.display = 'none';
+        userMenu.style.display = 'flex';
+        document.getElementById('nav-username').textContent = user.username;
+
+        // Update "Become a Chef" to "My Dashboard"
+        if (becomeChefLink) {
+            becomeChefLink.textContent = 'My Dashboard';
+        }
+
+        // Logout functionality
+        document.getElementById('nav-logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('user');
+            window.location.reload(); // Refresh to show auth buttons again
+        });
+    } else {
+        // User is not logged in - prevent access to dashboard
+        if (becomeChefLink) {
+            becomeChefLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (confirm('You need to sign up first to become a chef. Would you like to register?')) {
+                    window.location.href = 'register.html';
+                }
+            });
+        }
+    }
+}
 
 // Load popular meals from backend
 async function loadPopularMeals() {

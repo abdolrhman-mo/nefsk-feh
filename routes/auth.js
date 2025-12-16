@@ -15,7 +15,7 @@ if (!fs.existsSync(USERS_FILE)) {
 
 // Register endpoint
 router.post('/register', (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, address } = req.body;
 
     // Validate all fields are provided
     if (!username || !email || !password) {
@@ -35,6 +35,7 @@ router.post('/register', (req, res) => {
         id: users.length + 1,
         username,
         email,
+        address: address || '',
         password
     };
     users.push(newUser);
@@ -43,7 +44,7 @@ router.post('/register', (req, res) => {
     res.json({
         success: true,
         message: 'Registration successful',
-        user: { id: newUser.id, username: newUser.username, email: newUser.email }
+        user: { id: newUser.id, username: newUser.username, email: newUser.email, address: newUser.address }
     });
 });
 
@@ -63,11 +64,55 @@ router.post('/login', (req, res) => {
         res.json({
             success: true,
             message: 'Login successful',
-            user: { id: user.id, username: user.username, email: user.email }
+            user: { id: user.id, username: user.username, email: user.email, address: user.address || '' }
         });
     } else {
         res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
+});
+
+// Update profile endpoint
+router.put('/profile/:id', (req, res) => {
+    const { id } = req.params;
+    const { username, email, address } = req.body;
+
+    // Read existing users
+    const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+
+    // Find user by ID
+    const userIndex = users.findIndex(u => u.id === parseInt(id));
+
+    if (userIndex === -1) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Check if username/email already taken by another user
+    const existingUser = users.find(u =>
+        u.id !== parseInt(id) && (u.email === email || u.username === username)
+    );
+
+    if (existingUser) {
+        return res.status(400).json({ success: false, message: 'Username or email already taken' });
+    }
+
+    // Update user
+    users[userIndex].username = username || users[userIndex].username;
+    users[userIndex].email = email || users[userIndex].email;
+    users[userIndex].address = address || users[userIndex].address;
+
+    // Save updated users
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+
+    res.json({
+        success: true,
+        message: 'Profile updated successfully',
+        user: {
+            id: users[userIndex].id,
+            username: users[userIndex].username,
+            email: users[userIndex].email,
+            address: users[userIndex].address
+        }
+    });
 });
 
 module.exports = router;
