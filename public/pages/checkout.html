@@ -4,61 +4,96 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - Nefsk Feeh</title>
+
+  <!-- Checkout styles -->
   <link rel="stylesheet" href="../css/checkout.css">
+  <!-- Notification styles -->
   <link rel="stylesheet" href="../css/notification.css">
 </head>
 <body>
+
+  <!-- Page title -->
   <h1 class="title">Checkout</h1>
+
+  <!-- Main checkout form -->
   <form id="checkoutForm" class="grid" novalidate>
+
+    <!-- User information -->
     <section class="panel">
       <h2>User Information</h2>
+
+      <!-- Name input -->
       <label class="field">
         Name
-        <input id="name" name="name" type="text" placeholder="Jane Doe" required>
+        <input id="name" name="name" type="text" required>
       </label>
+
+      <!-- Phone input -->
       <label class="field">
         Phone
-        <input id="phone" name="phone" type="tel" placeholder="+20 123 456 7890" required>
+        <input id="phone" name="phone" type="tel" required>
       </label>
+
+      <!-- Address input -->
       <label class="field">
         Address
-        <input id="address" name="address" type="text" placeholder="123 Main St" required>
+        <input id="address" name="address" type="text" required>
       </label>
+
+      <!-- Optional notes -->
       <label class="field">
         Notes
-        <textarea id="notes" name="notes" rows="3" placeholder="Add delivery notes"></textarea>
+        <textarea id="notes" name="notes"></textarea>
       </label>
     </section>
 
+    <!-- Order summary -->
     <section class="panel">
       <h2>Order Summary</h2>
+
+      <!-- Cart items loaded by JS -->
       <ul class="items" id="itemSummary">
         <li class="loading-item">Loading cart items...</li>
       </ul>
+
+      <!-- Total price -->
       <div class="summary-line">
         <span>Total</span>
         <strong id="total">0 EGP</strong>
       </div>
+
+      <!-- Payment method -->
       <div class="payment">
-        <p class="label">Payment Method</p>
-        <label><input type="radio" name="payment" value="cash" checked> Cash</label>
-        <label><input type="radio" name="payment" value="card"> Credit Card</label>
+        <label>
+          <input type="radio" name="payment" value="cash" checked> Cash
+        </label>
+        <label>
+          <input type="radio" name="payment" value="card"> Credit Card
+        </label>
       </div>
+
+      <!-- Card inputs (shown only for card payment) -->
       <div id="cardFields" class="card-fields hidden">
-        <input type="text" id="cardNumber" placeholder="Card Number">
-        <div class="two">
-          <input type="text" id="cardExpiry" placeholder="MM/YY">
-          <input type="text" id="cardCvc" placeholder="CVC">
-        </div>
-        <p id="cardPreview" class="card-preview">Enter card details to pay by credit card.</p>
+        <input type="text" id="cardNumber">
+        <input type="text" id="cardExpiry">
+        <input type="text" id="cardCvc">
+        <p id="cardPreview"></p>
       </div>
+
+      <!-- Submit button -->
       <button type="submit" class="primary">Place Order</button>
-      <p id="message" class="message" role="status"></p>
+
+      <!-- Form message -->
+      <p id="message" class="message"></p>
     </section>
   </form>
 
+  <!-- Notification container -->
   <div id="notification" class="notification hidden"></div>
+
+  <!-- Scripts -->
   <script src="../js/notification.js"></script>
   <script src="../js/checkout.js"></script>
+
 </body>
 </html>

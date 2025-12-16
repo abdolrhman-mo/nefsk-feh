@@ -3,53 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Tracking </title>
+  <title>Order Tracking</title>
+
+  <!-- Tracking page styles -->
   <link rel="stylesheet" href="../css/tracking.css">
 </head>
 <body>
+
+  <!-- Page title -->
   <h1 class="title">Order Tracking</h1>
-  <p class="order-tag">Order ID: <strong id="orderId"></strong></p>
+
+  <!-- Display order ID -->
+  <p class="order-tag">
+    Order ID: <strong id="orderId"></strong>
+  </p>
 
   <div class="cards-row">
+
+    <!-- Order status section -->
     <section class="card">
       <div class="card-head">
         <h2>Status</h2>
+        <!-- Current status value updated by JS -->
         <span id="statusValue" class="status-pill">Starting...</span>
       </div>
+
+      <!-- Status steps -->
       <ul id="statusList" class="status-list" aria-live="polite">
-        <li data-status="Pending"><span class="dot"></span><div><strong>Pending</strong><small>Order received</small></div></li>
-        <li data-status="Preparing"><span class="dot"></span><div><strong>Preparing</strong><small>Kitchen is on it</small></div></li>
-        <li data-status="Out for delivery"><span class="dot"></span><div><strong>Out for delivery</strong><small>Courier en route</small></div></li>
-        <li data-status="Delivered"><span class="dot"></span><div><strong>Delivered</strong><small>Enjoy your meal</small></div></li>
+        <li data-status="Pending">
+          <span class="dot"></span>
+          <div><strong>Pending</strong><small>Order received</small></div>
+        </li>
+        <li data-status="Preparing">
+          <span class="dot"></span>
+          <div><strong>Preparing</strong><small>Kitchen is on it</small></div>
+        </li>
+        <li data-status="Out for delivery">
+          <span class="dot"></span>
+          <div><strong>Out for delivery</strong><small>Courier en route</small></div>
+        </li>
+        <li data-status="Delivered">
+          <span class="dot"></span>
+          <div><strong>Delivered</strong><small>Enjoy your meal</small></div>
+        </li>
       </ul>
     </section>
 
+    <!-- Order details section -->
     <section class="card">
       <h2>Order Details</h2>
+
+      <!-- Order information -->
       <div class="info-grid">
-        <div><span class="label">Order Number</span><strong id="infoOrder"></strong></div>
-        <div><span class="label">Estimated Delivery</span><strong id="infoEta"></strong></div>
-        <div><span class="label">Payment Method</span><strong id="infoPayment"></strong></div>
-        <div><span class="label">Delivery Address</span><strong id="infoAddress"></strong></div>
+        <div>
+          <span class="label">Order Number</span>
+          <strong id="infoOrder"></strong>
+        </div>
+        <div>
+          <span class="label">Estimated Delivery</span>
+          <strong id="infoEta"></strong>
+        </div>
+        <div>
+          <span class="label">Payment Method</span>
+          <strong id="infoPayment"></strong>
+        </div>
+        <div>
+          <span class="label">Delivery Address</span>
+          <strong id="infoAddress"></strong>
+        </div>
       </div>
+
+      <!-- Ordered items -->
       <ul id="itemList" class="item-list">
-        <li data-price="12"><span>Margherita Pizza</span><strong>$12.00</strong></li>
-        <li data-price="10"><span>Veggie Bowl</span><strong>$10.00</strong></li>
-        <li data-price="9"><span>Pasta Alfredo</span><strong>$9.00</strong></li>
-        <li data-price="6"><span>Berry Smoothie</span><strong>$6.00</strong></li>
+        <!-- Items are filled dynamically by JS -->
       </ul>
+
+      <!-- Total price -->
       <div class="summary-line">
         <span>Total</span>
         <strong id="total">$0.00</strong>
       </div>
     </section>
+
   </div>
 
+  <!-- Page actions -->
   <div class="actions">
     <a class="primary" href="checkout.html">Place New Order</a>
     <a class="ghost" href="home.html">Back to Home</a>
   </div>
 
+  <!-- Tracking logic -->
   <script src="../js/tracking.js"></script>
 </body>
 </html>

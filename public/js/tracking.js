@@ -1,13 +1,14 @@
+// Main DOM elements
 const orderIdEl = document.getElementById("orderId");
 const statusValue = document.getElementById("statusValue");
 const statusItems = Array.from(document.querySelectorAll("[data-status]"));
 const itemListEl = document.getElementById("itemList");
 const totalEl = document.getElementById("total");
 
-// Format money
+// Helper to format money
 const formatMoney = (n) => `$${n.toFixed(2)}`;
 
-// Mapping backend status → frontend stage index
+// Map backend order status to UI steps
 const statusMap = {
   processing: 0,
   preparing: 1,
@@ -15,7 +16,7 @@ const statusMap = {
   completed: 3
 };
 
-// Color + progress update
+// Update progress UI (colors + current status)
 const paintStatus = (index) => {
   statusItems.forEach((li, i) => {
     li.classList.remove("done", "current");
@@ -24,20 +25,22 @@ const paintStatus = (index) => {
   });
 
   const state = statusItems[index];
-  if(state) {
+  if (state) {
     statusValue.textContent = state.dataset.status;
     statusValue.className = `status-pill ${state.dataset.status
       .toLowerCase()
-      .replace(/\s/g,'')}`;
+      .replace(/\s/g, '')}`;
   }
 };
 
-// Fill order details + items (runs once)
+// Fill order summary and items (runs once)
 const updateSummary = (order) => {
   document.getElementById("infoOrder").textContent = order.id;
 
-  document.getElementById("infoEta").textContent = new Date(Date.now() + 35*60000)
-    .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  // Fake ETA (current time + 35 minutes)
+  document.getElementById("infoEta").textContent = new Date(
+    Date.now() + 35 * 60000
+  ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   document.getElementById("infoPayment").textContent =
     order.paymentMethod?.toUpperCase() || "N/A";
@@ -45,9 +48,9 @@ const updateSummary = (order) => {
   document.getElementById("infoAddress").textContent =
     order.customer?.address || "Address not provided";
 
-  // Items
+  // Render ordered items
   itemListEl.innerHTML = "";
-  if(order.items?.length){
+  if (order.items?.length) {
     order.items.forEach(item => {
       const li = document.createElement("li");
       li.dataset.price = item.price;
@@ -59,18 +62,19 @@ const updateSummary = (order) => {
     });
   }
 
-  // Total
+  // Calculate and display total
   const total = order.items?.reduce((s, i) => s + i.price, 0) || 0;
   totalEl.textContent = formatMoney(total);
 };
 
+// Track current status to avoid unnecessary UI updates
 let currentStatus = null;
 
-// Load all details (first time only)
+// Load full order details (first time only)
 const loadOrder = async () => {
   const stored = JSON.parse(localStorage.getItem("lastOrder") || "{}");
 
-  if(!stored.id){
+  if (!stored.id) {
     orderIdEl.textContent = "N/A";
     statusValue.textContent = "Order not found";
     return;
@@ -80,41 +84,42 @@ const loadOrder = async () => {
 
   try {
     const res = await fetch(`/api/orders/${stored.id}`);
-    if(!res.ok) throw new Error("Order not found");
+    if (!res.ok) throw new Error("Order not found");
 
     const order = await res.json();
-    
+
     updateSummary(order);
 
     currentStatus = order.status;
     paintStatus(statusMap[currentStatus] || 0);
 
-  } catch(err){
+  } catch (err) {
     console.error(err);
   }
 };
 
-// Only check status (efficient)
+// Check only order status (lightweight polling)
 const checkStatus = async () => {
   const stored = JSON.parse(localStorage.getItem("lastOrder") || "{}");
-  if(!stored.id) return;
+  if (!stored.id) return;
 
   try {
     const res = await fetch(`/api/orders/${stored.id}`);
     const order = await res.json();
 
-    if(order.status !== currentStatus){
+    // Update UI only if status changed
+    if (order.status !== currentStatus) {
       currentStatus = order.status;
       paintStatus(statusMap[currentStatus] || 0);
     }
 
-  } catch(err){
+  } catch (err) {
     console.error(err);
   }
 };
 
-// Run first time
+// Initial load
 loadOrder();
 
-// Auto-update every 4 seconds
+// Auto refresh order status every 4 seconds
 setInterval(checkStatus, 4000);
