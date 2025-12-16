@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - Nefsk Feeh</title>
 
-  <!-- Checkout styles -->
+  <!-- Main checkout styles -->
   <link rel="stylesheet" href="../css/checkout.css">
+
   <!-- Notification styles -->
   <link rel="stylesheet" href="../css/notification.css">
 </head>
@@ -18,80 +19,126 @@
   <!-- Main checkout form -->
   <form id="checkoutForm" class="grid" novalidate>
 
-    <!-- User information -->
+    <!-- User information section -->
     <section class="panel">
       <h2>User Information</h2>
 
-      <!-- Name input -->
+      <!-- Customer name -->
       <label class="field">
         Name
-        <input id="name" name="name" type="text" required>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Jane Doe"
+          required
+        >
       </label>
 
-      <!-- Phone input -->
+      <!-- Customer phone number -->
       <label class="field">
         Phone
-        <input id="phone" name="phone" type="tel" required>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          placeholder="+20 123 456 7890"
+          required
+        >
       </label>
 
-      <!-- Address input -->
+      <!-- Delivery address -->
       <label class="field">
         Address
-        <input id="address" name="address" type="text" required>
+        <input
+          id="address"
+          name="address"
+          type="text"
+          placeholder="Street, building, apartment"
+          required
+        >
       </label>
 
-      <!-- Optional notes -->
+      <!-- Optional delivery notes -->
       <label class="field">
         Notes
-        <textarea id="notes" name="notes"></textarea>
+        <textarea
+          id="notes"
+          name="notes"
+          rows="3"
+          placeholder="Any delivery notes (optional)"
+        ></textarea>
       </label>
     </section>
 
-    <!-- Order summary -->
+    <!-- Order summary and payment -->
     <section class="panel">
       <h2>Order Summary</h2>
 
-      <!-- Cart items loaded by JS -->
+      <!-- Cart items loaded dynamically using JS -->
       <ul class="items" id="itemSummary">
         <li class="loading-item">Loading cart items...</li>
       </ul>
 
-      <!-- Total price -->
+      <!-- Total price calculated by JS -->
       <div class="summary-line">
         <span>Total</span>
         <strong id="total">0 EGP</strong>
       </div>
 
-      <!-- Payment method -->
+      <!-- Payment method selection -->
       <div class="payment">
         <label>
-          <input type="radio" name="payment" value="cash" checked> Cash
+          <input type="radio" name="payment" value="cash" checked>
+          Cash
         </label>
+
         <label>
-          <input type="radio" name="payment" value="card"> Credit Card
+          <input type="radio" name="payment" value="card">
+          Credit Card
         </label>
       </div>
 
-      <!-- Card inputs (shown only for card payment) -->
+      <!-- Credit card fields (shown only if card is selected) -->
       <div id="cardFields" class="card-fields hidden">
-        <input type="text" id="cardNumber">
-        <input type="text" id="cardExpiry">
-        <input type="text" id="cardCvc">
-        <p id="cardPreview"></p>
+        <input
+          type="text"
+          id="cardNumber"
+          placeholder="Card Number"
+        >
+
+        <div class="two">
+          <input
+            type="text"
+            id="cardExpiry"
+            placeholder="MM/YY"
+          >
+
+          <input
+            type="text"
+            id="cardCvc"
+            placeholder="CVC"
+          >
+        </div>
+
+        <!-- Live preview for card info -->
+        <p id="cardPreview">
+          Enter card details to pay by credit card.
+        </p>
       </div>
 
-      <!-- Submit button -->
+      <!-- Submit order -->
       <button type="submit" class="primary">Place Order</button>
 
-      <!-- Form message -->
+      <!-- Validation or success message -->
       <p id="message" class="message"></p>
     </section>
   </form>
 
-  <!-- Notification container -->
+  <!-- Notification popup container -->
   <div id="notification" class="notification hidden"></div>
 
-  <!-- Scripts -->
+  <!-- JS files -->
   <script src="../js/notification.js"></script>
   <script src="../js/checkout.js"></script>
 
