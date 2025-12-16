@@ -36,6 +36,11 @@ body {
     margin-right: 30px;
 }
 
+.logo-text a {
+    color: white;
+    text-decoration: none;
+}
+
 /* Horizontal Menu Links */
 .menu {
     list-style: none;
@@ -88,6 +93,48 @@ body {
 
 .btn-signup:hover {
     background-color: #d01a4d;
+}
+
+/* User menu when logged in */
+#user-menu {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.user-greeting {
+    color: white;
+    font-weight: bold;
+}
+
+.btn-dashboard {
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: white;
+    color: #d01a4d;
+    transition: background 0.3s;
+}
+
+.btn-dashboard:hover {
+    background-color: #ffe5df;
+}
+
+.btn-logout {
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: none;
+}
+
+.btn-logout:hover {
+    background-color: #d32f2f;
 }
 
 /* Popular Meals Section */
