@@ -1,3 +1,4 @@
+// Cache main cart page DOM elements
 const elements = {
     cartContainer: document.getElementById('cartContainer'),
     emptyCart: document.getElementById('emptyCart'),
@@ -6,6 +7,7 @@ const elements = {
     checkoutBtn: document.getElementById('checkoutBtn')
 };
 
+// Reusable API request helper
 async function apiCall(url, options = {}) {
     const res = await fetch(url, options);
     if (!res.ok) {
@@ -15,17 +17,20 @@ async function apiCall(url, options = {}) {
     return res.json();
 }
 
+// Show or hide cart sections based on cart state
 function toggleCartVisibility(hasItems) {
     elements.emptyCart.classList.toggle('hidden', hasItems);
     elements.cartSummary.classList.toggle('hidden', !hasItems);
 }
 
+// Prevent XSS by escaping user-provided text
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
+// Create a single cart item DOM element
 function createCartItemElement(item) {
     const div = document.createElement('div');
     div.className = 'cart-item';
@@ -33,14 +38,24 @@ function createCartItemElement(item) {
     return div;
 }
 
+// Fetch cart items and render them
 async function loadCartItems() {
     try {
         const cart = await apiCall('/api/cart');
         toggleCartVisibility(cart.length > 0);
+
         elements.cartContainer.innerHTML = '';
+
         if (cart.length > 0) {
-            cart.forEach(item => elements.cartContainer.appendChild(createCartItemElement(item)));
-            const total = cart.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 0), 0);
+            cart.forEach(item =>
+                elements.cartContainer.appendChild(createCartItemElement(item))
+            );
+
+            // Calculate and display total price
+            const total = cart.reduce(
+                (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
+                0
+            );
             elements.totalPrice.textContent = `${total.toFixed(0)} EGP`;
         }
     } catch (err) {
@@ -49,12 +64,21 @@ async function loadCartItems() {
     }
 }
 
+// Update quantity for a specific cart item
 async function updateQuantity(itemId, change) {
     try {
         const cart = await apiCall('/api/cart');
         const item = cart.find(i => i.id === itemId);
+
+        // Prevent quantity going below 1
         if (!item || (item.quantity + change) < 1) return;
-        await apiCall(`/api/cart/${itemId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quantity: item.quantity + change }) });
+
+        await apiCall(`/api/cart/${itemId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ quantity: item.quantity + change })
+        });
+
         await loadCartItems();
         showNotification('Cart updated', 'success');
     } catch (err) {
@@ -62,6 +86,7 @@ async function updateQuantity(itemId, change) {
     }
 }
 
+// Remove item completely from cart
 async function removeItem(itemId) {
     try {
         await apiCall(`/api/cart/${itemId}`, { method: 'DELETE' });
@@ -72,14 +97,20 @@ async function removeItem(itemId) {
     }
 }
 
+// Handle quantity changes and item removal using event delegation
 elements.cartContainer.addEventListener('click', async (e) => {
     const btn = e.target.closest('.increase-btn, .decrease-btn, .remove-btn');
     if (!btn) return;
+
     const itemId = btn.dataset.id;
+
     if (btn.classList.contains('increase-btn')) await updateQuantity(itemId, 1);
     else if (btn.classList.contains('decrease-btn')) await updateQuantity(itemId, -1);
     else if (btn.classList.contains('remove-btn')) await removeItem(itemId);
 });
 
+// Navigate to checkout page
 elements.checkoutBtn.addEventListener('click', () => window.location.href = 'checkout.html');
+
+// Initial cart load
 loadCartItems();

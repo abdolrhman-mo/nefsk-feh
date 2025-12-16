@@ -1,3 +1,4 @@
+// Cache DOM elements used on the meal details page
 const elements = {
     mealImage: document.getElementById('mealImage'),
     mealName: document.getElementById('mealName'),
@@ -10,8 +11,10 @@ const elements = {
     cartBadge: document.getElementById('cartBadge')
 };
 
+// Get meal ID from URL query parameters
 const mealId = new URLSearchParams(window.location.search).get('id');
 
+// Reusable helper for API requests
 async function apiCall(url, options = {}) {
     const res = await fetch(url, options);
     if (!res.ok) {
@@ -21,6 +24,7 @@ async function apiCall(url, options = {}) {
     return res.json();
 }
 
+// Fetch cart data and update cart badge count
 async function updateCartBadge() {
     try {
         const cart = await apiCall('/api/cart');
@@ -34,6 +38,7 @@ async function updateCartBadge() {
     }
 }
 
+// Load meal details and populate UI
 async function loadMealInfo() {
     if (!mealId) {
         showNotification('No meal ID provided. Redirecting...', 'error');
@@ -54,13 +59,19 @@ async function loadMealInfo() {
             }
             if (!meal) throw new Error('Meal not found');
         }
+
+        // Fallback image handling
         const defaultImg = '/images/meals/profile.png';
         elements.mealImage.src = meal.image || defaultImg;
         elements.mealImage.alt = meal.name || 'Meal';
         elements.mealImage.onerror = () => elements.mealImage.src = defaultImg;
+
+        // Populate meal data
         elements.mealName.textContent = meal.name || 'Unknown Meal';
         elements.mealDescription.textContent = meal.description || 'No description available.';
         elements.mealPrice.textContent = `${meal.price || 0} EGP`;
+
+        // Store meal globally for cart usage
         window.meal = meal;
     } catch (err) {
         showNotification('Failed to load meal details: ' + err.message, 'error');
@@ -70,30 +81,52 @@ async function loadMealInfo() {
     }
 }
 
+// Update quantity while preventing values < 1
 function updateQuantity(change) {
     const current = parseInt(elements.quantityInput.value) || 1;
     elements.quantityInput.value = Math.max(1, current + change);
 }
 
+// Add selected meal to cart
 async function handleAddToCart() {
     if (!window.meal) { showNotification('Meal information not loaded', 'error'); return; }
     const quantity = parseInt(elements.quantityInput.value) || 1;
     if (isNaN(quantity) || quantity < 1) { showNotification('Invalid quantity', 'error'); return; }
+
     try {
-        await apiCall('/api/cart', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mealId: window.meal.id, name: window.meal.name, price: window.meal.price, image: window.meal.image, quantity }) });
+        await apiCall('/api/cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                mealId: window.meal.id,
+                name: window.meal.name,
+                price: window.meal.price,
+                image: window.meal.image,
+                quantity
+            })
+        });
+
+        // Refresh cart badge and UI feedback
         await updateCartBadge();
         showNotification(`${window.meal.name} added to cart!`, 'success');
+
         elements.addToCartBtn.textContent = 'Added!';
         elements.addToCartBtn.classList.add('added');
-        setTimeout(() => { elements.addToCartBtn.textContent = 'Add to Cart'; elements.addToCartBtn.classList.remove('added'); }, 2000);
+
+        setTimeout(() => {
+            elements.addToCartBtn.textContent = 'Add to Cart';
+            elements.addToCartBtn.classList.remove('added');
+        }, 2000);
     } catch (err) {
         showNotification('Failed to add item to cart: ' + err.message, 'error');
     }
 }
 
+// Button event listeners
 elements.increaseBtn.addEventListener('click', () => updateQuantity(1));
 elements.decreaseBtn.addEventListener('click', () => updateQuantity(-1));
 elements.addToCartBtn.addEventListener('click', handleAddToCart);
+
+// Initial page setup
 loadMealInfo();
 updateCartBadge();
-

@@ -1,35 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page metadata and responsive settings -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title -->
     <title>Meal Details - Nefsk Feeh</title>
+
+    <!-- Page-specific and notification styles -->
     <link rel="stylesheet" href="../css/meal-details.css">
     <link rel="stylesheet" href="../css/notification.css">
 </head>
 <body>
+    <!-- Page header -->
     <header>
         <div class="container">
+            <!-- Navigation back to meals list -->
             <a href="meals.html" class="back-link">← Back to Meals</a>
+
+            <!-- App logo -->
             <h1 class="logo">Nefsk Feeh</h1>
         </div>
     </header>
 
+    <!-- Main meal details content -->
     <main class="container">
         <div class="meal-details-card">
+            <!-- Meal image section -->
             <div class="meal-image-container">
                 <img id="mealImage" src="" alt="Meal Image" class="meal-image">
             </div>
             
+            <!-- Meal information section -->
             <div class="meal-info">
                 <h2 id="mealName" class="meal-title"></h2>
                 <p id="mealDescription" class="meal-description"></p>
                 
+                <!-- Price display -->
                 <div class="price-section">
                     <span class="price-label">Price:</span>
                     <span id="mealPrice" class="price">0 EGP</span>
                 </div>
                 
+                <!-- Quantity controls -->
                 <div class="quantity-section">
                     <label for="quantity">Quantity:</label>
                     <div class="quantity-controls">
@@ -39,6 +53,7 @@
                     </div>
                 </div>
                 
+                <!-- Cart action -->
                 <div class="actions">
                     <button id="addToCartBtn" class="add-to-cart-btn">Add to Cart</button>
                 </div>
@@ -46,6 +61,7 @@
         </div>
     </main>
 
+    <!-- Floating cart shortcut with item count -->
     <a href="cart.html" class="floating-cart">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="21" r="1"></circle>
@@ -55,7 +71,10 @@
         <span id="cartBadge" class="cart-badge hidden">0</span>
     </a>
 
+    <!-- Notification container -->
     <div id="notification" class="notification hidden"></div>
+
+    <!-- Scripts -->
     <script src="../js/notification.js"></script>
     <script src="../js/meal-details.js"></script>
 </body>
