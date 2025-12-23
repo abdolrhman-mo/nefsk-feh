@@ -1,0 +1,99 @@
+/* Contact Page Styles */
+
+.contact-container {
+    max-width: 800px;
+    margin: var(--spacing-10) auto;
+    padding: var(--spacing-5);
+}
+
+.contact-container h1 {
+    text-align: center;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-4);
+}
+
+.contact-container > p {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-8);
+}
+
+/* Contact Info Cards */
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-10);
+}
+
+.contact-card {
+    text-align: center;
+    padding: var(--spacing-5);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-card h3 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-3);
+    font-size: var(--font-size-lg);
+}
+
+.contact-card p {
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+/* Contact Form */
+.contact-form {
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-form h2 {
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-6);
+    text-align: center;
+}
+
+.contact-form .form-group {
+    margin-bottom: var(--spacing-5);
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: var(--spacing-2);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: var(--spacing-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.contact-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.contact-form .btn {
+    width: 100%;
+    padding: var(--spacing-3);
+}

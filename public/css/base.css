@@ -48,6 +48,7 @@ p {
 a {
     color: var(--color-primary);
     text-decoration: none;
+    transition: all 0.2s ease-in-out;
 }
 
 a:hover {
@@ -94,6 +95,7 @@ img {
 .btn-primary {
     background-color: var(--color-primary);
     color: var(--color-text-light);
+    transition: all 0.2s ease-in-out;
 }
 
 .btn-primary:hover {

@@ -27,6 +27,7 @@
     overflow: hidden;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease-in-out;
 }
 
 .meal-card:hover {
@@ -68,42 +69,68 @@
 
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-6);
     max-width: var(--container-max-width);
     margin: 0 auto;
 }
 
 .category-card {
-    background: var(--color-bg-secondary);
-    border-radius: var(--radius-lg);
+    position: relative;
+    border-radius: var(--radius-xl);
     overflow: hidden;
     cursor: pointer;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
+    aspect-ratio: 16 / 10;
 }
 
-.category-card:hover {
-    box-shadow: var(--shadow-xl);
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+    z-index: 1;
+}
+
+.category-card:hover img {
+    transform: scale(1.05);
 }
 
 .category-card img {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .category-card h3 {
-    padding: var(--spacing-4);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-5);
     margin: 0;
-    font-size: var(--font-size-xl);
-    background-color: var(--color-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
     color: var(--color-text-light);
+    text-align: left;
+    z-index: 2;
 }
 
 .category-card p {
-    padding: 0 var(--spacing-4) var(--spacing-4);
-    color: var(--color-text-secondary);
+    position: absolute;
+    bottom: var(--spacing-12);
+    left: 0;
+    right: 0;
+    padding: 0 var(--spacing-5);
+    color: rgba(255, 255, 255, 0.85);
     margin: 0;
+    text-align: left;
+    z-index: 2;
+    font-size: var(--font-size-sm);
 }
 
 /* Reviews Section */
@@ -132,6 +159,7 @@
     padding: var(--spacing-6);
     box-shadow: var(--shadow-md);
     text-align: center;
+    transition: all 0.2s ease-in-out;
 }
 
 .review-card:hover {

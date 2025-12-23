@@ -19,9 +19,7 @@
                 <span class="logo-text"><a href="home.html">Nefsk Feeh</a></span>
                 <ul class="menu">
                     <li><a href="home.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
                     <li><a href="meals.html">All Meals</a></li>
-                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="nav-right">
