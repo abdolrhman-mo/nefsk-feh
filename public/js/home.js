@@ -94,6 +94,12 @@ async function loadCategories() {
                 <h3>${category.name}</h3>
                 <p>${category.description}</p>
             `;
+            // Add click handler to navigate to meals page filtered by category
+            categoryCard.style.cursor = 'pointer';
+            categoryCard.addEventListener('click', () => {
+                const categoryType = category.type || category.name.toLowerCase();
+                window.location.href = `meals.html?category=${encodeURIComponent(categoryType)}`;
+            });
             categoriesGrid.appendChild(categoryCard);
         });
     } catch (error) {

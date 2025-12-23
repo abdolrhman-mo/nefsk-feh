@@ -1,51 +1,39 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #fafafa;
-}
+/* About Page Styles */
 
 .about-section {
     max-width: 900px;
-    margin: 50px auto;
-    padding: 0 15px;
+    margin: var(--spacing-10) auto;
+    padding: 0 var(--spacing-4);
 }
 
 .about-section h1 {
     text-align: center;
-    font-size: 36px;
-    color: #222;
-    margin-bottom: 20px;
+    font-size: var(--font-size-4xl);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-5);
 }
 
 .about-section p {
-    font-size: 18px;
-    line-height: 1.7;
-    margin-bottom: 25px;
-    color: #444;
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--spacing-6);
+    color: var(--color-text-secondary);
 }
 
 .about-section h2 {
-    margin-top: 30px;
-    font-size: 28px;
-    color:#d01a4d;
+    margin-top: var(--spacing-8);
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary);
 }
 
 .about-image img {
     width: 100%;
-    border-radius: 12px;
-    margin: 25px 0;
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-6) 0;
 }
 
 .why-list li {
-    margin-bottom: 15px;
-    font-size: 18px;
-}
-
-/* Footer */
-footer {
-    background-color: #333;
-    color: white;
-    padding: 15px 0;
-    text-align: center;
-    margin-top: 40px;
+    margin-bottom: var(--spacing-4);
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
 }

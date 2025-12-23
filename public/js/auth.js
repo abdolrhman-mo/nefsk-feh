@@ -31,10 +31,8 @@ document.querySelector('form').addEventListener('submit', async function(e) {
             const data = await response.json();
 
             if (data.success) {
-                // Save user in localStorage
-                localStorage.setItem('user', JSON.stringify(data.user));
-                alert('Registration successful!');
-                window.location.href = 'cook-dashboard.html';
+                alert('Registration successful! Please login.');
+                window.location.href = 'login.html';
             } else {
                 alert(data.message || 'Registration failed');
             }
@@ -56,7 +54,7 @@ document.querySelector('form').addEventListener('submit', async function(e) {
                 // Save user in localStorage
                 localStorage.setItem('user', JSON.stringify(data.user));
                 alert('Login successful!');
-                window.location.href = 'cook-dashboard.html';
+                window.location.href = 'meals.html';
             } else {
                 alert(data.message || 'Login failed');
             }

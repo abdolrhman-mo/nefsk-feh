@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Nefsk Feeh</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Minimal auth header -->
+    <header class="auth-header">
+        <a href="home.html" class="logo-link">Nefsk Feeh</a>
+    </header>
+
+    <div class="auth-container">
         <h1>Login</h1>
         <form>
-            <div>
+            <div class="form-group">
                 <label for="username">Username/Email:</label>
                 <input type="text" id="username" name="username" required>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <div>
-                <button type="submit">Login</button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Login</button>
             </div>
             <div class="link-container">
                 <p>Don't have an account? <a href="register.html">Register here</a></p>
@@ -29,4 +37,3 @@
     <script src="../js/auth.js"></script>
 </body>
 </html>
-

@@ -21,7 +21,17 @@ async function loadMeals() {
         if (!Array.isArray(meals) || meals.length === 0) meals = await fetchData(`${API_BASE}/home/popular-meals`);
         categories = await fetchData(`${API_BASE}/home/categories`);
         populateCategories();
-        renderMeals(meals);
+
+        // Check for category URL parameter and apply filter
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        if (categoryParam) {
+            elements.categoryFilter.value = categoryParam.toLowerCase();
+            applyFilters();
+        } else {
+            renderMeals(meals);
+        }
+
         updateCartCount();
     } catch (err) { elements.container.innerHTML = '<div class="no-results">Failed to load meals. Please refresh.</div>'; }
 }

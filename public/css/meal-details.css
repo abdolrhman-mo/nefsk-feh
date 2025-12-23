@@ -1,46 +1,15 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Meal Details Page Styles */
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Header */
-header {
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 20px 0;
-    margin-bottom: 40px;
-}
-
-.logo {
-    font-size: 28px;
-    font-weight: 700;
-    color: #f01d59;
-    text-align: center;
+/* Main Content */
+main {
+    padding: var(--spacing-5) 0 var(--spacing-16);
 }
 
 /* Meal Details Card */
-main {
-    padding: 20px 0 100px;
-}
-
 .meal-details-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
     max-width: 900px;
     margin: 0 auto;
@@ -50,7 +19,7 @@ main {
     width: 100%;
     height: 400px;
     overflow: hidden;
-    background-color: #f0f0f0;
+    background-color: var(--color-bg-tertiary);
 }
 
 .meal-image {
@@ -60,136 +29,114 @@ main {
 }
 
 .meal-info {
-    padding: 30px;
+    padding: var(--spacing-8);
 }
 
 .meal-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-4);
 }
 
 .meal-description {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 25px;
-    line-height: 1.8;
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-6);
+    line-height: var(--line-height-relaxed);
 }
 
+/* Price Section */
 .price-section {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-8);
 }
 
 .price-label {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
 }
 
 .price {
-    font-size: 28px;
-    font-weight: 700;
-    color: #f01d59;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
 }
 
+/* Quantity Section */
 .quantity-section {
-    margin-bottom: 30px;
+    margin-bottom: var(--spacing-8);
 }
 
 .quantity-section label {
     display: block;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 12px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-3);
 }
 
 .quantity-controls {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: var(--spacing-4);
     width: fit-content;
 }
 
 .quantity-btn {
     width: 40px;
     height: 40px;
-    background: #f01d59;
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-text-light);
     border: none;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: 700;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
     cursor: pointer;
-    transition: background 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .quantity-btn:hover {
-    background: #d0174a;
-}
-
-.quantity-btn:active {
-    transform: scale(0.95);
+    background: var(--color-primary-hover);
 }
 
 #quantity {
     width: 60px;
     height: 40px;
     text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    background: #fff;
-    color: #333;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
 }
 
+/* Add to Cart Button */
 .add-to-cart-btn {
-    background: #f01d59;
-    color: #fff;
-    padding: 12px 22px;
-    font-weight: 600;
-    border-radius: 10px;
+    background: var(--color-primary);
+    color: var(--color-text-light);
+    padding: var(--spacing-3) var(--spacing-5);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-lg);
     border: none;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     cursor: pointer;
-    transition: 0.2s;
     width: 100%;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-primary);
 }
 
 .add-to-cart-btn:hover {
-    background: #d0174a;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(240, 29, 89, 0.3);
-}
-
-.add-to-cart-btn:active {
-    transform: translateY(0);
+    background: var(--color-primary-hover);
 }
 
 .add-to-cart-btn.added {
-    background: #28a745;
-    animation: addedPulse 0.5s ease;
-}
-
-@keyframes addedPulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
+    background: var(--color-success);
 }
 
 /* Floating Cart */
@@ -199,82 +146,78 @@ main {
     right: 30px;
     width: 60px;
     height: 60px;
-    background: #f01d59;
-    border-radius: 50%;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--color-text-light);
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(240, 29, 89, 0.4);
-    transition: 0.2s;
+    box-shadow: var(--shadow-xl);
     z-index: 1000;
 }
 
 .floating-cart:hover {
-    background: #d0174a;
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(240, 29, 89, 0.5);
+    background: var(--color-primary-hover);
 }
 
 .cart-badge {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: #fff;
-    color: #f01d59;
-    border-radius: 50%;
+    background: var(--color-bg-secondary);
+    color: var(--color-primary);
+    border-radius: var(--radius-full);
     width: 24px;
     height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    border: 2px solid #f01d59;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    border: 2px solid var(--color-primary);
 }
 
 .cart-badge.hidden {
     display: none;
 }
 
+/* Back Link */
 .back-link {
-    color: #666;
+    color: var(--color-text-secondary);
     text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
-    transition: color 0.2s;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
     display: inline-block;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-4);
 }
 
 .back-link:hover {
-    color: #f01d59;
+    color: var(--color-primary);
 }
 
+/* Actions */
 .actions {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
+    gap: var(--spacing-4);
+    margin-top: var(--spacing-5);
 }
 
 .checkout-link {
-    background: #28a745;
-    color: #fff;
-    padding: 12px 22px;
-    font-weight: 600;
-    border-radius: 10px;
+    background: var(--color-success);
+    color: var(--color-text-light);
+    padding: var(--spacing-3) var(--spacing-5);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-lg);
     text-decoration: none;
     text-align: center;
-    transition: 0.2s;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-primary);
 }
 
 .checkout-link:hover {
-    background: #218838;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    background: var(--color-success-dark);
+    color: var(--color-text-light);
 }
 
 /* Responsive Design */
@@ -284,15 +227,15 @@ main {
     }
 
     .meal-info {
-        padding: 20px;
+        padding: var(--spacing-5);
     }
 
     .meal-title {
-        font-size: 24px;
+        font-size: var(--font-size-2xl);
     }
 
     .price {
-        font-size: 24px;
+        font-size: var(--font-size-xl);
     }
 
     .floating-cart {

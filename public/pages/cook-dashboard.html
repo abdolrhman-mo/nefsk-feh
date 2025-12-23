@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cook Dashboard</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/cook-dashboard.css">
 </head>
 <body>
-    <header>
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <header class="dashboard-header">
         <h1>Cook Dashboard</h1>
-        <button type="button" id="logout-btn" style="position: absolute; top: 20px; right: 20px; padding: 10px 20px; background-color: #F01D59; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
     </header>
 
     <section id="profile">
@@ -45,6 +50,10 @@
             <div class="item add-item-form">
                 <h3>Add New Item</h3>
                 <form>
+                    <div>
+                        <label for="item-name">Image:</label>
+                        <input type="file" id="item-name" name="item-name" required>
+                    </div>
                     <div>
                         <label for="item-name">Item Name:</label>
                         <input type="text" id="item-name" name="item-name" required>
@@ -186,6 +195,12 @@
         </table>
     </section>
 
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Nefsk Feeh. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/navbar.js"></script>
     <script src="../js/cook-dashboard.js"></script>
 </body>
 </html>

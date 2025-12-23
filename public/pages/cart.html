@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Page metadata and responsive setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Page title -->
     <title>Shopping Cart - Nefsk Feeh</title>
 
     <!-- Google Fonts -->
@@ -14,18 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Page styles -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/cart.css">
     <link rel="stylesheet" href="../css/notification.css">
 </head>
 <body>
     <!-- Page header -->
-    <header>
+    <header class="cart-header">
         <div class="container">
-            <!-- App logo -->
-            <h1 class="logo">Nefsk Feeh</h1>
+            <!-- App logo - now clickable -->
+            <a href="home.html" class="logo-link">
+                <h1 class="logo">Nefsk Feeh</h1>
+            </a>
 
             <!-- Navigation back to meals -->
-            <a href="meals.html" class="back-link">← Back to Meals</a>
+            <a href="meals.html" class="back-link">Back to Meals</a>
         </div>
     </header>
 
@@ -33,7 +35,7 @@
     <main class="container">
         <!-- Page title -->
         <h2 class="page-title">Your Cart</h2>
-        
+
         <!-- Cart items container (populated via JS) -->
         <div id="cartContainer">
             <!-- Cart items will be dynamically inserted here -->
@@ -67,6 +69,11 @@
             </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Nefsk Feeh. All rights reserved.</p>
+    </footer>
 
     <!-- Notification container -->
     <div id="notification" class="notification hidden"></div>

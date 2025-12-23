@@ -4,21 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meals - Nefsk Feeh</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/meals.css">
     <link rel="stylesheet" href="../css/notification.css">
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Meals Listing 🍽️</h1>
-            <a href="cart.html" class="cart-link">
-                <span class="cart-icon">🛒</span>
-                <span class="cart-count" id="cartCount">0</span>
-            </a>
-        </div>
-    </header>
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
 
     <main class="container">
+        <h1 class="page-title">All Meals</h1>
+
         <div class="filters">
             <input type="text" id="searchInput" placeholder="Search meals..." class="filter-input">
             <select id="categoryFilter" class="filter-select">
@@ -43,7 +41,13 @@
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Nefsk Feeh. All rights reserved.</p>
+    </footer>
+
     <div id="notification" class="notification hidden"></div>
+    <script src="../js/navbar.js"></script>
     <script src="../js/notification.js"></script>
     <script src="../js/meals.js"></script>
 </body>
