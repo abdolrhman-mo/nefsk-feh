@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/notification.css">
 </head>
 <body>
     <!-- Navbar Container -->
@@ -71,6 +72,13 @@
                         <input type="number" id="meal-price" name="meal-price" step="1" min="0" required>
                     </div>
                     <div>
+                        <label for="meal-category">Category:</label>
+                        <select id="meal-category" name="meal-category" required>
+                            <option value="main">Oriental Food</option>
+                            <option value="frozen">Frozen Food</option>
+                        </select>
+                    </div>
+                    <div>
                         <button type="submit">Add Meal</button>
                     </div>
                 </form>
@@ -110,6 +118,9 @@
         </table>
     </section>
 
+    <!-- Notification container -->
+    <div id="notification" class="notification hidden"></div>
+
     <!-- Footer -->
     <footer>
         <div class="footer-logo">Nefsk Feeh</div>
@@ -119,6 +130,7 @@
     </footer>
 
     <script src="../js/navbar.js"></script>
+    <script src="../js/notification.js"></script>
     <script src="../js/profile.js"></script>
 </body>
 </html>

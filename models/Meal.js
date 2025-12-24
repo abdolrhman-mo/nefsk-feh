@@ -1,10 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Use data folder for user-created meals (writable)
+// Use data folder for meals (writable)
 const MEALS_FILE = path.join(__dirname, '../data/meals.json');
-// Static meals for fallback/seeding
-const STATIC_MEALS_FILE = path.join(__dirname, '../static_data/meals.json');
 
 // Helper: Read meals from file
 function readMeals() {
@@ -65,24 +63,9 @@ const Meal = {
             fs.mkdirSync(dataDir, { recursive: true });
         }
 
-        // Create meals.json if it doesn't exist, seed from static data
+        // Create meals.json if it doesn't exist with empty array
         if (!fs.existsSync(MEALS_FILE)) {
-            try {
-                // Read static meals and add default userId
-                const staticData = fs.readFileSync(STATIC_MEALS_FILE, 'utf8');
-                const staticMeals = JSON.parse(staticData);
-
-                // Add userId: 1 to all existing meals (default admin/system user)
-                const seededMeals = staticMeals.map(meal => ({
-                    ...meal,
-                    userId: 1
-                }));
-
-                fs.writeFileSync(MEALS_FILE, JSON.stringify(seededMeals, null, 2));
-            } catch (err) {
-                // If static file doesn't exist, create empty array
-                fs.writeFileSync(MEALS_FILE, '[]');
-            }
+            fs.writeFileSync(MEALS_FILE, '[]');
         }
     },
 

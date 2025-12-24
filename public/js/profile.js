@@ -65,6 +65,14 @@
             });
         }
 
+        // Update Info button handler
+        const updateBtn = document.querySelector('.profile-update-btn');
+        if (updateBtn) {
+            updateBtn.addEventListener('click', function() {
+                showNotification('Update profile feature coming soon!', 'info');
+            });
+        }
+
         // Load all data
         loadUserMeals();
         loadMyOrders();
@@ -118,6 +126,7 @@
         const name = document.getElementById('meal-name').value.trim();
         const description = document.getElementById('meal-description').value.trim();
         const price = document.getElementById('meal-price').value;
+        const category = document.getElementById('meal-category').value;
         const imageInput = document.getElementById('meal-image');
 
         if (!name || !price) {
@@ -143,7 +152,7 @@
                     description,
                     price: parseFloat(price),
                     image: imagePath,
-                    category: 'main',
+                    category: category,
                     userId: user.id
                 })
             });

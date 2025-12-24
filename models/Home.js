@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const CATEGORIES_FILE = path.join(__dirname, '../static_data/categories.json');
-const REVIEWS_FILE = path.join(__dirname, '../static_data/reviews.json');
-const MEALS_FILE = path.join(__dirname, '../static_data/meals.json');
+const CATEGORIES_FILE = path.join(__dirname, '../data/categories.json');
+const REVIEWS_FILE = path.join(__dirname, '../data/reviews.json');
+const MEALS_FILE = path.join(__dirname, '../data/meals.json');
 
 // Helper: Read JSON file safely
 function readJSONFile(filePath) {

@@ -2,7 +2,7 @@
 node_modules/
 
 # User data
-data/
+# data/
 
 # Environment variables
 .env

@@ -6,7 +6,7 @@ const itemListEl = document.getElementById("itemList");
 const totalEl = document.getElementById("total");
 
 // Helper to format money
-const formatMoney = (n) => `$${n.toFixed(2)}`;
+const formatMoney = (n) => `${n.toFixed(0)} EGP`;
 
 // Map backend order status to UI steps
 const statusMap = {
