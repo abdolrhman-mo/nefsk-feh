@@ -2,19 +2,19 @@ const express = require('express');
 const router = express.Router();
 const cartController = require('../controllers/cartController');
 
-// GET /api/cart - Get all cart items
-router.get('/', cartController.getCart);
+// GET /api/cart/:userId - Get user's cart
+router.get('/:userId', cartController.getCart);
 
-// POST /api/cart - Add item to cart
-router.post('/', cartController.addToCart);
+// POST /api/cart/:userId - Add item to user's cart
+router.post('/:userId', cartController.addToCart);
 
-// DELETE /api/cart - Clear entire cart
-router.delete('/', cartController.clearCart);
+// PUT /api/cart/:userId/:itemId - Update cart item quantity
+router.put('/:userId/:itemId', cartController.updateCartItem);
 
-// DELETE /api/cart/:id - Remove item from cart
-router.delete('/:id', cartController.removeFromCart);
+// DELETE /api/cart/:userId/:itemId - Remove item from user's cart
+router.delete('/:userId/:itemId', cartController.removeFromCart);
 
-// PUT /api/cart/:id - Update cart item quantity
-router.put('/:id', cartController.updateCartItem);
+// DELETE /api/cart/:userId - Clear user's entire cart
+router.delete('/:userId', cartController.clearCart);
 
 module.exports = router;

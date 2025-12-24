@@ -58,7 +58,17 @@
 
     // Update cart count from API
     function updateCartCount() {
-        fetch('/api/cart')
+        const user = getUser();
+        if (!user || !user.id) {
+            // No user logged in, show 0
+            const countEl = document.getElementById('navCartCount');
+            if (countEl) {
+                countEl.textContent = '0';
+            }
+            return;
+        }
+
+        fetch(`/api/cart/${user.id}`)
             .then(res => res.json())
             .then(cart => {
                 if (Array.isArray(cart)) {

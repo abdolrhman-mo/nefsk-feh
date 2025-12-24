@@ -6,11 +6,13 @@ const PORT = 3000;
 const User = require('./models/User');
 const Cart = require('./models/Cart');
 const Order = require('./models/Order');
+const Meal = require('./models/Meal');
 
 // Ensure data files exist on startup
 User.ensureDataExists();
 Cart.ensureDataExists();
 Order.ensureDataExists();
+Meal.ensureDataExists();
 
 // Import routes
 const authRoutes = require('./routes/auth');
