@@ -2,7 +2,7 @@
     {
         "id": 1,
         "name": "Bassant",
-        "avatar": "/images/reviews/user1.jpg",
+        "avatar": "/images/reviews/user1.png",
         "rating": 5,
         "comment": "The food was delicious and tasted exactly like home cooking. Will definitely order again!",
         "date": "2024-12-15"
@@ -10,7 +10,7 @@
     {
         "id": 2,
         "name": "Nadine",
-        "avatar": "/images/reviews/user2.jpg",
+        "avatar": "/images/reviews/user2.png",
         "rating": 4,
         "comment": "Great frozen food quality, especially the marinated chicken. Very easy to cook!",
         "date": "2024-12-10"
@@ -18,7 +18,7 @@
     {
         "id": 3,
         "name": "Melissia",
-        "avatar": "/images/reviews/user3.jpg",
+        "avatar": "/images/reviews/user3.png",
         "rating": 5,
         "comment": "Amazing oriental meals! The mahshi was perfect and full of flavor.",
         "date": "2024-12-08"
