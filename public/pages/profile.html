@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Nefsk Feeh</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <header class="profile-header">
+        <h1>My Profile</h1>
+    </header>
+
+    <!-- Profile Info Section -->
+    <section id="profile-info">
+        <div class="profile-container">
+            <div class="profile-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" stroke="#F01D59" stroke-width="2" fill="none"/>
+                    <path d="M6 21c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#F01D59" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+            <div class="profile-info">
+                <div class="profile-item">
+                    <span class="profile-label">Name:</span>
+                    <span class="profile-value" id="user-name">Loading...</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">Email:</span>
+                    <span class="profile-value" id="user-email">Loading...</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">Address:</span>
+                    <span class="profile-value" id="user-address">Loading...</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button type="button" class="profile-update-btn">Update Info</button>
+                <button type="button" class="profile-logout-btn" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Meals Section -->
+    <section id="my-meals">
+        <h2 class="section-title">My Meals</h2>
+        <div class="items-container">
+            <div class="item add-item-form">
+                <h3>Add New Meal</h3>
+                <form id="add-meal-form">
+                    <div>
+                        <label for="meal-image">Image:</label>
+                        <input type="file" id="meal-image" name="meal-image" accept="image/*">
+                    </div>
+                    <div>
+                        <label for="meal-name">Meal Name:</label>
+                        <input type="text" id="meal-name" name="meal-name" required>
+                    </div>
+                    <div>
+                        <label for="meal-description">Description:</label>
+                        <textarea id="meal-description" name="meal-description" rows="3"></textarea>
+                    </div>
+                    <div>
+                        <label for="meal-price">Price (EGP):</label>
+                        <input type="number" id="meal-price" name="meal-price" step="1" min="0" required>
+                    </div>
+                    <div>
+                        <button type="submit">Add Meal</button>
+                    </div>
+                </form>
+            </div>
+            <!-- User's meals will be loaded here dynamically -->
+            <div id="user-meals-container"></div>
+        </div>
+    </section>
+
+    <!-- My Orders Section (Orders I placed) -->
+    <section id="my-orders">
+        <h2 class="section-title">My Orders</h2>
+        <p class="section-subtitle">Orders you placed from other cooks</p>
+        <div id="my-orders-container">
+            <p class="empty-message">You haven't placed any orders yet.</p>
+        </div>
+    </section>
+
+    <!-- Orders to Fulfill Section (Orders containing my meals) -->
+    <section id="orders-to-fulfill">
+        <h2 class="section-title">Orders to Fulfill</h2>
+        <p class="section-subtitle">Orders from customers who bought your meals</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="orders-to-fulfill-body">
+                <tr>
+                    <td colspan="4" class="empty-message">No orders to fulfill yet.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Nefsk Feeh</div>
+        <p class="footer-tagline">Homemade Egyptian Food, Delivered to Your Door</p>
+        <div class="footer-divider"></div>
+        <p>&copy; 2025 Nefsk Feeh. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/navbar.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

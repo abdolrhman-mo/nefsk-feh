@@ -25,8 +25,7 @@
             <div class="nav-right">
                 ${user ? `
                     <span class="user-greeting">Welcome, ${escapeHtml(user.username)}!</span>
-                    <a href="cook-dashboard.html" class="btn-dashboard">Profile</a>
-                    <button id="nav-logout-btn" class="btn-logout">Logout</button>
+                    <a href="profile.html" class="btn-dashboard">Profile</a>
                 ` : `
                     <a href="login.html" class="btn-signin">Sign In</a>
                     <a href="register.html" class="btn-signup">Sign Up</a>
@@ -53,19 +52,7 @@
         const container = document.getElementById('navbar-container');
         if (container) {
             container.innerHTML = generateNavbarHTML();
-            setupLogoutHandler();
             updateCartCount();
-        }
-    }
-
-    // Setup logout button handler
-    function setupLogoutHandler() {
-        const logoutBtn = document.getElementById('nav-logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function() {
-                localStorage.removeItem('user');
-                window.location.href = 'home.html';
-            });
         }
     }
 
