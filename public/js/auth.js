@@ -31,8 +31,9 @@ document.querySelector('form').addEventListener('submit', async function(e) {
             const data = await response.json();
 
             if (data.success) {
-                alert('Registration successful! Please login.');
-                window.location.href = 'login.html';
+                // Auto-login: save user in localStorage and redirect to home
+                localStorage.setItem('user', JSON.stringify(data.user));
+                window.location.href = 'home.html';
             } else {
                 alert(data.message || 'Registration failed');
             }
@@ -54,7 +55,7 @@ document.querySelector('form').addEventListener('submit', async function(e) {
                 // Save user in localStorage
                 localStorage.setItem('user', JSON.stringify(data.user));
                 alert('Login successful!');
-                window.location.href = 'meals.html';
+                window.location.href = 'home.html';
             } else {
                 alert(data.message || 'Login failed');
             }

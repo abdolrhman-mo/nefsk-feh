@@ -1,16 +1,43 @@
 /* About Page Styles */
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .about-section {
+    flex: 1;
     max-width: 900px;
     margin: var(--spacing-10) auto;
-    padding: 0 var(--spacing-4);
+    padding: 0 var(--spacing-5);
 }
 
 .about-section h1 {
     text-align: center;
-    font-size: var(--font-size-4xl);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
-    margin-bottom: var(--spacing-5);
+    margin-bottom: var(--spacing-3);
+}
+
+.about-section h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-primary);
+    margin: var(--spacing-4) auto var(--spacing-8);
+    border-radius: var(--radius-full);
+}
+
+/* About Content Card */
+.about-content {
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border-top: 4px solid var(--color-primary);
 }
 
 .about-section p {
@@ -22,18 +49,74 @@
 
 .about-section h2 {
     margin-top: var(--spacing-8);
-    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-4);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
     color: var(--color-primary);
+    padding-bottom: var(--spacing-3);
+    border-bottom: 2px solid var(--color-border);
 }
 
 .about-image img {
     width: 100%;
     border-radius: var(--radius-lg);
     margin: var(--spacing-6) 0;
+    box-shadow: var(--shadow-md);
+}
+
+/* Why Choose Us List */
+.why-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    padding: 0;
+    margin: 0;
 }
 
 .why-list li {
-    margin-bottom: var(--spacing-4);
+    background: var(--color-bg-tertiary);
+    padding: var(--spacing-4) var(--spacing-5);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-primary);
     font-size: var(--font-size-lg);
     color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.why-list li::before {
+    content: '✓';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #c4134a 100%);
+    color: var(--color-text-light);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+    .about-section {
+        padding: 0 var(--spacing-4);
+        margin: var(--spacing-8) auto;
+    }
+
+    .about-section h1 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .about-content {
+        padding: var(--spacing-5);
+    }
+
+    .about-section p,
+    .why-list li {
+        font-size: var(--font-size-base);
+    }
 }

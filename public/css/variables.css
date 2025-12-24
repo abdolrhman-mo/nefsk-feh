@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 :root {
     /* Primary Colors */
     --color-primary: #f01d59;
@@ -35,6 +37,7 @@
     /* Typography */
     --font-family-primary: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     --font-family-heading: 'Poppins', 'Inter', 'Segoe UI', sans-serif;
+    --font-family-logo: 'Pacifico', 'Dancing Script', cursive;
 
     /* Font Sizes */
     --font-size-xs: 0.75rem;

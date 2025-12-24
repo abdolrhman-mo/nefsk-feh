@@ -1,38 +1,53 @@
 /* Meals Page Styles */
 
-/* Header */
-header {
-    background: var(--color-bg-secondary);
-    padding: var(--spacing-5);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--spacing-5);
-    box-shadow: var(--shadow-sm);
+main.container {
+    padding: var(--spacing-10) var(--spacing-5);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Page Title */
+.page-title {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    text-align: center;
+    margin-bottom: var(--spacing-3);
 }
 
-/* Filters */
+.page-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-primary);
+    margin: var(--spacing-4) auto var(--spacing-8);
+    border-radius: var(--radius-full);
+}
+
+/* Filters Card */
 .filters {
     display: flex;
     gap: var(--spacing-4);
-    margin-bottom: var(--spacing-6);
+    margin-bottom: var(--spacing-8);
     flex-wrap: wrap;
     justify-content: center;
+    background: var(--color-bg-secondary);
+    padding: var(--spacing-5);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
 }
 
 .filter-input,
 .filter-select {
-    padding: var(--spacing-3);
+    padding: var(--spacing-3) var(--spacing-4);
     font-size: var(--font-size-base);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--color-border);
     min-width: 180px;
-    background: var(--color-bg-secondary);
+    background: var(--color-bg-primary);
     color: var(--color-text-primary);
+    transition: all 0.2s ease;
 }
 
 .filter-input:focus,
@@ -45,42 +60,64 @@ header {
 /* Meals Grid */
 .meals-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: var(--spacing-5);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-6);
 }
 
 /* Meal Card */
 .meal-card {
     background: var(--color-bg-secondary);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-4);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
     box-shadow: var(--shadow-md);
-    text-align: center;
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .meal-card:hover {
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
 }
 
 .meal-card img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
-    border-radius: var(--radius-md);
-    margin-bottom: var(--spacing-3);
+}
+
+.meal-card-content {
+    padding: var(--spacing-5);
 }
 
 .meal-card h3 {
-    margin: var(--spacing-3) 0 var(--spacing-2);
+    margin: var(--spacing-4) 0 var(--spacing-2);
+    padding: 0 var(--spacing-4);
     color: var(--color-text-primary);
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
 }
 
 .meal-card .meal-price {
     color: var(--color-primary);
     font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xl);
+    padding: 0 var(--spacing-4) var(--spacing-5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.meal-card .meal-price::after {
+    content: '→';
     font-size: var(--font-size-lg);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.meal-card:hover .meal-price::after {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 /* Primary Action Buttons */
@@ -88,20 +125,24 @@ button,
 .btn,
 .add-to-cart,
 .checkout-btn {
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #c4134a 100%);
     color: var(--color-text-light);
     border: none;
-    padding: var(--spacing-3) var(--spacing-4);
-    border-radius: var(--radius-md);
+    padding: var(--spacing-3) var(--spacing-5);
+    border-radius: var(--radius-lg);
     font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(240, 29, 89, 0.3);
 }
 
 button:hover,
 .btn:hover,
 .add-to-cart:hover,
 .checkout-btn:hover {
-    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 29, 89, 0.4);
 }
 
 /* No Results Message */
@@ -111,7 +152,7 @@ button:hover,
     padding: var(--spacing-10);
     background: var(--color-error-light);
     border: 1px solid var(--color-error);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     color: var(--color-error);
 }
 
@@ -119,8 +160,9 @@ button:hover,
 .loading {
     grid-column: 1 / -1;
     text-align: center;
-    padding: var(--spacing-8);
+    padding: var(--spacing-10);
     color: var(--color-text-muted);
+    font-size: var(--font-size-lg);
 }
 
 /* Responsive */
@@ -132,5 +174,9 @@ button:hover,
     .filter-input,
     .filter-select {
         width: 100%;
+    }
+
+    .page-title {
+        font-size: var(--font-size-3xl);
     }
 }

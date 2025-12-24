@@ -3,33 +3,48 @@
 body {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Auth Container */
+.auth-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: var(--spacing-5);
+    padding: var(--spacing-8) var(--spacing-5);
 }
 
-.container {
-    width: 100%;
-    max-width: 400px;
-}
-
-h1 {
-    color: var(--color-primary);
+.auth-container h1 {
+    color: var(--color-text-primary);
     text-align: center;
-    margin-bottom: var(--spacing-8);
+    margin-bottom: var(--spacing-2);
     font-size: var(--font-size-3xl);
 }
 
+.auth-container h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-primary);
+    margin: var(--spacing-4) auto var(--spacing-8);
+    border-radius: var(--radius-full);
+}
+
+/* Form Card */
 form {
     background-color: var(--color-bg-secondary);
     padding: var(--spacing-8);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
     width: 100%;
+    max-width: 450px;
+    border-top: 4px solid var(--color-primary);
 }
 
-form div {
+.form-group {
     margin-bottom: var(--spacing-5);
 }
 
@@ -44,12 +59,13 @@ input[type="text"],
 input[type="password"],
 input[type="email"] {
     width: 100%;
-    padding: var(--spacing-3);
+    padding: var(--spacing-3) var(--spacing-4);
     border: 2px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     font-size: var(--font-size-base);
-    background: var(--color-bg-secondary);
+    background: var(--color-bg-primary);
     color: var(--color-text-primary);
+    transition: all 0.2s ease;
 }
 
 input[type="text"]:focus,
@@ -57,43 +73,53 @@ input[type="password"]:focus,
 input[type="email"]:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px var(--color-primary-light);
+    box-shadow: 0 0 0 4px var(--color-primary-light);
+    background: var(--color-bg-secondary);
 }
 
+/* Submit Button */
 button[type="submit"] {
     width: 100%;
-    padding: var(--spacing-3);
-    background-color: var(--color-primary);
+    padding: var(--spacing-4);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #c4134a 100%);
     color: var(--color-text-light);
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
+    box-shadow: 0 4px 15px rgba(240, 29, 89, 0.3);
+    transition: all 0.2s ease;
 }
 
 button[type="submit"]:hover {
-    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 29, 89, 0.4);
 }
 
 button[type="submit"]:active {
-    background-color: var(--color-primary-dark);
+    transform: translateY(0);
 }
 
+/* Link Container */
 .link-container {
-    margin-top: var(--spacing-5);
+    margin-top: var(--spacing-6);
     text-align: center;
+    padding-top: var(--spacing-5);
+    border-top: 1px solid var(--color-border);
 }
 
 .link-container p {
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
+    margin: 0;
 }
 
 .link-container a {
     color: var(--color-primary);
     text-decoration: none;
     font-weight: var(--font-weight-semibold);
+    transition: all 0.2s ease;
 }
 
 .link-container a:hover {

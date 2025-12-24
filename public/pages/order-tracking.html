@@ -8,92 +8,110 @@
   <!-- Styles -->
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/navbar.css">
   <link rel="stylesheet" href="../css/tracking.css">
 </head>
 <body>
 
-  <!-- Page title -->
-  <h1 class="title">Order Tracking</h1>
+  <!-- Navbar Container -->
+  <div id="navbar-container"></div>
 
-  <!-- Display order ID -->
-  <p class="order-tag">
-    Order ID: <strong id="orderId"></strong>
-  </p>
+  <!-- Main Content -->
+  <main class="tracking-container">
+    <!-- Page title -->
+    <h1 class="title">Order Tracking</h1>
 
-  <div class="cards-row">
+    <!-- Display order ID -->
+    <p class="order-tag">
+      Order ID: <strong id="orderId"></strong>
+    </p>
 
-    <!-- Order status section -->
-    <section class="card">
-      <div class="card-head">
-        <h2>Status</h2>
-        <!-- Current status value updated by JS -->
-        <span id="statusValue" class="status-pill">Starting...</span>
-      </div>
+    <div class="cards-row">
 
-      <!-- Status steps -->
-      <ul id="statusList" class="status-list" aria-live="polite">
-        <li data-status="Pending">
-          <span class="dot"></span>
-          <div><strong>Pending</strong><small>Order received</small></div>
-        </li>
-        <li data-status="Preparing">
-          <span class="dot"></span>
-          <div><strong>Preparing</strong><small>Kitchen is on it</small></div>
-        </li>
-        <li data-status="Out for delivery">
-          <span class="dot"></span>
-          <div><strong>Out for delivery</strong><small>Courier en route</small></div>
-        </li>
-        <li data-status="Delivered">
-          <span class="dot"></span>
-          <div><strong>Delivered</strong><small>Enjoy your meal</small></div>
-        </li>
-      </ul>
-    </section>
-
-    <!-- Order details section -->
-    <section class="card">
-      <h2>Order Details</h2>
-
-      <!-- Order information -->
-      <div class="info-grid">
-        <div>
-          <span class="label">Order Number</span>
-          <strong id="infoOrder"></strong>
+      <!-- Order status section -->
+      <section class="card">
+        <div class="card-head">
+          <h2>Status</h2>
+          <!-- Current status value updated by JS -->
+          <span id="statusValue" class="status-pill">Starting...</span>
         </div>
-        <div>
-          <span class="label">Estimated Delivery</span>
-          <strong id="infoEta"></strong>
+
+        <!-- Status steps -->
+        <ul id="statusList" class="status-list" aria-live="polite">
+          <li data-status="Pending">
+            <span class="dot"></span>
+            <div><strong>Pending</strong><small>Order received</small></div>
+          </li>
+          <li data-status="Preparing">
+            <span class="dot"></span>
+            <div><strong>Preparing</strong><small>Kitchen is on it</small></div>
+          </li>
+          <li data-status="Out for delivery">
+            <span class="dot"></span>
+            <div><strong>Out for delivery</strong><small>Courier en route</small></div>
+          </li>
+          <li data-status="Delivered">
+            <span class="dot"></span>
+            <div><strong>Delivered</strong><small>Enjoy your meal</small></div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Order details section -->
+      <section class="card">
+        <h2>Order Details</h2>
+
+        <!-- Order information -->
+        <div class="info-grid">
+          <div>
+            <span class="label">Order Number</span>
+            <strong id="infoOrder"></strong>
+          </div>
+          <div>
+            <span class="label">Estimated Delivery</span>
+            <strong id="infoEta"></strong>
+          </div>
+          <div>
+            <span class="label">Payment Method</span>
+            <strong id="infoPayment"></strong>
+          </div>
+          <div>
+            <span class="label">Delivery Address</span>
+            <strong id="infoAddress"></strong>
+          </div>
         </div>
-        <div>
-          <span class="label">Payment Method</span>
-          <strong id="infoPayment"></strong>
+
+        <!-- Ordered items -->
+        <ul id="itemList" class="item-list">
+          <!-- Items are filled dynamically by JS -->
+        </ul>
+
+        <!-- Total price -->
+        <div class="summary-line">
+          <span>Total</span>
+          <strong id="total">$0.00</strong>
         </div>
-        <div>
-          <span class="label">Delivery Address</span>
-          <strong id="infoAddress"></strong>
-        </div>
-      </div>
+      </section>
 
-      <!-- Ordered items -->
-      <ul id="itemList" class="item-list">
-        <!-- Items are filled dynamically by JS -->
-      </ul>
+    </div>
 
-      <!-- Total price -->
-      <div class="summary-line">
-        <span>Total</span>
-        <strong id="total">$0.00</strong>
-      </div>
-    </section>
+    <!-- Page actions -->
+    <div class="actions">
+      <a class="primary" href="checkout.html">Place New Order</a>
+      <a class="ghost" href="home.html">Back to Home</a>
+    </div>
+  </main>
 
-  </div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Nefsk Feeh</div>
+    <p class="footer-tagline">Homemade Egyptian Food, Delivered to Your Door</p>
+    <div class="footer-divider"></div>
+    <p>&copy; 2025 Nefsk Feeh. All rights reserved.</p>
+  </footer>
 
-  <!-- Page actions -->
-  <div class="actions">
-    <a class="primary" href="checkout.html">Place New Order</a>
-    <a class="ghost" href="home.html">Back to Home</a>
-  </div>
+  <!-- Navbar JS -->
+  <script src="../js/navbar.js"></script>
 
   <!-- Tracking logic -->
   <script src="../js/tracking.js"></script>
