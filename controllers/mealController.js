@@ -113,9 +113,10 @@ exports.updateMeal = (req, res) => {
 exports.deleteMeal = (req, res) => {
     try {
         const { id } = req.params;
-        const { userId } = req.body;
+        // Accept userId from query params or body for flexibility
+        const userId = req.query.userId || req.body.userId;
 
-        // userId in body is the requesting user (for ownership check)
+        // userId is the requesting user (for ownership check)
         const result = Meal.delete(id, userId);
 
         if (!result.success) {

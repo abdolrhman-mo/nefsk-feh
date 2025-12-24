@@ -9,6 +9,15 @@ const elements = {
     cartCount: document.getElementById('cartCount')
 };
 
+// Get current user from localStorage
+function getUser() {
+    try {
+        return JSON.parse(localStorage.getItem('user'));
+    } catch (e) {
+        return null;
+    }
+}
+
 async function fetchData(url) {
     const res = await fetch(url);
     if (!res.ok) throw new Error('Failed to fetch');
@@ -95,12 +104,23 @@ function applyFilters() {
 }
 
 async function updateCartCount() {
+    const user = getUser();
+    if (!user || !user.id) {
+        // No user logged in, show 0
+        elements.cartCount.textContent = '0';
+        elements.cartCount.style.display = 'none';
+        return;
+    }
+
     try {
-        const cart = await fetchData(`${API_BASE}/cart`);
+        const cart = await fetchData(`${API_BASE}/cart/${user.id}`);
         const total = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
         elements.cartCount.textContent = total;
         elements.cartCount.style.display = total > 0 ? 'inline-block' : 'none';
-    } catch (err) { elements.cartCount.textContent = '0'; }
+    } catch (err) {
+        elements.cartCount.textContent = '0';
+        elements.cartCount.style.display = 'none';
+    }
 }
 
 elements.searchInput.addEventListener('input', debounce(applyFilters, 300));

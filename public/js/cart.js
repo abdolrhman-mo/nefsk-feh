@@ -1,3 +1,19 @@
+// Get current user from localStorage
+function getUser() {
+    try {
+        return JSON.parse(localStorage.getItem('user'));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Check if user is logged in
+const user = getUser();
+if (!user || !user.id) {
+    showNotification('Please login to view your cart', 'error');
+    setTimeout(() => window.location.href = 'login.html', 1500);
+}
+
 // Cache main cart page DOM elements
 const elements = {
     cartContainer: document.getElementById('cartContainer'),
@@ -40,8 +56,10 @@ function createCartItemElement(item) {
 
 // Fetch cart items and render them
 async function loadCartItems() {
+    if (!user || !user.id) return;
+
     try {
-        const cart = await apiCall('/api/cart');
+        const cart = await apiCall(`/api/cart/${user.id}`);
         toggleCartVisibility(cart.length > 0);
 
         elements.cartContainer.innerHTML = '';
@@ -58,6 +76,11 @@ async function loadCartItems() {
             );
             elements.totalPrice.textContent = `${total.toFixed(0)} EGP`;
         }
+
+        // Update navbar cart count
+        if (typeof window.updateNavCartCount === 'function') {
+            window.updateNavCartCount();
+        }
     } catch (err) {
         showNotification('Failed to load cart items', 'error');
         toggleCartVisibility(false);
@@ -66,14 +89,16 @@ async function loadCartItems() {
 
 // Update quantity for a specific cart item
 async function updateQuantity(itemId, change) {
+    if (!user || !user.id) return;
+
     try {
-        const cart = await apiCall('/api/cart');
+        const cart = await apiCall(`/api/cart/${user.id}`);
         const item = cart.find(i => i.id === itemId);
 
         // Prevent quantity going below 1
         if (!item || (item.quantity + change) < 1) return;
 
-        await apiCall(`/api/cart/${itemId}`, {
+        await apiCall(`/api/cart/${user.id}/${itemId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ quantity: item.quantity + change })
@@ -88,8 +113,10 @@ async function updateQuantity(itemId, change) {
 
 // Remove item completely from cart
 async function removeItem(itemId) {
+    if (!user || !user.id) return;
+
     try {
-        await apiCall(`/api/cart/${itemId}`, { method: 'DELETE' });
+        await apiCall(`/api/cart/${user.id}/${itemId}`, { method: 'DELETE' });
         await loadCartItems();
         showNotification('Item removed from cart', 'success');
     } catch (err) {

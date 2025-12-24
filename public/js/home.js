@@ -1,71 +1,43 @@
-// Check if user is logged in and update navbar
-const user = JSON.parse(localStorage.getItem('user'));
-
 // API base URL
 const API_BASE = '/api';
 
 // Load data on page load
 document.addEventListener('DOMContentLoaded', () => {
-    // Update navbar based on login state
-    updateNavbar();
-
     loadPopularMeals();
     loadCategories();
     loadReviews();
 });
 
-// Update navbar based on login state
-function updateNavbar() {
-    const authButtons = document.getElementById('auth-buttons');
-    const userMenu = document.getElementById('user-menu');
-    const becomeChefLink = document.querySelector('a[href="cook-dashboard.html"]');
-
-    if (user) {
-        // User is logged in - show user menu, hide auth buttons
-        authButtons.style.display = 'none';
-        userMenu.style.display = 'flex';
-        document.getElementById('nav-username').textContent = user.username;
-
-        // Update "Become a Chef" to "My Dashboard"
-        if (becomeChefLink) {
-            becomeChefLink.textContent = 'My Dashboard';
-        }
-
-        // Logout functionality
-        document.getElementById('nav-logout-btn').addEventListener('click', function() {
-            localStorage.removeItem('user');
-            window.location.reload(); // Refresh to show auth buttons again
-        });
-    } else {
-        // User is not logged in - prevent access to dashboard
-        if (becomeChefLink) {
-            becomeChefLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (confirm('You need to sign up first to become a chef. Would you like to register?')) {
-                    window.location.href = 'register.html';
-                }
-            });
-        }
-    }
-}
-
-// Load popular meals from backend
+// Load popular meals from backend (max 3)
 async function loadPopularMeals() {
     try {
-        const response = await fetch(`${API_BASE}/home/popular-meals`);
-        const meals = await response.json();
-        
+        const response = await fetch(`${API_BASE}/meals`);
+        const allMeals = await response.json();
+
+        // Limit to 3 meals for homepage
+        const meals = allMeals.slice(0, 3);
+
         const mealsContainer = document.getElementById('meals-container');
-        mealsContainer.innerHTML = ''; // Clear existing content
-        
+        mealsContainer.innerHTML = '';
+
+        if (meals.length === 0) {
+            mealsContainer.innerHTML = '<p class="no-meals">No meals available yet.</p>';
+            return;
+        }
+
         meals.forEach(meal => {
             const mealCard = document.createElement('div');
             mealCard.classList.add('meal-card');
             mealCard.innerHTML = `
-                <img src="${meal.image}" alt="${meal.name}">
-                <h3>${meal.name}</h3>
+                <img src="${meal.image}" alt="${escapeHtml(meal.name)}" onerror="this.src='../images/meals/profile.png'">
+                <h3>${escapeHtml(meal.name)}</h3>
                 <p class="meal-price">${meal.price} EGP</p>
             `;
+            // Make card clickable
+            mealCard.style.cursor = 'pointer';
+            mealCard.addEventListener('click', () => {
+                window.location.href = `meal-details.html?id=${meal.id}`;
+            });
             mealsContainer.appendChild(mealCard);
         });
     } catch (error) {
@@ -74,25 +46,32 @@ async function loadPopularMeals() {
     }
 }
 
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 
 // Load categories from backend
 async function loadCategories() {
     try {
         const categoriesGrid = document.querySelector('.categories-grid');
         if (!categoriesGrid) return;
-        
+
         const response = await fetch(`${API_BASE}/home/categories`);
         const categories = await response.json();
-        
+
         categoriesGrid.innerHTML = '';
-        
+
         categories.forEach(category => {
             const categoryCard = document.createElement('div');
             categoryCard.classList.add('category-card');
             categoryCard.innerHTML = `
-                <img src="${category.image}" alt="${category.name}">
-                <h3>${category.name}</h3>
-                <p>${category.description}</p>
+                <img src="${category.image}" alt="${escapeHtml(category.name)}">
+                <h3>${escapeHtml(category.name)}</h3>
+                <p>${escapeHtml(category.description || '')}</p>
             `;
             // Add click handler to navigate to meals page filtered by category
             categoryCard.style.cursor = 'pointer';
@@ -111,30 +90,29 @@ async function loadCategories() {
     }
 }
 
-
 // Load reviews from backend
 async function loadReviews() {
     try {
         const reviewsGrid = document.querySelector('.reviews-grid');
         if (!reviewsGrid) return;
-        
+
         const response = await fetch(`${API_BASE}/home/reviews`);
         const reviews = await response.json();
-        
+
         reviewsGrid.innerHTML = '';
-        
+
         reviews.forEach(review => {
             const reviewCard = document.createElement('div');
             reviewCard.classList.add('review-card');
-            
+
             // Generate star rating
             const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-            
+
             reviewCard.innerHTML = `
-                <img src="${review.avatar}" alt="user review">
-                <h3>${review.name}</h3>
+                <img src="${review.avatar}" alt="${escapeHtml(review.name)}">
+                <h3>${escapeHtml(review.name)}</h3>
                 <div class="stars">${stars}</div>
-                <p>${review.comment}</p>
+                <p>${escapeHtml(review.comment)}</p>
             `;
             reviewsGrid.appendChild(reviewCard);
         });

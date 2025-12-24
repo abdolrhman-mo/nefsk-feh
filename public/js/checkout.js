@@ -1,3 +1,19 @@
+// Get current user from localStorage
+function getUser() {
+    try {
+        return JSON.parse(localStorage.getItem('user'));
+    } catch (e) {
+        return null;
+    }
+}
+
+// Check if user is logged in
+const user = getUser();
+if (!user || !user.id) {
+    showNotification('Please login to checkout', 'error');
+    setTimeout(() => window.location.href = 'login.html', 1500);
+}
+
 // Get main DOM elements
 const form = document.getElementById("checkoutForm");
 const itemSummary = document.getElementById("itemSummary");
@@ -14,7 +30,7 @@ async function apiCall(url, options = {}) {
     const res = await fetch(url, options);
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
-        throw new Error(error.error || 'Request failed');
+        throw new Error(error.error || error.message || 'Request failed');
     }
     return res.json();
 }
@@ -28,8 +44,10 @@ function escapeHtml(text) {
 
 // Load cart items from backend and render them
 async function loadCartItems() {
+    if (!user || !user.id) return;
+
     try {
-        cartItems = await apiCall('/api/cart');
+        cartItems = await apiCall(`/api/cart/${user.id}`);
 
         // If cart is empty, redirect user
         if (cartItems.length === 0) {
@@ -110,6 +128,11 @@ const validateForm = () => {
 const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user || !user.id) {
+        showNotification('Please login to place an order', 'error');
+        return;
+    }
+
     const error = validateForm();
     if (error) {
         showNotification(error, 'error');
@@ -130,6 +153,7 @@ const handleSubmit = async (e) => {
         );
 
         const payload = {
+            userId: user.id,
             customer: {
                 name: form.name.value.trim(),
                 phone: form.phone.value.trim(),
@@ -137,39 +161,35 @@ const handleSubmit = async (e) => {
                 notes: form.notes.value.trim()
             },
             items: cartItems.map(item => ({
+                mealId: item.mealId,
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
-                mealId: item.mealId
+                sellerId: item.sellerId || null
             })),
             total,
-            paymentMethod: payment,
-            card: payment === "card"
-                ? {
-                    number: document.getElementById("cardNumber").value.trim(),
-                    expiry: document.getElementById("cardExpiry").value.trim(),
-                    cvc: document.getElementById("cardCvc").value.trim()
-                }
-                : null,
-            status: 'processing'
+            paymentMethod: payment
         };
 
         // Send order to backend
-        const order = await apiCall('/api/orders', {
+        const response = await apiCall('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
-        // Clear cart after successful order
-        for (const item of cartItems) {
-            await apiCall(`/api/cart/${item.id}`, { method: 'DELETE' });
+        // Clear user's cart after successful order
+        await apiCall(`/api/cart/${user.id}`, { method: 'DELETE' });
+
+        // Update navbar cart count
+        if (typeof window.updateNavCartCount === 'function') {
+            window.updateNavCartCount();
         }
 
-        showNotification(`Order confirmed! ID: ${order.id}`, 'success');
+        showNotification(`Order confirmed! ID: ${response.order.id}`, 'success');
 
         // Save order for tracking page
-        localStorage.setItem("lastOrder", JSON.stringify(order));
+        localStorage.setItem("lastOrder", JSON.stringify(response.order));
 
         setTimeout(() => {
             window.location.href = "order-tracking.html";
