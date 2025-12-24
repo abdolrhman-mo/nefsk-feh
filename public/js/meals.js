@@ -27,6 +27,7 @@ async function fetchData(url) {
 async function loadMeals() {
     try {
         meals = await fetchData(`${API_BASE}/meals`);
+        console.log('Loaded meals:', meals);
         if (!Array.isArray(meals) || meals.length === 0) meals = await fetchData(`${API_BASE}/home/popular-meals`);
         categories = await fetchData(`${API_BASE}/home/categories`);
         populateCategories();
@@ -42,7 +43,10 @@ async function loadMeals() {
         }
 
         updateCartCount();
-    } catch (err) { elements.container.innerHTML = '<div class="no-results">Failed to load meals. Please refresh.</div>'; }
+    } catch (err) {
+        console.error('Error loading meals:', err);
+        elements.container.innerHTML = '<div class="no-results">Failed to load meals. Please refresh.</div>';
+    }
 }
 
 function populateCategories() {
@@ -104,6 +108,9 @@ function applyFilters() {
 }
 
 async function updateCartCount() {
+    // Skip if cartCount element doesn't exist
+    if (!elements.cartCount) return;
+
     const user = getUser();
     if (!user || !user.id) {
         // No user logged in, show 0
