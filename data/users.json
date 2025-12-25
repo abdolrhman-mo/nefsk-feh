@@ -5,5 +5,19 @@
     "email": "makady@gmail.com",
     "address": "cairo",
     "password": "cRistiano6261"
+  },
+  {
+    "id": 2,
+    "username": "Nadine Yassin",
+    "email": "nadinemahmoud565@gmail.com",
+    "address": "Maadi",
+    "password": "1234"
+  },
+  {
+    "id": 3,
+    "username": "ayman",
+    "email": "ayman@gmail.com",
+    "address": "cairo",
+    "password": "12345678"
   }
 ]
