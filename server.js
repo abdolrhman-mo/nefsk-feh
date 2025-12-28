@@ -2,17 +2,8 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-// Import models for initialization
-const User = require('./models/User');
-const Cart = require('./models/Cart');
-const Order = require('./models/Order');
-const Meal = require('./models/Meal');
-
-// Ensure data files exist on startup
-User.ensureDataExists();
-Cart.ensureDataExists();
-Order.ensureDataExists();
-Meal.ensureDataExists();
+// Import Sequelize database connection
+const { sequelize } = require('./models');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -35,7 +26,13 @@ app.use('/api/meals', mealsRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/home', homeRoutes);
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+// Sync database and start server
+sequelize.sync().then(() => {
+    console.log('Database synchronized');
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}).catch(err => {
+    console.error('Failed to sync database:', err);
+    process.exit(1);
 });

@@ -4,7 +4,10 @@
       "Bash(cat:*)",
       "Bash(curl:*)",
       "Bash(dir:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(cd:*)",
+      "Bash(timeout:*)",
+      "Bash(node -e:*)"
     ]
   }
 }

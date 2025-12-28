@@ -1,11 +1,11 @@
 const User = require('../models/User');
 
 // POST /api/auth/register
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
     try {
         const { username, email, password, address } = req.body;
 
-        const result = User.create({ username, email, password, address });
+        const result = await User.create({ username, email, password, address });
 
         if (!result.success) {
             return res.status(400).json({
@@ -20,6 +20,7 @@ exports.register = (req, res) => {
             user: result.user
         });
     } catch (error) {
+        console.error('Registration error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error during registration'
@@ -28,11 +29,11 @@ exports.register = (req, res) => {
 };
 
 // POST /api/auth/login
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        const result = User.validateCredentials(username, password);
+        const result = await User.validateCredentials(username, password);
 
         if (!result.success) {
             return res.status(401).json({
@@ -47,6 +48,7 @@ exports.login = (req, res) => {
             user: result.user
         });
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error during login'
@@ -55,12 +57,12 @@ exports.login = (req, res) => {
 };
 
 // PUT /api/auth/profile/:id
-exports.updateProfile = (req, res) => {
+exports.updateProfile = async (req, res) => {
     try {
         const { id } = req.params;
         const { username, email, address } = req.body;
 
-        const result = User.update(id, { username, email, address });
+        const result = await User.update(id, { username, email, address });
 
         if (!result.success) {
             const statusCode = result.errors[0] === 'User not found' ? 404 : 400;
@@ -76,6 +78,7 @@ exports.updateProfile = (req, res) => {
             user: result.user
         });
     } catch (error) {
+        console.error('Profile update error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error during profile update'

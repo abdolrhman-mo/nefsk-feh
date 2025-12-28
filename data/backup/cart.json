@@ -1,0 +1,22 @@
+[
+  {
+    "id": "mjjdbcj7k88f93h1ysb",
+    "userId": 1,
+    "mealId": 2,
+    "name": "Mahshi",
+    "price": 330,
+    "image": "/images/meals/mahshi.jpg",
+    "quantity": 1,
+    "sellerId": 1
+  },
+  {
+    "id": "mjjwl6xgiiysqypkifp",
+    "userId": 3,
+    "mealId": 2,
+    "name": "Mahshi",
+    "price": 330,
+    "image": "/images/meals/mahshi.jpg",
+    "quantity": 5,
+    "sellerId": 1
+  }
+]

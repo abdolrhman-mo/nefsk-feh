@@ -1,39 +1,26 @@
-const fs = require('fs');
-const path = require('path');
-
-const CATEGORIES_FILE = path.join(__dirname, '../data/categories.json');
-const REVIEWS_FILE = path.join(__dirname, '../data/reviews.json');
-const MEALS_FILE = path.join(__dirname, '../data/meals.json');
-
-// Helper: Read JSON file safely
-function readJSONFile(filePath) {
-    try {
-        const data = fs.readFileSync(filePath, 'utf8');
-        return JSON.parse(data);
-    } catch (err) {
-        console.error(`Error reading file ${filePath}:`, err.message);
-        return [];
-    }
-}
+const { Category, Review, Meal } = require('./index');
 
 const Home = {
     // Get all categories
-    getCategories() {
-        return readJSONFile(CATEGORIES_FILE);
+    async getCategories() {
+        const categories = await Category.findAll();
+        return categories.map(c => c.get({ plain: true }));
     },
 
     // Get all reviews
-    getReviews() {
-        return readJSONFile(REVIEWS_FILE);
+    async getReviews() {
+        const reviews = await Review.findAll();
+        return reviews.map(r => r.get({ plain: true }));
     },
 
     // Get popular meals
-    getPopularMeals(limit = null) {
-        const meals = readJSONFile(MEALS_FILE);
+    async getPopularMeals(limit = null) {
+        const options = {};
         if (limit && limit > 0) {
-            return meals.slice(0, limit);
+            options.limit = limit;
         }
-        return meals;
+        const meals = await Meal.findAll(options);
+        return meals.map(m => m.get({ plain: true }));
     }
 };
 

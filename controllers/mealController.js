@@ -1,19 +1,20 @@
 const Meal = require('../models/Meal');
 
 // GET /api/meals
-exports.getAllMeals = (req, res) => {
+exports.getAllMeals = async (req, res) => {
     try {
-        const meals = Meal.findAll();
+        const meals = await Meal.findAll();
         res.json(meals);
     } catch (error) {
+        console.error('Get all meals error:', error);
         res.status(500).json({ error: 'Failed to fetch meals' });
     }
 };
 
 // GET /api/meals/:id
-exports.getMealById = (req, res) => {
+exports.getMealById = async (req, res) => {
     try {
-        const meal = Meal.findById(req.params.id);
+        const meal = await Meal.findById(req.params.id);
 
         if (!meal) {
             return res.status(404).json({ error: 'Meal not found' });
@@ -21,36 +22,39 @@ exports.getMealById = (req, res) => {
 
         res.json(meal);
     } catch (error) {
+        console.error('Get meal by ID error:', error);
         res.status(500).json({ error: 'Failed to fetch meal' });
     }
 };
 
 // GET /api/meals/category/:category
-exports.getMealsByCategory = (req, res) => {
+exports.getMealsByCategory = async (req, res) => {
     try {
-        const meals = Meal.findByCategory(req.params.category);
+        const meals = await Meal.findByCategory(req.params.category);
         res.json(meals);
     } catch (error) {
+        console.error('Get meals by category error:', error);
         res.status(500).json({ error: 'Failed to fetch meals by category' });
     }
 };
 
 // GET /api/meals/user/:userId
-exports.getMealsByUser = (req, res) => {
+exports.getMealsByUser = async (req, res) => {
     try {
-        const meals = Meal.findByUserId(req.params.userId);
+        const meals = await Meal.findByUserId(req.params.userId);
         res.json(meals);
     } catch (error) {
+        console.error('Get meals by user error:', error);
         res.status(500).json({ error: 'Failed to fetch user meals' });
     }
 };
 
 // POST /api/meals
-exports.createMeal = (req, res) => {
+exports.createMeal = async (req, res) => {
     try {
         const { name, description, price, image, category, userId } = req.body;
 
-        const result = Meal.create({
+        const result = await Meal.create({
             name,
             description,
             price,
@@ -72,6 +76,7 @@ exports.createMeal = (req, res) => {
             meal: result.meal
         });
     } catch (error) {
+        console.error('Create meal error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error during meal creation'
@@ -80,13 +85,13 @@ exports.createMeal = (req, res) => {
 };
 
 // PUT /api/meals/:id
-exports.updateMeal = (req, res) => {
+exports.updateMeal = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, description, price, image, category, userId } = req.body;
 
         // userId in body is the requesting user (for ownership check)
-        const result = Meal.update(id, { name, description, price, image, category }, userId);
+        const result = await Meal.update(id, { name, description, price, image, category }, userId);
 
         if (!result.success) {
             const statusCode = result.errors[0] === 'Meal not found' ? 404 : 403;
@@ -102,6 +107,7 @@ exports.updateMeal = (req, res) => {
             meal: result.meal
         });
     } catch (error) {
+        console.error('Update meal error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error during meal update'
@@ -110,14 +116,14 @@ exports.updateMeal = (req, res) => {
 };
 
 // DELETE /api/meals/:id
-exports.deleteMeal = (req, res) => {
+exports.deleteMeal = async (req, res) => {
     try {
         const { id } = req.params;
         // Accept userId from query params or body for flexibility
         const userId = req.query.userId || req.body.userId;
 
         // userId is the requesting user (for ownership check)
-        const result = Meal.delete(id, userId);
+        const result = await Meal.delete(id, userId);
 
         if (!result.success) {
             const statusCode = result.errors[0] === 'Meal not found' ? 404 : 403;
@@ -132,6 +138,7 @@ exports.deleteMeal = (req, res) => {
             message: 'Meal deleted successfully'
         });
     } catch (error) {
+        console.error('Delete meal error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error during meal deletion'

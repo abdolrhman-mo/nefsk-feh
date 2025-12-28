@@ -1,23 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-
-const CART_FILE = path.join(__dirname, '../data/cart.json');
-const DATA_DIR = path.join(__dirname, '../data');
-
-// Helper: Read cart from file
-function readCart() {
-    try {
-        const data = fs.readFileSync(CART_FILE, 'utf8');
-        return JSON.parse(data || '[]');
-    } catch (err) {
-        return [];
-    }
-}
-
-// Helper: Write cart to file
-function writeCart(cart) {
-    fs.writeFileSync(CART_FILE, JSON.stringify(cart, null, 2));
-}
+const { CartItem: CartItemModel } = require('./index');
 
 // Helper: Generate unique cart item ID
 function generateCartItemId() {
@@ -63,46 +44,46 @@ function validateQuantity(quantity) {
 }
 
 const Cart = {
-    // Ensure data directory and file exist
+    // Ensure data exists (no-op for database, kept for backward compatibility)
     ensureDataExists() {
-        if (!fs.existsSync(DATA_DIR)) {
-            fs.mkdirSync(DATA_DIR, { recursive: true });
-        }
-        if (!fs.existsSync(CART_FILE)) {
-            fs.writeFileSync(CART_FILE, JSON.stringify([], null, 2));
-        }
+        // Database tables are created via sequelize.sync()
     },
 
     // Get all cart items (for admin/debug purposes)
-    getAll() {
-        return readCart();
+    async getAll() {
+        const items = await CartItemModel.findAll();
+        return items.map(item => item.get({ plain: true }));
     },
 
     // Get cart items for a specific user
-    getByUserId(userId) {
-        const cart = readCart();
+    async getByUserId(userId) {
         const userIdNum = parseInt(userId);
-        return cart.filter(item => item.userId === userIdNum);
+        const items = await CartItemModel.findAll({
+            where: { userId: userIdNum }
+        });
+        return items.map(item => item.get({ plain: true }));
     },
 
     // Find cart item by meal ID for a specific user
-    findByMealIdAndUser(mealId, userId) {
-        const cart = readCart();
+    async findByMealIdAndUser(mealId, userId) {
         const userIdNum = parseInt(userId);
-        return cart.find(item =>
-            item.mealId === mealId && item.userId === userIdNum
-        );
+        const item = await CartItemModel.findOne({
+            where: { mealId, userId: userIdNum }
+        });
+        return item ? item.get({ plain: true }) : undefined;
     },
 
     // Find cart item by cart item ID for a specific user
-    findByIdAndUser(id, userId) {
-        const cart = readCart();
+    async findByIdAndUser(id, userId) {
         const userIdNum = parseInt(userId);
-        return cart.find(item => item.id === id && item.userId === userIdNum);
+        const item = await CartItemModel.findOne({
+            where: { id, userId: userIdNum }
+        });
+        return item ? item.get({ plain: true }) : undefined;
     },
 
     // Add item to user's cart (or increase quantity if exists)
-    addItem(userId, itemData) {
+    async addItem(userId, itemData) {
         // Add userId to itemData for validation
         const itemWithUser = { ...itemData, userId };
 
@@ -112,101 +93,145 @@ const Cart = {
             return { success: false, errors };
         }
 
-        const cart = readCart();
         const userIdNum = parseInt(userId);
 
-        // Check if item already exists in this user's cart
-        const existingItemIndex = cart.findIndex(item =>
-            item.mealId === itemData.mealId && item.userId === userIdNum
-        );
+        try {
+            // Check if item already exists in this user's cart
+            const existingItem = await CartItemModel.findOne({
+                where: { mealId: itemData.mealId, userId: userIdNum }
+            });
 
-        if (existingItemIndex !== -1) {
-            // Update quantity
-            cart[existingItemIndex].quantity += parseInt(itemData.quantity);
-            writeCart(cart);
-            const userCart = cart.filter(item => item.userId === userIdNum);
-            return { success: true, cart: userCart, message: 'Quantity updated' };
+            if (existingItem) {
+                // Update quantity
+                existingItem.quantity += parseInt(itemData.quantity);
+                await existingItem.save();
+
+                const userCart = await CartItemModel.findAll({
+                    where: { userId: userIdNum }
+                });
+                return {
+                    success: true,
+                    cart: userCart.map(item => item.get({ plain: true })),
+                    message: 'Quantity updated'
+                };
+            }
+
+            // Add new item
+            const cartItem = await CartItemModel.create({
+                id: generateCartItemId(),
+                userId: userIdNum,
+                mealId: itemData.mealId,
+                name: itemData.name,
+                price: parseFloat(itemData.price),
+                image: itemData.image,
+                quantity: parseInt(itemData.quantity),
+                sellerId: itemData.sellerId ? parseInt(itemData.sellerId) : null
+            });
+
+            const userCart = await CartItemModel.findAll({
+                where: { userId: userIdNum }
+            });
+
+            return {
+                success: true,
+                cart: userCart.map(item => item.get({ plain: true })),
+                item: cartItem.get({ plain: true }),
+                message: 'Item added to cart'
+            };
+        } catch (error) {
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                // Handle race condition - item was added by concurrent request
+                const existingItem = await CartItemModel.findOne({
+                    where: { mealId: itemData.mealId, userId: userIdNum }
+                });
+                if (existingItem) {
+                    existingItem.quantity += parseInt(itemData.quantity);
+                    await existingItem.save();
+                    const userCart = await CartItemModel.findAll({
+                        where: { userId: userIdNum }
+                    });
+                    return {
+                        success: true,
+                        cart: userCart.map(item => item.get({ plain: true })),
+                        message: 'Quantity updated'
+                    };
+                }
+            }
+            throw error;
         }
-
-        // Add new item
-        const cartItem = {
-            id: generateCartItemId(),
-            userId: userIdNum,
-            mealId: itemData.mealId,
-            name: itemData.name,
-            price: parseFloat(itemData.price),
-            image: itemData.image,
-            quantity: parseInt(itemData.quantity),
-            sellerId: itemData.sellerId ? parseInt(itemData.sellerId) : null
-        };
-
-        cart.push(cartItem);
-        writeCart(cart);
-
-        const userCart = cart.filter(item => item.userId === userIdNum);
-        return { success: true, cart: userCart, item: cartItem, message: 'Item added to cart' };
     },
 
     // Remove item from user's cart
-    removeItem(userId, itemId) {
-        const cart = readCart();
+    async removeItem(userId, itemId) {
         const userIdNum = parseInt(userId);
 
-        const itemIndex = cart.findIndex(item =>
-            item.id === itemId && item.userId === userIdNum
-        );
+        const item = await CartItemModel.findOne({
+            where: { id: itemId, userId: userIdNum }
+        });
 
-        if (itemIndex === -1) {
+        if (!item) {
             return { success: false, errors: ['Cart item not found'] };
         }
 
-        cart.splice(itemIndex, 1);
-        writeCart(cart);
+        await item.destroy();
 
-        const userCart = cart.filter(item => item.userId === userIdNum);
-        return { success: true, cart: userCart, message: 'Item removed from cart' };
+        const userCart = await CartItemModel.findAll({
+            where: { userId: userIdNum }
+        });
+
+        return {
+            success: true,
+            cart: userCart.map(item => item.get({ plain: true })),
+            message: 'Item removed from cart'
+        };
     },
 
     // Update item quantity in user's cart
-    updateQuantity(userId, itemId, quantity) {
+    async updateQuantity(userId, itemId, quantity) {
         // Validate quantity
         const errors = validateQuantity(quantity);
         if (errors.length > 0) {
             return { success: false, errors };
         }
 
-        const cart = readCart();
         const userIdNum = parseInt(userId);
 
-        const item = cart.find(item =>
-            item.id === itemId && item.userId === userIdNum
-        );
+        const item = await CartItemModel.findOne({
+            where: { id: itemId, userId: userIdNum }
+        });
 
         if (!item) {
             return { success: false, errors: ['Cart item not found'] };
         }
 
         item.quantity = parseInt(quantity);
-        writeCart(cart);
+        await item.save();
 
-        const userCart = cart.filter(item => item.userId === userIdNum);
-        return { success: true, cart: userCart, message: 'Cart item updated' };
+        const userCart = await CartItemModel.findAll({
+            where: { userId: userIdNum }
+        });
+
+        return {
+            success: true,
+            cart: userCart.map(item => item.get({ plain: true })),
+            message: 'Cart item updated'
+        };
     },
 
     // Clear user's entire cart
-    clearByUserId(userId) {
-        const cart = readCart();
+    async clearByUserId(userId) {
         const userIdNum = parseInt(userId);
 
-        const filteredCart = cart.filter(item => item.userId !== userIdNum);
-        writeCart(filteredCart);
+        await CartItemModel.destroy({
+            where: { userId: userIdNum }
+        });
 
         return { success: true, cart: [], message: 'Cart cleared' };
     },
 
     // Clear entire cart (all users - for admin/testing)
-    clear() {
-        writeCart([]);
+    async clear() {
+        await CartItemModel.destroy({ where: {} });
         return { success: true, cart: [], message: 'All carts cleared' };
     }
 };

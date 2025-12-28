@@ -1,33 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-
-const ORDERS_FILE = path.join(__dirname, '../data/orders.json');
-const DATA_DIR = path.join(__dirname, '../data');
+const { Order: OrderModel, OrderItem: OrderItemModel } = require('./index');
+const { Op } = require('sequelize');
 
 // Status flow for automatic updates
 const STATUS_FLOW = ['processing', 'preparing', 'enroute', 'delivered'];
-
-// Helper: Read orders from file
-function readOrders() {
-    try {
-        const data = fs.readFileSync(ORDERS_FILE, 'utf8');
-        return JSON.parse(data);
-    } catch (err) {
-        return [];
-    }
-}
-
-// Helper: Write orders to file
-function saveOrders(orders) {
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2));
-}
-
-// Helper: Generate unique order ID
-function generateOrderId(orders) {
-    if (orders.length === 0) return 1;
-    const maxId = Math.max(...orders.map(o => o.id || 0));
-    return maxId + 1;
-}
 
 // Validation: Check required fields for order
 function validateOrder(orderData) {
@@ -60,108 +35,177 @@ function validateOrder(orderData) {
     return errors;
 }
 
+// Helper: Format order with items for response (backward compatible format)
+function formatOrderWithItems(order, items) {
+    const orderData = order.get ? order.get({ plain: true }) : order;
+    const formattedItems = items.map(item => {
+        const itemData = item.get ? item.get({ plain: true }) : item;
+        return {
+            mealId: itemData.mealId,
+            name: itemData.name,
+            price: parseFloat(itemData.price),
+            quantity: itemData.quantity,
+            sellerId: itemData.sellerId
+        };
+    });
+
+    return {
+        id: orderData.id,
+        userId: orderData.userId,
+        customer: {
+            name: orderData.customerName,
+            phone: orderData.customerPhone,
+            address: orderData.customerAddress,
+            notes: orderData.customerNotes || ''
+        },
+        items: formattedItems,
+        total: parseFloat(orderData.total),
+        paymentMethod: orderData.paymentMethod,
+        status: orderData.status,
+        createdAt: orderData.createdAt,
+        estimatedDelivery: orderData.estimatedDelivery
+    };
+}
+
 // Variable to hold interval reference
 let statusSimulationInterval = null;
 
 const Order = {
-    // Ensure data directory and file exist
+    // Ensure data exists (no-op for database, kept for backward compatibility)
     ensureDataExists() {
-        if (!fs.existsSync(DATA_DIR)) {
-            fs.mkdirSync(DATA_DIR, { recursive: true });
-        }
-        if (!fs.existsSync(ORDERS_FILE)) {
-            fs.writeFileSync(ORDERS_FILE, JSON.stringify([], null, 2));
-        }
+        // Database tables are created via sequelize.sync()
     },
 
     // Get all orders
-    findAll() {
-        return readOrders();
+    async findAll() {
+        const orders = await OrderModel.findAll({
+            include: [{ model: OrderItemModel, as: 'items' }],
+            order: [['createdAt', 'DESC']]
+        });
+
+        return orders.map(order => formatOrderWithItems(order, order.items || []));
     },
 
     // Find order by ID
-    findById(id) {
-        const orders = readOrders();
-        return orders.find(o => o.id === parseInt(id));
+    async findById(id) {
+        const order = await OrderModel.findByPk(parseInt(id), {
+            include: [{ model: OrderItemModel, as: 'items' }]
+        });
+
+        if (!order) return undefined;
+        return formatOrderWithItems(order, order.items || []);
     },
 
     // Find orders by user ID (orders placed BY this user)
-    findByUserId(userId) {
-        const orders = readOrders();
+    async findByUserId(userId) {
         const userIdNum = parseInt(userId);
-        return orders.filter(o => o.userId === userIdNum);
+        const orders = await OrderModel.findAll({
+            where: { userId: userIdNum },
+            include: [{ model: OrderItemModel, as: 'items' }],
+            order: [['createdAt', 'DESC']]
+        });
+
+        return orders.map(order => formatOrderWithItems(order, order.items || []));
     },
 
     // Find orders by seller ID (orders containing this user's meals)
-    findBySellerId(sellerId) {
-        const orders = readOrders();
+    async findBySellerId(sellerId) {
         const sellerIdNum = parseInt(sellerId);
 
-        // Filter orders that contain at least one item from this seller
-        return orders.filter(order => {
-            if (!order.items || !Array.isArray(order.items)) return false;
-            return order.items.some(item => item.sellerId === sellerIdNum);
-        }).map(order => {
-            // Return order with only items from this seller
+        // Find all order items for this seller
+        const sellerItems = await OrderItemModel.findAll({
+            where: { sellerId: sellerIdNum }
+        });
+
+        if (sellerItems.length === 0) {
+            return [];
+        }
+
+        // Get unique order IDs
+        const orderIds = [...new Set(sellerItems.map(item => item.orderId))];
+
+        // Fetch those orders
+        const orders = await OrderModel.findAll({
+            where: { id: { [Op.in]: orderIds } },
+            include: [{ model: OrderItemModel, as: 'items' }],
+            order: [['createdAt', 'DESC']]
+        });
+
+        // Filter items to only show this seller's items and calculate sellerTotal
+        return orders.map(order => {
+            const orderData = formatOrderWithItems(order, order.items || []);
+            const sellerOnlyItems = orderData.items.filter(item => item.sellerId === sellerIdNum);
+            const sellerTotal = sellerOnlyItems.reduce(
+                (sum, item) => sum + (item.price * item.quantity),
+                0
+            );
+
             return {
-                ...order,
-                items: order.items.filter(item => item.sellerId === sellerIdNum),
-                // Recalculate total for seller's items only
-                sellerTotal: order.items
-                    .filter(item => item.sellerId === sellerIdNum)
-                    .reduce((sum, item) => sum + (item.price * item.quantity), 0)
+                ...orderData,
+                items: sellerOnlyItems,
+                sellerTotal
             };
         });
     },
 
     // Create new order
-    create(orderData) {
+    async create(orderData) {
         // Validate order data
         const errors = validateOrder(orderData);
         if (errors.length > 0) {
             return { success: false, errors };
         }
 
-        const orders = readOrders();
+        try {
+            // Calculate total from items
+            const total = orderData.items.reduce((sum, item) => {
+                return sum + (parseFloat(item.price) * parseInt(item.quantity));
+            }, 0);
 
-        // Calculate total from items
-        const total = orderData.items.reduce((sum, item) => {
-            return sum + (parseFloat(item.price) * parseInt(item.quantity));
-        }, 0);
+            // Create the order
+            const order = await OrderModel.create({
+                userId: parseInt(orderData.userId),
+                customerName: orderData.customer.name.trim(),
+                customerPhone: orderData.customer.phone.trim(),
+                customerAddress: orderData.customer.address.trim(),
+                customerNotes: orderData.customer.notes ? orderData.customer.notes.trim() : '',
+                total: total,
+                paymentMethod: orderData.paymentMethod,
+                status: 'processing',
+                estimatedDelivery: new Date(Date.now() + 40 * 60000) // 40 minutes from now
+            });
 
-        const order = {
-            id: generateOrderId(orders),
-            userId: parseInt(orderData.userId),
-            customer: {
-                name: orderData.customer.name.trim(),
-                phone: orderData.customer.phone.trim(),
-                address: orderData.customer.address.trim(),
-                notes: orderData.customer.notes ? orderData.customer.notes.trim() : ''
-            },
-            items: orderData.items.map(item => ({
-                mealId: item.mealId,
-                name: item.name,
-                price: parseFloat(item.price),
-                quantity: parseInt(item.quantity),
-                sellerId: item.sellerId ? parseInt(item.sellerId) : null
-            })),
-            total: total,
-            paymentMethod: orderData.paymentMethod,
-            status: 'processing',
-            createdAt: new Date().toISOString(),
-            estimatedDelivery: new Date(Date.now() + 40 * 60000).toISOString() // 40 minutes from now
-        };
+            // Create order items
+            const orderItems = await Promise.all(
+                orderData.items.map(item =>
+                    OrderItemModel.create({
+                        orderId: order.id,
+                        mealId: item.mealId,
+                        name: item.name,
+                        price: parseFloat(item.price),
+                        quantity: parseInt(item.quantity),
+                        sellerId: item.sellerId ? parseInt(item.sellerId) : null
+                    })
+                )
+            );
 
-        orders.push(order);
-        saveOrders(orders);
-
-        return { success: true, order };
+            return {
+                success: true,
+                order: formatOrderWithItems(order, orderItems)
+            };
+        } catch (error) {
+            if (error.name === 'SequelizeValidationError') {
+                return { success: false, errors: [error.errors[0].message] };
+            }
+            throw error;
+        }
     },
 
     // Update order status
-    updateStatus(id, status) {
-        const orders = readOrders();
-        const order = orders.find(o => o.id === parseInt(id));
+    async updateStatus(id, status) {
+        const order = await OrderModel.findByPk(parseInt(id), {
+            include: [{ model: OrderItemModel, as: 'items' }]
+        });
 
         if (!order) {
             return { success: false, errors: ['Order not found'] };
@@ -174,27 +218,33 @@ const Order = {
         }
 
         order.status = status;
-        saveOrders(orders);
+        await order.save();
 
-        return { success: true, order };
+        return {
+            success: true,
+            order: formatOrderWithItems(order, order.items || [])
+        };
     },
 
     // Simulate automatic status updates
-    simulateStatusUpdates() {
-        const orders = readOrders();
-        let updated = false;
+    async simulateStatusUpdates() {
+        try {
+            const orders = await OrderModel.findAll({
+                where: {
+                    status: { [Op.in]: ['processing', 'preparing', 'enroute'] }
+                }
+            });
 
-        orders.forEach(order => {
-            const currentIndex = STATUS_FLOW.indexOf(order.status);
-            // Only update if status is in flow and not at the end
-            if (currentIndex !== -1 && currentIndex < STATUS_FLOW.length - 1) {
-                order.status = STATUS_FLOW[currentIndex + 1];
-                updated = true;
+            for (const order of orders) {
+                const currentIndex = STATUS_FLOW.indexOf(order.status);
+                // Only update if status is in flow and not at the end
+                if (currentIndex !== -1 && currentIndex < STATUS_FLOW.length - 1) {
+                    order.status = STATUS_FLOW[currentIndex + 1];
+                    await order.save();
+                }
             }
-        });
-
-        if (updated) {
-            saveOrders(orders);
+        } catch (error) {
+            console.error('Status simulation error:', error);
         }
     },
 
@@ -203,8 +253,8 @@ const Order = {
         if (statusSimulationInterval) {
             clearInterval(statusSimulationInterval);
         }
-        statusSimulationInterval = setInterval(() => {
-            Order.simulateStatusUpdates();
+        statusSimulationInterval = setInterval(async () => {
+            await Order.simulateStatusUpdates();
         }, intervalMs);
     },
 

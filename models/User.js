@@ -1,22 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+const { User: UserModel } = require('./index');
+const { Op } = require('sequelize');
 
-const USERS_FILE = path.join(__dirname, '../data/users.json');
-const DATA_DIR = path.join(__dirname, '../data');
-
-// Helper: Read users from file
-function readUsers() {
-    try {
-        const data = fs.readFileSync(USERS_FILE, 'utf8');
-        return JSON.parse(data || '[]');
-    } catch (err) {
-        return [];
-    }
-}
-
-// Helper: Write users to file
-function writeUsers(users) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+// Validation: Check email format
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
 }
 
 // Validation: Check required fields for registration
@@ -37,12 +25,6 @@ function validateRegistration(data) {
     return errors;
 }
 
-// Validation: Check email format
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
 // Validation: Check login fields
 function validateLogin(data) {
     const errors = [];
@@ -56,141 +38,155 @@ function validateLogin(data) {
 }
 
 const User = {
-    // Ensure data directory and file exist
+    // Ensure data exists (no-op for database, kept for backward compatibility)
     ensureDataExists() {
-        if (!fs.existsSync(DATA_DIR)) {
-            fs.mkdirSync(DATA_DIR, { recursive: true });
-        }
-        if (!fs.existsSync(USERS_FILE)) {
-            fs.writeFileSync(USERS_FILE, JSON.stringify([], null, 2));
-        }
+        // Database tables are created via sequelize.sync()
+        // This method is kept for backward compatibility with server.js
     },
 
     // Get all users
-    findAll() {
-        return readUsers();
+    async findAll() {
+        const users = await UserModel.findAll();
+        return users.map(u => u.toSafeObject());
     },
 
     // Find user by ID
-    findById(id) {
-        const users = readUsers();
-        return users.find(u => u.id === parseInt(id));
+    async findById(id) {
+        const user = await UserModel.findByPk(parseInt(id));
+        return user ? user.toSafeObject() : undefined;
     },
 
     // Find user by email
-    findByEmail(email) {
-        const users = readUsers();
-        return users.find(u => u.email === email);
+    async findByEmail(email) {
+        const user = await UserModel.findOne({ where: { email } });
+        return user ? user.toSafeObject() : undefined;
     },
 
     // Find user by username (or email for login)
-    findByUsername(username) {
-        const users = readUsers();
-        return users.find(u => u.username === username || u.email === username);
+    async findByUsername(username) {
+        const user = await UserModel.findOne({
+            where: {
+                [Op.or]: [{ username }, { email: username }]
+            }
+        });
+        return user ? user.toSafeObject() : undefined;
     },
 
     // Create new user
-    create(userData) {
+    async create(userData) {
         // Validate input
         const errors = validateRegistration(userData);
         if (errors.length > 0) {
             return { success: false, errors };
         }
 
-        const users = readUsers();
+        try {
+            // Check for existing user
+            const existingUser = await UserModel.findOne({
+                where: {
+                    [Op.or]: [
+                        { email: userData.email },
+                        { username: userData.username }
+                    ]
+                }
+            });
 
-        // Check for existing user
-        const existingUser = users.find(u =>
-            u.email === userData.email || u.username === userData.username
-        );
-        if (existingUser) {
-            return { success: false, errors: ['User already exists'] };
-        }
-
-        // Create new user
-        const newUser = {
-            id: users.length + 1,
-            username: userData.username.trim(),
-            email: userData.email.trim(),
-            address: userData.address || '',
-            password: userData.password
-        };
-
-        users.push(newUser);
-        writeUsers(users);
-
-        // Return user without password
-        return {
-            success: true,
-            user: {
-                id: newUser.id,
-                username: newUser.username,
-                email: newUser.email,
-                address: newUser.address
+            if (existingUser) {
+                return { success: false, errors: ['User already exists'] };
             }
-        };
+
+            // Create new user (password will be hashed by hook)
+            const newUser = await UserModel.create({
+                username: userData.username.trim(),
+                email: userData.email.trim(),
+                address: userData.address || '',
+                password: userData.password
+            });
+
+            return {
+                success: true,
+                user: newUser.toSafeObject()
+            };
+        } catch (error) {
+            if (error.name === 'SequelizeValidationError') {
+                return { success: false, errors: [error.errors[0].message] };
+            }
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                return { success: false, errors: ['User already exists'] };
+            }
+            throw error;
+        }
     },
 
     // Update user
-    update(id, userData) {
-        const users = readUsers();
-        const userIndex = users.findIndex(u => u.id === parseInt(id));
+    async update(id, userData) {
+        try {
+            const user = await UserModel.findByPk(parseInt(id));
 
-        if (userIndex === -1) {
-            return { success: false, errors: ['User not found'] };
-        }
+            if (!user) {
+                return { success: false, errors: ['User not found'] };
+            }
 
-        // Check if username/email already taken by another user
-        if (userData.email || userData.username) {
-            const existingUser = users.find(u =>
-                u.id !== parseInt(id) &&
-                (u.email === userData.email || u.username === userData.username)
-            );
-            if (existingUser) {
+            // Check if username/email already taken by another user
+            if (userData.email || userData.username) {
+                const whereConditions = [];
+                if (userData.email) whereConditions.push({ email: userData.email });
+                if (userData.username) whereConditions.push({ username: userData.username });
+
+                if (whereConditions.length > 0) {
+                    const existingUser = await UserModel.findOne({
+                        where: {
+                            id: { [Op.ne]: parseInt(id) },
+                            [Op.or]: whereConditions
+                        }
+                    });
+
+                    if (existingUser) {
+                        return { success: false, errors: ['Username or email already taken'] };
+                    }
+                }
+            }
+
+            // Update fields
+            if (userData.username) user.username = userData.username;
+            if (userData.email) user.email = userData.email;
+            if (userData.address !== undefined) user.address = userData.address;
+
+            await user.save();
+
+            return {
+                success: true,
+                user: user.toSafeObject()
+            };
+        } catch (error) {
+            if (error.name === 'SequelizeValidationError') {
+                return { success: false, errors: [error.errors[0].message] };
+            }
+            if (error.name === 'SequelizeUniqueConstraintError') {
                 return { success: false, errors: ['Username or email already taken'] };
             }
+            throw error;
         }
-
-        // Update fields
-        users[userIndex].username = userData.username || users[userIndex].username;
-        users[userIndex].email = userData.email || users[userIndex].email;
-        users[userIndex].address = userData.address !== undefined ? userData.address : users[userIndex].address;
-
-        writeUsers(users);
-
-        return {
-            success: true,
-            user: {
-                id: users[userIndex].id,
-                username: users[userIndex].username,
-                email: users[userIndex].email,
-                address: users[userIndex].address
-            }
-        };
     },
 
     // Validate credentials for login
-    validateCredentials(username, password) {
+    async validateCredentials(username, password) {
         // Validate input
         const errors = validateLogin({ username, password });
         if (errors.length > 0) {
             return { success: false, errors };
         }
 
-        const users = readUsers();
-        const user = users.find(u =>
-            (u.username === username || u.email === username) && u.password === password
-        );
+        const user = await UserModel.findOne({
+            where: {
+                [Op.or]: [{ username }, { email: username }]
+            }
+        });
 
-        if (user) {
+        if (user && await user.validatePassword(password)) {
             return {
                 success: true,
-                user: {
-                    id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    address: user.address || ''
-                }
+                user: user.toSafeObject()
             };
         }
 
