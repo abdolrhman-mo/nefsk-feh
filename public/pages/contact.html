@@ -64,6 +64,8 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Send Message</button>
+                <p id="contact-error" class="form-error"></p>
+                <p id="contact-success" class="form-success"></p>
             </form>
         </div>
     </div>
@@ -83,6 +85,13 @@
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
+            const errorEl = document.getElementById('contact-error');
+            const successEl = document.getElementById('contact-success');
+
+            // Clear previous messages
+            errorEl.classList.remove('visible');
+            successEl.classList.remove('visible');
+
             // Get form data
             const formData = new FormData(this);
             const name = formData.get('name');
@@ -92,12 +101,14 @@
 
             // Simple validation
             if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields');
+                errorEl.textContent = 'Please fill in all fields';
+                errorEl.classList.add('visible');
                 return;
             }
 
-            // Simulate form submission
-            alert(`Thank you ${name}! Your message has been sent. We'll get back to you soon.`);
+            // Simulate form submission - show success
+            successEl.textContent = `Thank you ${name}! Your message has been sent. We'll get back to you soon.`;
+            successEl.classList.add('visible');
 
             // Reset form
             this.reset();

@@ -126,3 +126,20 @@ button[type="submit"]:active {
     color: var(--color-primary-hover);
     text-decoration: underline;
 }
+
+/* Error Messages */
+.form-error {
+    color: var(--color-error, #dc3545);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-2);
+    display: none;
+    text-align: center;
+}
+
+.form-error.visible {
+    display: block;
+}
+
+.form-group.has-error input {
+    border-color: var(--color-error, #dc3545);
+}

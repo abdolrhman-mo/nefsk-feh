@@ -1,5 +1,23 @@
+// Helper functions for form error display
+function showFormError(message) {
+    const errorEl = document.getElementById('form-error');
+    if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.add('visible');
+    }
+}
+
+function clearFormError() {
+    const errorEl = document.getElementById('form-error');
+    if (errorEl) {
+        errorEl.textContent = '';
+        errorEl.classList.remove('visible');
+    }
+}
+
 document.querySelector('form').addEventListener('submit', async function(e) {
     e.preventDefault();
+    clearFormError();
 
     // Check if this is register or login page
     const email = document.getElementById('email');
@@ -12,7 +30,7 @@ document.querySelector('form').addEventListener('submit', async function(e) {
     // If email field exists, this is the registration form
     if (email) {
         if (confirmPassword && password !== confirmPassword.value) {
-            alert('Passwords do not match!');
+            showFormError('Passwords do not match!');
             return;
         }
 
@@ -35,10 +53,10 @@ document.querySelector('form').addEventListener('submit', async function(e) {
                 localStorage.setItem('user', JSON.stringify(data.user));
                 window.location.href = 'home.html';
             } else {
-                alert(data.message || 'Registration failed');
+                showFormError(data.message || 'Registration failed');
             }
         } catch (error) {
-            alert('Error connecting to server');
+            showFormError('Error connecting to server');
         }
     } else {
         // Login form
@@ -52,15 +70,14 @@ document.querySelector('form').addEventListener('submit', async function(e) {
             const data = await response.json();
 
             if (data.success) {
-                // Save user in localStorage
+                // Save user in localStorage and redirect
                 localStorage.setItem('user', JSON.stringify(data.user));
-                alert('Login successful!');
                 window.location.href = 'home.html';
             } else {
-                alert(data.message || 'Login failed');
+                showFormError(data.message || 'Login failed');
             }
         } catch (error) {
-            alert('Error connecting to server');
+            showFormError('Error connecting to server');
         }
     }
 });
