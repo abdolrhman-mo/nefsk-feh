@@ -5,6 +5,7 @@ const elements = {
     mealName: document.getElementById('mealName'),
     mealDescription: document.getElementById('mealDescription'),
     mealPrice: document.getElementById('mealPrice'),
+    totalPrice: document.getElementById('totalPrice'),
     quantityInput: document.getElementById('quantity'),
     increaseBtn: document.getElementById('increaseBtn'),
     decreaseBtn: document.getElementById('decreaseBtn'),
@@ -98,6 +99,9 @@ async function loadMealInfo() {
 
         // Store meal globally for cart usage
         window.meal = meal;
+
+        // Set initial total price
+        updateTotalPrice();
     } catch (err) {
         showNotification('Failed to load meal details: ' + err.message, 'error');
         elements.addToCartBtn.disabled = true;
@@ -106,10 +110,19 @@ async function loadMealInfo() {
     }
 }
 
+// Update total price based on quantity
+function updateTotalPrice() {
+    if (!window.meal || !window.meal.price) return;
+    const quantity = parseInt(elements.quantityInput.value) || 1;
+    const total = window.meal.price * quantity;
+    elements.totalPrice.textContent = `${total} EGP`;
+}
+
 // Update quantity while preventing values < 1
 function updateQuantity(change) {
     const current = parseInt(elements.quantityInput.value) || 1;
     elements.quantityInput.value = Math.max(1, current + change);
+    updateTotalPrice();
 }
 
 // Add selected meal to cart

@@ -150,6 +150,7 @@ const User = {
             // Update fields
             if (userData.username) user.username = userData.username;
             if (userData.email) user.email = userData.email;
+            if (userData.phone !== undefined) user.phone = userData.phone;
             if (userData.address !== undefined) user.address = userData.address;
 
             await user.save();

@@ -50,7 +50,8 @@ function escapeHtml(text) {
 function createCartItemElement(item) {
     const div = document.createElement('div');
     div.className = 'cart-item';
-    div.innerHTML = `<img src="${item.image || '/images/meals/profile.png'}" alt="${escapeHtml(item.name)}" class="cart-item-image" onerror="this.src='/images/meals/profile.png'"><div class="cart-item-info"><h3 class="cart-item-name">${escapeHtml(item.name)}</h3><div class="cart-item-price">${item.price} EGP each</div><div class="cart-item-controls"><div class="quantity-controls"><button class="quantity-btn decrease-btn" data-id="${item.id}">−</button><span class="quantity-display">${item.quantity}</span><button class="quantity-btn increase-btn" data-id="${item.id}">+</button></div><button class="remove-btn" data-id="${item.id}" title="Remove item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div></div><div class="cart-item-total">${(item.price * item.quantity).toFixed(0)} EGP</div>`;
+    const mealDetailUrl = `meal-details.html?id=${item.mealId}`;
+    div.innerHTML = `<a href="${mealDetailUrl}" class="cart-item-link"><img src="${item.image || '/images/meals/profile.png'}" alt="${escapeHtml(item.name)}" class="cart-item-image" onerror="this.src='/images/meals/profile.png'"></a><div class="cart-item-info"><a href="${mealDetailUrl}" class="cart-item-link"><h3 class="cart-item-name">${escapeHtml(item.name)}</h3></a><div class="cart-item-price">${item.price} EGP each</div><div class="cart-item-controls"><div class="quantity-controls"><button class="quantity-btn decrease-btn" data-id="${item.id}">−</button><span class="quantity-display">${item.quantity}</span><button class="quantity-btn increase-btn" data-id="${item.id}">+</button></div><button class="remove-btn" data-id="${item.id}" title="Remove item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div></div><div class="cart-item-total">${(item.price * item.quantity).toFixed(0)} EGP</div>`;
     return div;
 }
 
@@ -105,7 +106,6 @@ async function updateQuantity(itemId, change) {
         });
 
         await loadCartItems();
-        showNotification('Cart updated', 'success');
     } catch (err) {
         showNotification('Failed to update quantity', 'error');
     }

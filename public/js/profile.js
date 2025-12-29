@@ -1,7 +1,7 @@
 // Profile page functionality
 (function() {
     // Check if user is logged in
-    const user = JSON.parse(localStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         window.location.href = 'login.html';
         return;
@@ -50,11 +50,69 @@
         return classes[status] || 'badge-primary';
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Display user info from localStorage
+    // Update profile display with current user data
+    function updateProfileDisplay() {
         document.getElementById('user-name').textContent = user.username || 'N/A';
         document.getElementById('user-email').textContent = user.email || 'N/A';
+        document.getElementById('user-phone').textContent = user.phone || 'Not provided';
         document.getElementById('user-address').textContent = user.address || 'Not provided';
+    }
+
+    // Open edit profile modal
+    function openEditModal() {
+        const modal = document.getElementById('edit-profile-modal');
+        document.getElementById('edit-username').value = user.username || '';
+        document.getElementById('edit-email').value = user.email || '';
+        document.getElementById('edit-phone').value = user.phone || '';
+        document.getElementById('edit-address').value = user.address || '';
+        modal.classList.remove('hidden');
+    }
+
+    // Close edit profile modal
+    function closeEditModal() {
+        document.getElementById('edit-profile-modal').classList.add('hidden');
+    }
+
+    // Handle profile update form submission
+    async function handleUpdateProfile(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('edit-username').value.trim();
+        const email = document.getElementById('edit-email').value.trim();
+        const phone = document.getElementById('edit-phone').value.trim();
+        const address = document.getElementById('edit-address').value.trim();
+
+        if (!username || !email) {
+            showNotification('Username and email are required', 'error');
+            return;
+        }
+
+        try {
+            const response = await apiCall(`/api/auth/profile/${user.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, phone, address })
+            });
+
+            // Update localStorage with new user data
+            user = response.user;
+            localStorage.setItem('user', JSON.stringify(user));
+
+            // Update profile display
+            updateProfileDisplay();
+
+            // Close modal and show success
+            closeEditModal();
+            showNotification('Profile updated successfully!', 'success');
+
+        } catch (err) {
+            showNotification('Failed to update profile: ' + err.message, 'error');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Display user info from localStorage
+        updateProfileDisplay();
 
         // Logout functionality
         const logoutBtn = document.getElementById('logout-btn');
@@ -65,12 +123,28 @@
             });
         }
 
-        // Update Info button handler
+        // Update Info button handler - open modal
         const updateBtn = document.querySelector('.profile-update-btn');
         if (updateBtn) {
-            updateBtn.addEventListener('click', function() {
-                showNotification('Update profile feature coming soon!', 'info');
-            });
+            updateBtn.addEventListener('click', openEditModal);
+        }
+
+        // Cancel button in modal
+        const cancelBtn = document.getElementById('cancel-edit');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closeEditModal);
+        }
+
+        // Click overlay to close modal
+        const modalOverlay = document.querySelector('.modal-overlay');
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', closeEditModal);
+        }
+
+        // Edit profile form submission
+        const editForm = document.getElementById('edit-profile-form');
+        if (editForm) {
+            editForm.addEventListener('submit', handleUpdateProfile);
         }
 
         // Load all data

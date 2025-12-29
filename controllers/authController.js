@@ -60,9 +60,9 @@ exports.login = async (req, res) => {
 exports.updateProfile = async (req, res) => {
     try {
         const { id } = req.params;
-        const { username, email, address } = req.body;
+        const { username, email, phone, address } = req.body;
 
-        const result = await User.update(id, { username, email, address });
+        const result = await User.update(id, { username, email, phone, address });
 
         if (!result.success) {
             const statusCode = result.errors[0] === 'User not found' ? 404 : 400;

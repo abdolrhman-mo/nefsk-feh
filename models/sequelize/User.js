@@ -25,6 +25,10 @@ const User = sequelize.define('User', {
             isEmail: { msg: 'Invalid email format' }
         }
     },
+    phone: {
+        type: DataTypes.STRING(50),
+        defaultValue: ''
+    },
     address: {
         type: DataTypes.STRING(500),
         defaultValue: ''
@@ -63,6 +67,7 @@ User.prototype.toSafeObject = function() {
         id: this.id,
         username: this.username,
         email: this.email,
+        phone: this.phone || '',
         address: this.address || ''
     };
 };

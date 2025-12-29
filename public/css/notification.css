@@ -2,7 +2,7 @@
 
 .notification {
     position: fixed;
-    top: var(--spacing-5);
+    bottom: var(--spacing-5);
     right: var(--spacing-5);
     padding: var(--spacing-4) var(--spacing-5);
     border-radius: var(--radius-md);

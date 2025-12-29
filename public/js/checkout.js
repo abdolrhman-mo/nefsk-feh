@@ -209,6 +209,23 @@ document.getElementById("cardNumber")
 paymentRadios.forEach((r) => r.addEventListener("change", togglePayment));
 form.addEventListener("submit", handleSubmit);
 
+// Prefill user info from logged-in user data
+function prefillUserInfo() {
+    if (!user) return;
+
+    // Use username as the name field
+    if (user.username) {
+        document.getElementById('name').value = user.username;
+    }
+    if (user.phone) {
+        document.getElementById('phone').value = user.phone;
+    }
+    if (user.address) {
+        document.getElementById('address').value = user.address;
+    }
+}
+
 // Initial load
 loadCartItems();
 togglePayment();
+prefillUserInfo();

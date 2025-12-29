@@ -37,6 +37,10 @@
                     <span class="profile-value" id="user-email">Loading...</span>
                 </div>
                 <div class="profile-item">
+                    <span class="profile-label">Phone:</span>
+                    <span class="profile-value" id="user-phone">Loading...</span>
+                </div>
+                <div class="profile-item">
                     <span class="profile-label">Address:</span>
                     <span class="profile-value" id="user-address">Loading...</span>
                 </div>
@@ -117,6 +121,36 @@
             </tbody>
         </table>
     </section>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <h2>Update Profile</h2>
+            <form id="edit-profile-form">
+                <label class="field">
+                    Username
+                    <input type="text" id="edit-username" required>
+                </label>
+                <label class="field">
+                    Email
+                    <input type="email" id="edit-email" required>
+                </label>
+                <label class="field">
+                    Phone
+                    <input type="tel" id="edit-phone" placeholder="+20 123 456 7890">
+                </label>
+                <label class="field">
+                    Address
+                    <input type="text" id="edit-address" placeholder="Street, building, apartment">
+                </label>
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" id="cancel-edit">Cancel</button>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Notification container -->
     <div id="notification" class="notification hidden"></div>
