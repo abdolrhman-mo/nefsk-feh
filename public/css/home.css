@@ -210,12 +210,15 @@
 }
 
 .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: var(--spacing-6);
 }
 
 .review-card {
+    flex: 0 1 320px;
+    max-width: 400px;
     background: var(--color-bg-secondary);
     border-radius: var(--radius-xl);
     padding: var(--spacing-8);
