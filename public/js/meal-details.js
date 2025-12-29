@@ -3,6 +3,7 @@ const elements = {
     mealImage: document.getElementById('mealImage'),
     mealCategory: document.getElementById('mealCategory'),
     mealName: document.getElementById('mealName'),
+    sellerName: document.getElementById('sellerName'),
     mealDescription: document.getElementById('mealDescription'),
     mealPrice: document.getElementById('mealPrice'),
     totalPrice: document.getElementById('totalPrice'),
@@ -94,6 +95,7 @@ async function loadMealInfo() {
         elements.mealCategory.textContent = category === 'main' ? 'Oriental' : category;
         elements.mealCategory.className = `meal-category ${category}`;
         elements.mealName.textContent = meal.name || 'Unknown Meal';
+        elements.sellerName.textContent = meal.seller?.username || 'Unknown Chef';
         elements.mealDescription.textContent = meal.description || 'No description available.';
         elements.mealPrice.textContent = `${meal.price || 0} EGP`;
 

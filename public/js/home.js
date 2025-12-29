@@ -31,6 +31,7 @@ async function loadPopularMeals() {
             mealCard.innerHTML = `
                 <img src="${meal.image}" alt="${escapeHtml(meal.name)}" onerror="this.src='../images/meals/profile.png'">
                 <h3>${escapeHtml(meal.name)}</h3>
+                <p class="meal-seller">By ${escapeHtml(meal.seller?.username || 'Unknown')}</p>
                 <p class="meal-price">${meal.price} EGP</p>
             `;
             // Make card clickable

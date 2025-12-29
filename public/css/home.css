@@ -56,11 +56,18 @@
 }
 
 .meal-card h3 {
-    margin: var(--spacing-4) 0 var(--spacing-2);
+    margin: var(--spacing-4) 0 var(--spacing-1);
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
     padding: 0 var(--spacing-4);
+}
+
+.meal-card .meal-seller {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    margin: 0;
+    padding: 0 var(--spacing-4) var(--spacing-2);
 }
 
 .meal-price {

@@ -90,11 +90,18 @@ main.container {
 }
 
 .meal-card h3 {
-    margin: var(--spacing-4) 0 var(--spacing-2);
+    margin: var(--spacing-4) 0 var(--spacing-1);
     padding: 0 var(--spacing-4);
     color: var(--color-text-primary);
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
+}
+
+.meal-card .meal-seller {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    margin: 0;
+    padding: 0 var(--spacing-4) var(--spacing-2);
 }
 
 .meal-card .meal-price {

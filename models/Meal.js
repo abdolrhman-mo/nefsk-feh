@@ -1,5 +1,12 @@
-const { Meal: MealModel } = require('./index');
+const { Meal: MealModel, User } = require('./index');
 const { Op } = require('sequelize');
+
+// Common include for seller info
+const sellerInclude = {
+    model: User,
+    as: 'seller',
+    attributes: ['id', 'username']
+};
 
 // Validation helper
 function validateMeal(mealData) {
@@ -30,14 +37,18 @@ const Meal = {
 
     // Get all meals
     async findAll() {
-        const meals = await MealModel.findAll();
+        const meals = await MealModel.findAll({
+            include: [sellerInclude]
+        });
         return meals.map(m => m.get({ plain: true }));
     },
 
     // Find meal by ID (flexible matching for string/number)
     async findById(id) {
         const mealIdNum = parseInt(id);
-        const meal = await MealModel.findByPk(mealIdNum);
+        const meal = await MealModel.findByPk(mealIdNum, {
+            include: [sellerInclude]
+        });
         return meal ? meal.get({ plain: true }) : undefined;
     },
 
@@ -45,7 +56,8 @@ const Meal = {
     async findByUserId(userId) {
         const userIdNum = parseInt(userId);
         const meals = await MealModel.findAll({
-            where: { userId: userIdNum }
+            where: { userId: userIdNum },
+            include: [sellerInclude]
         });
         return meals.map(m => m.get({ plain: true }));
     },
@@ -59,14 +71,17 @@ const Meal = {
         const meals = await MealModel.findAll({
             where: {
                 category: { [Op.like]: category }
-            }
+            },
+            include: [sellerInclude]
         });
         return meals.map(m => m.get({ plain: true }));
     },
 
     // Get popular meals (returns first n meals or all if no limit)
     async findPopular(limit = null) {
-        const options = {};
+        const options = {
+            include: [sellerInclude]
+        };
         if (limit && limit > 0) {
             options.limit = limit;
         }
@@ -86,7 +101,8 @@ const Meal = {
                     { name: { [Op.like]: `%${query}%` } },
                     { description: { [Op.like]: `%${query}%` } }
                 ]
-            }
+            },
+            include: [sellerInclude]
         });
         return meals.map(m => m.get({ plain: true }));
     },

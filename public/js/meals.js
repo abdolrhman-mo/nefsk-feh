@@ -78,7 +78,7 @@ function renderMeals(list) {
         card.className = 'meal-card';
         let imageSrc = meal.image || defaultImg;
         if (!imageSrc.startsWith('/') && !imageSrc.startsWith('http')) imageSrc = `../${imageSrc}`;
-        card.innerHTML = `<img src="${imageSrc}" alt="${escapeHtml(meal.name)}" loading="lazy" onerror="this.onerror=null; this.src='${defaultImg}';"><h3>${escapeHtml(meal.name)}</h3><p class="meal-price">${meal.price || 0} EGP</p>`;
+        card.innerHTML = `<img src="${imageSrc}" alt="${escapeHtml(meal.name)}" loading="lazy" onerror="this.onerror=null; this.src='${defaultImg}';"><h3>${escapeHtml(meal.name)}</h3><p class="meal-seller">By ${escapeHtml(meal.seller?.username || 'Unknown')}</p><p class="meal-price">${meal.price || 0} EGP</p>`;
         card.addEventListener('click', () => window.location.href = `meal-details.html?id=${meal.id}`);
         frag.appendChild(card);
     });
