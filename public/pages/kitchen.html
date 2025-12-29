@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Kitchen - Nefsk Feeh</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/notification.css">
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <header class="profile-header">
+        <h1>My Kitchen</h1>
+    </header>
+
+    <!-- My Meals Section -->
+    <section id="my-meals">
+        <div class="section-header collapsible" data-target="my-meals-content">
+            <div class="section-header-text">
+                <h2 class="section-title">My Meals</h2>
+                <p class="section-subtitle">Meals you're selling</p>
+            </div>
+            <span class="toggle-icon rotated">▼</span>
+        </div>
+        <div id="my-meals-content" class="collapsible-content collapsed">
+            <div class="items-container">
+                <div class="item add-item-form">
+                    <h3>Add New Meal</h3>
+                    <form id="add-meal-form">
+                        <div>
+                            <label for="meal-image">Image:</label>
+                            <input type="file" id="meal-image" name="meal-image" accept="image/*">
+                        </div>
+                        <div>
+                            <label for="meal-name">Meal Name:</label>
+                            <input type="text" id="meal-name" name="meal-name" required>
+                        </div>
+                        <div>
+                            <label for="meal-description">Description:</label>
+                            <textarea id="meal-description" name="meal-description" rows="3"></textarea>
+                        </div>
+                        <div>
+                            <label for="meal-price">Price (EGP):</label>
+                            <input type="number" id="meal-price" name="meal-price" step="1" min="0" required>
+                        </div>
+                        <div>
+                            <label for="meal-category">Category:</label>
+                            <select id="meal-category" name="meal-category" required>
+                                <option value="main">Oriental Food</option>
+                                <option value="frozen">Frozen Food</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit">Add Meal</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- User's meals will be loaded here dynamically -->
+                <div id="user-meals-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Orders to Fulfill Section (Orders containing my meals) -->
+    <section id="orders-to-fulfill">
+        <div class="section-header collapsible" data-target="orders-to-fulfill-content">
+            <div class="section-header-text">
+                <h2 class="section-title">Orders to Fulfill</h2>
+                <p class="section-subtitle">Orders from customers who bought your meals</p>
+            </div>
+            <span class="toggle-icon rotated">▼</span>
+        </div>
+        <div id="orders-to-fulfill-content" class="collapsible-content collapsed">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-to-fulfill-body">
+                    <tr>
+                        <td colspan="3" class="empty-message">No orders to fulfill yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Notification container -->
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Nefsk Feeh</div>
+        <p class="footer-tagline">Homemade Egyptian Food, Delivered to Your Door</p>
+        <div class="footer-divider"></div>
+        <p>&copy; 2025 Nefsk Feeh. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/navbar.js"></script>
+    <script src="../js/notification.js"></script>
+    <script src="../js/kitchen.js"></script>
+</body>
+</html>

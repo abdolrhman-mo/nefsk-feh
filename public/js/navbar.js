@@ -25,6 +25,7 @@
             <div class="nav-right">
                 ${user ? `
                     <span class="user-greeting">Welcome, ${escapeHtml(user.username)}!</span>
+                    <a href="kitchen.html" class="btn-kitchen">My Kitchen</a>
                     <a href="profile.html" class="btn-dashboard">Profile</a>
                 ` : `
                     <a href="login.html" class="btn-signin">Sign In</a>
