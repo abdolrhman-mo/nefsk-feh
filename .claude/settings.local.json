@@ -7,7 +7,8 @@
       "Bash(findstr:*)",
       "Bash(cd:*)",
       "Bash(timeout:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(sqlite3:*)"
     ]
   }
 }

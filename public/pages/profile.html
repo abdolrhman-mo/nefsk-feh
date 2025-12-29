@@ -54,72 +54,93 @@
 
     <!-- My Meals Section -->
     <section id="my-meals">
-        <h2 class="section-title">My Meals</h2>
-        <div class="items-container">
-            <div class="item add-item-form">
-                <h3>Add New Meal</h3>
-                <form id="add-meal-form">
-                    <div>
-                        <label for="meal-image">Image:</label>
-                        <input type="file" id="meal-image" name="meal-image" accept="image/*">
-                    </div>
-                    <div>
-                        <label for="meal-name">Meal Name:</label>
-                        <input type="text" id="meal-name" name="meal-name" required>
-                    </div>
-                    <div>
-                        <label for="meal-description">Description:</label>
-                        <textarea id="meal-description" name="meal-description" rows="3"></textarea>
-                    </div>
-                    <div>
-                        <label for="meal-price">Price (EGP):</label>
-                        <input type="number" id="meal-price" name="meal-price" step="1" min="0" required>
-                    </div>
-                    <div>
-                        <label for="meal-category">Category:</label>
-                        <select id="meal-category" name="meal-category" required>
-                            <option value="main">Oriental Food</option>
-                            <option value="frozen">Frozen Food</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button type="submit">Add Meal</button>
-                    </div>
-                </form>
+        <div class="section-header collapsible" data-target="my-meals-content">
+            <div class="section-header-text">
+                <h2 class="section-title">My Meals</h2>
+                <p class="section-subtitle">Meals you're selling</p>
             </div>
-            <!-- User's meals will be loaded here dynamically -->
-            <div id="user-meals-container"></div>
+            <span class="toggle-icon rotated">▼</span>
+        </div>
+        <div id="my-meals-content" class="collapsible-content collapsed">
+            <div class="items-container">
+                <div class="item add-item-form">
+                    <h3>Add New Meal</h3>
+                    <form id="add-meal-form">
+                        <div>
+                            <label for="meal-image">Image:</label>
+                            <input type="file" id="meal-image" name="meal-image" accept="image/*">
+                        </div>
+                        <div>
+                            <label for="meal-name">Meal Name:</label>
+                            <input type="text" id="meal-name" name="meal-name" required>
+                        </div>
+                        <div>
+                            <label for="meal-description">Description:</label>
+                            <textarea id="meal-description" name="meal-description" rows="3"></textarea>
+                        </div>
+                        <div>
+                            <label for="meal-price">Price (EGP):</label>
+                            <input type="number" id="meal-price" name="meal-price" step="1" min="0" required>
+                        </div>
+                        <div>
+                            <label for="meal-category">Category:</label>
+                            <select id="meal-category" name="meal-category" required>
+                                <option value="main">Oriental Food</option>
+                                <option value="frozen">Frozen Food</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit">Add Meal</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- User's meals will be loaded here dynamically -->
+                <div id="user-meals-container"></div>
+            </div>
         </div>
     </section>
 
     <!-- My Orders Section (Orders I placed) -->
     <section id="my-orders">
-        <h2 class="section-title">My Orders</h2>
-        <p class="section-subtitle">Orders you placed from other cooks</p>
-        <div id="my-orders-container">
-            <p class="empty-message">You haven't placed any orders yet.</p>
+        <div class="section-header collapsible" data-target="my-orders-content">
+            <div class="section-header-text">
+                <h2 class="section-title">My Orders</h2>
+                <p class="section-subtitle">Orders you placed from other cooks</p>
+            </div>
+            <span class="toggle-icon rotated">▼</span>
+        </div>
+        <div id="my-orders-content" class="collapsible-content collapsed">
+            <div id="my-orders-container">
+                <p class="empty-message">You haven't placed any orders yet.</p>
+            </div>
         </div>
     </section>
 
     <!-- Orders to Fulfill Section (Orders containing my meals) -->
     <section id="orders-to-fulfill">
-        <h2 class="section-title">Orders to Fulfill</h2>
-        <p class="section-subtitle">Orders from customers who bought your meals</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Items</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="orders-to-fulfill-body">
-                <tr>
-                    <td colspan="4" class="empty-message">No orders to fulfill yet.</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="section-header collapsible" data-target="orders-to-fulfill-content">
+            <div class="section-header-text">
+                <h2 class="section-title">Orders to Fulfill</h2>
+                <p class="section-subtitle">Orders from customers who bought your meals</p>
+            </div>
+            <span class="toggle-icon rotated">▼</span>
+        </div>
+        <div id="orders-to-fulfill-content" class="collapsible-content collapsed">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-to-fulfill-body">
+                    <tr>
+                        <td colspan="3" class="empty-message">No orders to fulfill yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 
     <!-- Edit Profile Modal -->

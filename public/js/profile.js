@@ -157,6 +157,20 @@
         if (addMealForm) {
             addMealForm.addEventListener('submit', handleAddMeal);
         }
+
+        // Collapsible sections toggle
+        document.querySelectorAll('.section-header.collapsible').forEach(header => {
+            header.addEventListener('click', () => {
+                const targetId = header.dataset.target;
+                const content = document.getElementById(targetId);
+                const icon = header.querySelector('.toggle-icon');
+
+                if (content) {
+                    content.classList.toggle('collapsed');
+                    icon.classList.toggle('rotated');
+                }
+            });
+        });
     });
 
     // Load user's meals
@@ -275,11 +289,10 @@
             container.innerHTML = orders.map(order => `
                 <div class="order-card">
                     <div class="order-header">
-                        <span class="order-id">Order #${order.id}</span>
+                        <span class="order-date">${formatDate(order.createdAt)}</span>
                         <span class="badge ${getStatusClass(order.status)}">${order.status}</span>
                     </div>
                     <div class="order-details">
-                        <p><strong>Date:</strong> ${formatDate(order.createdAt)}</p>
                         <p><strong>Items:</strong></p>
                         <ul class="order-items">
                             ${order.items.map(item => `
@@ -307,13 +320,12 @@
             const orders = await apiCall(`/api/orders/seller/${user.id}`);
 
             if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="empty-message">No orders to fulfill yet.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="3" class="empty-message">No orders to fulfill yet.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = orders.map(order => `
                 <tr>
-                    <td>#${order.id}</td>
                     <td>${escapeHtml(order.customer?.name || 'N/A')}</td>
                     <td>
                         <ul class="fulfill-items">
@@ -327,7 +339,7 @@
             `).join('');
 
         } catch (err) {
-            tbody.innerHTML = '<tr><td colspan="4" class="error-message">Failed to load orders</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" class="error-message">Failed to load orders</td></tr>';
             console.error('Error loading orders to fulfill:', err);
         }
     }
